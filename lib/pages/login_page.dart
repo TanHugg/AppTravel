@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white70,
                                 ),
                               ),
-                              TextSpan(//NÚT TẠO TÀI KHOẢN
+                              TextSpan(//NÚTTẠOTÀIKHOẢN
                                 text: 'Create now',
                                 style: GoogleFonts.plusJakartaSans(
                                     fontSize: 20,

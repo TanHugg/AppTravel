@@ -15,7 +15,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var _currentIndex = 0;
   @override
-  Widget build(BuildContext context) {//FORM TRANG CHỦ
+  Widget build(BuildContext context) {//FORM TRANGCHỦ
     return Scaffold(
       backgroundColor: Color(0xffedede9),
       bottomNavigationBar: Container(
@@ -23,27 +23,27 @@ class _MainPageState extends State<MainPage> {
           color: Colors.black12,
           borderRadius: BorderRadius.all(Radius.circular(30))
         ),
-        child: SalomonBottomBar(//THANH BÊN DƯỚI
+        child: SalomonBottomBar(//THANH BÊNDƯỚI
           unselectedItemColor: Color(0xff8d99ae),
           currentIndex: _currentIndex,
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
           onTap: (index) => setState(() => _currentIndex = index),
           items: [
-            SalomonBottomBarItem(//NÚT VÀO HOME
+            SalomonBottomBarItem(//NÚT VÀOTRANGHOME
               icon: Icon(FontAwesomeIcons.house, size: 25),
               title: Text('Home'),
               selectedColor: Colors.purple,
             ),
-            SalomonBottomBarItem(//NÚT VÀO TRANG FAVORITE
+            SalomonBottomBarItem(//NÚT VÀO TRANGFAVORITE
               icon: Icon(FontAwesomeIcons.solidHeart, size: 25),
               title: Text('Like'),
               selectedColor: Colors.pink,
             ),
-            SalomonBottomBarItem(//NÚT VÀO TOUR ĐÃ MUA
+            SalomonBottomBarItem(//NÚT VÀO TOUR ĐÃMUA
                 icon: Icon(FontAwesomeIcons.briefcase, size: 25),
                 title: Text('Bought Tours'),
                 selectedColor: Colors.green),
-            SalomonBottomBarItem(//NÚT VÀO PROFILE
+            SalomonBottomBarItem(//NÚT VÀOPROFILE
                 icon: Icon(FontAwesomeIcons.solidUser, size: 25),
                 title: Text('Profile'),
                 selectedColor: Colors.black54)
