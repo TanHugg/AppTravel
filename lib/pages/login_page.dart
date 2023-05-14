@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //FORM LOGIN
+    //FORMLOGIN
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Scaffold(
       body: Stack(
