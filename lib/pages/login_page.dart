@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //FORM  LOGIN
+    //FORM LOGIN
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Scaffold(
       body: Stack(
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 40),
-                          //ĐIỀN EMAIL(LOGIN)
+                          //ĐIỀN EMAIL (LOGIN)
                           child: TextField(
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                                 labelText: 'Password',
                                 labelStyle:
                                     const TextStyle(color: Colors.white70),
-                                //BẬT/TẮT HIỂN THỊ MẬT KHẨU
+                                //BẬT / TẮT HIỂN THỊ MẬT KHẨU
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscureText
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: SizedBox(
                             width: size.width * 2 / 3,
                             height: size.height * 1 / 17,
-                            //NÚT LOGIN
+                            //NÚT  LOGIN
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white70,
                                 ),
                               ),
-                              //NÚTTẠOTÀIKHOẢN
+                              //NÚT TẠO TÀI KHOẢN
                               TextSpan(
                                 text: 'Create now',
                                 style: GoogleFonts.plusJakartaSans(
