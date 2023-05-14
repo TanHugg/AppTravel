@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //FORM LOGIN
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Scaffold(
       body: Stack(
@@ -60,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 40),
-                          child: TextField(
+                          child: TextField(//ĐIỀN EMAIL(LOGIN)
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: decoration('Email'),
@@ -68,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: TextField(
+                          child: TextField(//ĐIỀN PASSWORD
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: InputDecoration(
@@ -90,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                                 labelStyle:
                                     const TextStyle(color: Colors.white70),
                                 suffixIcon: IconButton(
-                                  icon: Icon(
+                                  icon: Icon(//BẬT/TẮT HIỂN THỊ MẬT KHẨU
                                     _obscureText
                                         ? Icons.visibility
                                         : Icons.visibility_off,
@@ -112,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: SizedBox(
                             width: size.width * 2 / 3,
                             height: size.height * 1 / 17,
-                            child: ElevatedButton(
+                            child: ElevatedButton(//NÚT LOGIN
                               onPressed: () {
                                 Navigator.push(
                                     context,
@@ -142,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white70,
                                 ),
                               ),
-                              TextSpan(
+                              TextSpan(//NÚT TẠO TÀI KHOẢN
                                 text: 'Create now',
                                 style: GoogleFonts.plusJakartaSans(
                                     fontSize: 20,
