@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/pages/main_page.dart';
@@ -11,6 +12,13 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _obscureText = false;
+
+  final fullNameController = TextEditingController();
+  final numberPhoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,45 +63,55 @@ class _SignUpPageState extends State<SignUpPage> {
                         Text('Sign Up',
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 50, color: Colors.white)),
+                        //FullName
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 30, right: 30, top: 30, bottom: 15),
                           child: TextField(
+                              controller: fullNameController,
                               style: GoogleFonts.plusJakartaSans(
                                   fontSize: 22, color: Colors.white),
                               decoration: decoration('Full name')),
                         ),
+                        //NumberPhone
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
+                              controller: numberPhoneController,
                               style: GoogleFonts.plusJakartaSans(
                                   fontSize: 22, color: Colors.white),
                               decoration: decoration('Number phone'),
                             keyboardType: TextInputType.number,
                           ),
                         ),
+                        //Address
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
+                            controller: addressController,
                               style: GoogleFonts.plusJakartaSans(
                                   fontSize: 22, color: Colors.white),
                               decoration: decoration('Address')),
                         ),
+                        //Email
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
+                            controller: emailController,
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: decoration('Email'),
                           ),
                         ),
+                        //Password
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
+                            controller: passwordController,
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: InputDecoration(
@@ -136,6 +154,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             height: size.height * 1 / 17,
                             child: ElevatedButton(
                               onPressed: () {
+
+                                //Bắt sự kiện dữ liệu thằng này nếu
+                                // trong user-auth đã có email này r
+                                // FirebaseAuth.instance
+                                //     .createUserWithEmailAndPassword(
+                                //     email: emailController.text,
+                                //     password: passwordController.text);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

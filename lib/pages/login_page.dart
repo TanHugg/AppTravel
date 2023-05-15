@@ -155,9 +155,12 @@ class _LoginPageState extends State<LoginPage> {
                             height: size.height * 1 / 17,
                             //NÚT  LOGIN
                             child: ElevatedButton(
-                              onPressed: () async{
-                                User? user = await loginUsingEmailPassword(email: emailController.text, password: passwordController.text, context: context);
-                                if(user != null){
+                              onPressed: () async {
+                                User? user = await loginUsingEmailPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    context: context);
+                                if (user != null) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
