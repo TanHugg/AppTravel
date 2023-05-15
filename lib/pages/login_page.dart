@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,9 +15,44 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = false;
 
+  //Login Function
+  static Future<User?> loginUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("No user found for that email");
+      }
+    }
+    return user;
+  }
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    //FORM LOGIN
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Scaffold(
       body: Stack(
@@ -63,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                               horizontal: 30, vertical: 40),
                           //ĐIỀN EMAIL (LOGIN)
                           child: TextField(
+                            controller: emailController,
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: decoration('Email'),
@@ -72,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           //ĐIỀN PASSWORD
                           child: TextField(
+                            controller: passwordController,
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: InputDecoration(
@@ -100,7 +138,6 @@ class _LoginPageState extends State<LoginPage> {
                                         : Icons.visibility_off,
                                     color: Colors.white,
                                   ),
-
                                   onPressed: () {
                                     setState(() {
                                       _obscureText = !_obscureText;
@@ -118,12 +155,15 @@ class _LoginPageState extends State<LoginPage> {
                             height: size.height * 1 / 17,
                             //NÚT  LOGIN
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const MainPage()));
+                              onPressed: () async{
+                                User? user = await loginUsingEmailPassword(email: emailController.text, password: passwordController.text, context: context);
+                                if(user != null){
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MainPage()));
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFF5B5B),
@@ -147,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white70,
                                 ),
                               ),
-                              //NÚT TẠO TÀI KHOẢN
+                              //NÚT TẠO TÀI KHOẢNG
                               TextSpan(
                                 text: 'Create now',
                                 style: GoogleFonts.plusJakartaSans(

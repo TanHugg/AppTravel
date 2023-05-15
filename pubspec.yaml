@@ -40,6 +40,10 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   like_button: ^2.0.5
 
+  #Firebase auth and Firebase core
+  firebase_core: ^2.12.0
+  firebase_auth: ^4.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
