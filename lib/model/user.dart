@@ -1,12 +1,22 @@
 
-class User{
+class Users{
   late String idUser;
   late String nameUser;
   late int numberPhone;
   late String address;
   late String email;
-  late int ages;
 
-  User(this.idUser, this.nameUser, this.numberPhone, this.address, this.email,
-      this.ages);
+  Users({this.idUser = '',
+      required this.nameUser,
+      required this.numberPhone,
+      required this.address,
+      required this.email});
+
+  Map<String,dynamic> toJson() =>{
+    'id': idUser,
+    'name': nameUser,
+    'numberPhone': numberPhone,
+    'address': address,
+    'email': email
+  };
 }

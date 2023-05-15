@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_app/model/user.dart';
 import 'package:travel_app/pages/main_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -18,7 +20,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final addressController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,14 +154,19 @@ class _SignUpPageState extends State<SignUpPage> {
                             width: size.width * 2 / 3,
                             height: size.height * 1 / 17,
                             child: ElevatedButton(
-                              onPressed: () {
-
-                                //Bắt sự kiện dữ liệu thằng này nếu
-                                // trong user-auth đã có email này r
-                                // FirebaseAuth.instance
-                                //     .createUserWithEmailAndPassword(
-                                //     email: emailController.text,
-                                //     password: passwordController.text);
+                              onPressed: (){
+                                //Đăng ký user-auth
+                                FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                                //Đăng ký user (Firestore)
+                                final user = Users(
+                                    nameUser: fullNameController.text,
+                                    numberPhone: int.parse(numberPhoneController.text),
+                                    address: addressController.text,
+                                    email: emailController.text);
+                                createUsers(user);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -189,6 +195,14 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
+
+Future createUsers(Users users) async{
+  final docUser = FirebaseFirestore.instance.collection('User').doc();
+  users.idUser = docUser.id;
+
+  final json = users.toJson();
+  await docUser.set(json);
 }
 
 //Do cái InputDecoration này được gọi ra nhiều quá nên viết ra tối ưu hơn
