@@ -1,13 +1,65 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/pages/bill_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
-class FlightTicket extends StatelessWidget {
+class FlightTicket extends StatefulWidget {
   const FlightTicket({Key? key, required this.nameTours}) : super(key: key);
 
   final String nameTours;
+
+  @override
+  State<FlightTicket> createState() => _FlightTicketState();
+}
+
+class _FlightTicketState extends State<FlightTicket> {
+
+  //Hàm đăng ký Flight từ dữ liệu lên Firebase
+  void createFlight(String nameFlight, int priceFlight, idTour) {
+    final flight = aFlight(
+        nameFlight: nameFlight,
+        priceFlight: priceFlight,
+        idTour: idTour);
+
+    Future createTour(aFlight flight) async {
+      final docUser = FirebaseFirestore.instance.collection('Fly').doc();
+      flight.idTour = docUser.id;
+
+      final json = flight.toJson();
+      await docUser.set(json);
+    }
+
+    createTour(flight);
+  }
+
+  //Đổ dữ liệu vào Firebase collection Fly
+  void createFlights() async {
+    createFlight('Gatwick Airplanes', 1100, '');
+    createFlight('Austrian Airplanes', 845, '');
+  }
+
+  //Đọc dữ liệu từ Database xuống khi đúng tên mà bạn truyền vô
+  Future<aFlight?> readFlight(String nameFlight) async {
+    final docUser = FirebaseFirestore.instance
+        .collection("Fly")
+        .where('nameFlight', isEqualTo: nameFlight);
+    final snapshot = await docUser.get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return aFlight.fromJson(snapshot.docs.first.data());
+    }
+    return null;
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // createFlights(); Khi nào cần đổ dữ liệu thì mở ra
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,33 +131,89 @@ class FlightTicket extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: <Widget>[
-                  bookTickets(
-                      size,
-                      nameTours,
-                      () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BillPage())),
-                            print('Bạn đã nhấp vào Austrian Airplanes'),
-                          },
-                      'plane_1',
-                      'Austrian Airplanes',
-                      845),
+                  FutureBuilder(
+                    future: readFlight(
+                        'Austrian Airplanes'),
+                    builder: (context,
+                        snapShot) {
+                      if (snapShot
+                          .hasData) {
+                        final flight =
+                            snapShot.data;
+                        return flight == null
+                            ? Center(
+                          child: Text(
+                              'No Find Tour !'),
+                        )
+                            : bookTickets(
+                            size,
+                            widget.nameTours,
+                                () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BillPage())),
+                              print('Bạn đã nhấp vào Austrian Airplanes'),
+                            },
+                            'plane_1',
+                            '${flight.nameFlight}',
+                            flight.priceFlight!);
+                      } else if (snapShot
+                          .hasError) {
+                        // Xử lý trường hợp lỗi
+                        return Center(
+                            child: Text(
+                                'Error: ${snapShot.error}'));
+                      } else {
+                        // Hiển thị widget loading khi đang tải dữ liệu
+                        return Center(
+                            child:
+                            CircularProgressIndicator());
+                      }
+                    },
+                  ),
                   SizedBox(height: 20),
-                  bookTickets(
-                      size,
-                      nameTours,
-                      () => {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BillPage())),
-                            print('Bạn đã nhấp vào Gatwick Airplanes'),
-                          },
-                      'plane_2',
-                      'Gatwick Airplanes',
-                      1100),
+                  FutureBuilder(
+                    future: readFlight(
+                        'Gatwick Airplanes'),
+                    builder: (context,
+                        snapShot) {
+                      if (snapShot
+                          .hasData) {
+                        final flight =
+                            snapShot.data;
+                        return flight == null
+                            ? Center(
+                          child: Text(
+                              'No Find Flight !'),
+                        )
+                            : bookTickets(
+                            size,
+                            widget.nameTours,
+                                () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BillPage())),
+                              print('Bạn đã nhấp vào Gatwick Airplanes'),
+                            },
+                            'plane_2',
+                            '${flight.nameFlight}',
+                            flight.priceFlight!);
+                      } else if (snapShot
+                          .hasError) {
+                        // Xử lý trường hợp lỗi
+                        return Center(
+                            child: Text(
+                                'Error: ${snapShot.error}'));
+                      } else {
+                        // Hiển thị widget loading khi đang tải dữ liệu
+                        return Center(
+                            child:
+                            CircularProgressIndicator());
+                      }
+                    },
+                  ),
                   SizedBox(height: 30),
                 ],
               ),

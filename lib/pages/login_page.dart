@@ -36,8 +36,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  var _emailError = "Tai khoan khong hop le";
-  var _passError = "Mat khau phai tren 6 ki tu";
+  var _emailError = "Tài khoảng không hợp lệ";
+  var _passError = "Mật khẩu phải có trên 6 ký tự";
   var _emailInValid = false;
   var _passInValid = false;
 
@@ -107,27 +107,26 @@ class _LoginPageState extends State<LoginPage> {
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 22, color: Colors.white),
                             decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(11),
+                                borderSide:
+                                    const BorderSide(color: Colors.white70),
+                              ),
+                              border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(11),
-                                    borderSide: const BorderSide(
-                                        color: Colors.white70)),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                  const BorderSide(color: Colors.white70),
-                                ),
-                                labelText: 'Email',
-                               errorText: _emailInValid ? _emailError : null,
-                                labelStyle:
-                                const TextStyle(color: Colors.white70),
-                                //BẬT / TẮT HIỂN THỊ MẬT KHẨU
-                             ),
-
+                                      const BorderSide(color: Colors.white70)),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(11),
+                                borderSide:
+                                    const BorderSide(color: Colors.white70),
+                              ),
+                              labelText: 'Email',
+                              errorText: _emailInValid ? _emailError : null,
+                              labelStyle:
+                                  const TextStyle(color: Colors.white70),
+                              //BẬT / TẮT HIỂN THỊ MẬT KHẨU
+                            ),
                           ),
                         ),
                         Padding(
@@ -181,23 +180,21 @@ class _LoginPageState extends State<LoginPage> {
                             height: size.height * 1 / 17,
                             //NÚT  LOGIN
                             child: ElevatedButton(
-                              onPressed : () async {
+                              onPressed: () async {
                                 User? user = await loginUsingEmailPassword(
                                     email: emailController.text,
                                     password: passwordController.text,
                                     context: context);
-                                if(!emailController.text.contains("@")){
-                                  _emailInValid=true;
-                                }else{
-                                  _emailInValid=false;
+                                if (!emailController.text.contains("@")) {
+                                  _emailInValid = true;
+                                } else {
+                                  _emailInValid = false;
                                 }
-                                if(passwordController.text.length<6){
-                                  _passInValid=true;
+                                if (passwordController.text.length < 6) {
+                                  _passInValid = true;
+                                } else {
+                                  _passInValid = false;
                                 }
-                                else{
-                                  _passInValid=false;
-                                }
-
 
                                 if (user != null) {
                                   Navigator.push(

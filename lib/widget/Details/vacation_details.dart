@@ -24,15 +24,6 @@ class VacationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
-    /*
-    List<aTours> listTours = [];
-    listTours.add(aTours('1', 'Taij Hang', 700, false));
-    listTours.add(aTours('2', 'San Diego', 1600, false));
-    listTours.add(aTours('3', 'Paris Capital', 900, false));
-    listTours.add(aTours('4', 'Jungfrau Mountain', 1800, false));
-    listTours.add(aTours('5', 'Mexico City', 1000, false));
-    listTours.add(aTours('6', 'Santorini', 1200, false));
-    */ //Test
     return Stack(
       children: <Widget>[
         Container(

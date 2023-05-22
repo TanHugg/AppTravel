@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/model/aTour.dart';
+import 'package:travel_app/model/users.dart';
 import 'package:travel_app/values/helpers.dart';
 import 'package:travel_app/widget/HomePage/search_tours.dart';
 import 'package:travel_app/widget/HomePage/type_tours.dart';
@@ -16,13 +20,84 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //Lấy UserAuthen hiện tại
+  final user_auth = FirebaseAuth.instance.currentUser!;
+
+  //Lấy thuộc tính Email trong FirebaseStore collection Users
+  Future<Users?> readUsers() async {
+    final docUser = FirebaseFirestore.instance
+        .collection("User")
+        .where('email', isEqualTo: user_auth.email.toString());
+    final snapshot = await docUser.get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return Users.fromJson(snapshot.docs.first.data());
+    }
+    return null;
+  }
+
+  //Lấy thuộc tính nameTour trong FirebaseStore collection Tour
+  Future<aTour?> readTour(String nameTour) async {
+    final docUser = FirebaseFirestore.instance
+        .collection("Tour")
+        .where('nameTour', isEqualTo: nameTour);
+    final snapshot = await docUser.get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return aTour.fromJson(snapshot.docs.first.data());
+    }
+    return null;
+  }
+
+  //Hàm đăng ký Tour từ dữ liệu lên Firebase
+  void createATour(String nameTour, int priceTour, bool isFavorite, idUser) {
+    final tour = aTour(
+        nameTour: nameTour,
+        priceTour: priceTour,
+        isFavorite: isFavorite,
+        idUser: idUser);
+
+    Future createTour(aTour tour) async {
+      final docUser = FirebaseFirestore.instance.collection('Tour').doc();
+      tour.idTour = docUser.id;
+
+      final json = tour.toJson();
+      await docUser.set(json);
+    }
+
+    createTour(tour);
+  }
+
+  //Hàm đưa dữ liệu lên Firebase
+  void createTours() async {
+    createATour('Cota Rica', 800, false, '');
+    createATour('San Diego', 1600, false, '');
+    createATour('Navagio', 1800, false, '');
+    createATour('Jungfrau Mountain', 1800, false, '');
+    createATour('Fuji Siju', 600, false, '');
+    createATour('Taij Hang', 700, false, '');
+    createATour('Paris Capital', 900, false, '');
+    createATour('Colosseum', 2800, false, '');
+    createATour('Los Cabos', 1000, false, '');
+    createATour('Santorini', 1200, false, '');
+  }
+
+  //Gọi hàm này để load lại Layout
   TypeTours typeTours = TypeTours(
     refreshLayout: () {},
   );
 
+  //Hàm bắt buộc class này phải dc reBuild
   void _refreshLayout() {
-    //Hàm bắt buộc class này phải dc reBuild
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //createTours(); Khi nào cần ghi dữ liệu Tour lên Database thì mở cái này lên
   }
 
   @override
@@ -48,39 +123,57 @@ class _HomePageState extends State<HomePage> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Hi! Hưg',
-                            style: GoogleFonts.plusJakartaSans(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff111111)),
-                          ),
-                          Container(
-                            child: Row(
-                              children: <Widget>[
-                                FaIcon(FontAwesomeIcons.locationDot,
-                                    size: 20, color: Color(0xff6c757d)),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: CustomText(
-                                      text: 'Mỹ Tho',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 1.5,
-                                      height: 0,
-                                      color: Color(0xff6c757d)),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                  FutureBuilder(
+                    future: readUsers(),
+                    builder: (context, snapShot) {
+                      if (snapShot.hasData) {
+                        final users = snapShot.data;
+
+                        return users == null
+                            ? Center(child: Text('No Find User !'))
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        'Hi! ${users.nameUser}',
+                                        style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xff111111)),
+                                      ),
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            FaIcon(FontAwesomeIcons.locationDot,
+                                                size: 20,
+                                                color: Color(0xff6c757d)),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: CustomText(
+                                                  text:
+                                                      users.address.toString(),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 1.5,
+                                                  height: 0,
+                                                  color: Color(0xff6c757d)),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
                   Spacer(),
                   IconButton(
@@ -134,16 +227,45 @@ class _HomePageState extends State<HomePage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    VacationDetails(
-                                                      assetImage:
-                                                          'assets/images/picture_tours/ChinaMounDetails.jpg',
-                                                      nameTours: 'Taij Hang',
-                                                      locationTours:
-                                                          'North Prades, China',
-                                                      moneyTours: '\$700',
-                                                      details: textHelpers
-                                                          .textDetailsChina
-                                                          .toString(),
+                                                    FutureBuilder(
+                                                      future:
+                                                          readTour('Taij Hang'),
+                                                      builder:
+                                                          (context, snapShot) {
+                                                        if (snapShot.hasData) {
+                                                          final tour =
+                                                              snapShot.data;
+                                                          return tour == null
+                                                              ? Center(
+                                                                  child: Text(
+                                                                      'No Find Tour !'),
+                                                                )
+                                                              : VacationDetails(
+                                                                  assetImage:
+                                                                      'assets/images/picture_tours/ChinaMounDetails.jpg',
+                                                                  nameTours:
+                                                                      '${tour.nameTour}',
+                                                                  locationTours:
+                                                                      'North Prades, China',
+                                                                  moneyTours:
+                                                                      '${tour.priceTour}',
+                                                                  details: textHelpers
+                                                                      .textDetailsChina
+                                                                      .toString(),
+                                                                );
+                                                        } else if (snapShot
+                                                            .hasError) {
+                                                          // Xử lý trường hợp lỗi
+                                                          return Center(
+                                                              child: Text(
+                                                                  'Error: ${snapShot.error}'));
+                                                        } else {
+                                                          // Hiển thị widget loading khi đang tải dữ liệu
+                                                          return Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        }
+                                                      },
                                                     )));
                                         print(
                                             'Bạn đã bấm vô ảnh ChinaMountain');
@@ -158,16 +280,46 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      VacationDetails(
-                                                        assetImage:
-                                                            'assets/images/picture_tours/SanBeachDetails.jpg',
-                                                        nameTours: 'San Diego',
-                                                        locationTours:
-                                                            'Carlsbad, San Marcos.',
-                                                        moneyTours: '\$1600',
-                                                        details: textHelpers
-                                                            .textDetailsSanDiego
-                                                            .toString(),
+                                                      FutureBuilder(
+                                                        future: readTour(
+                                                            'San Diego'),
+                                                        builder: (context,
+                                                            snapShot) {
+                                                          if (snapShot
+                                                              .hasData) {
+                                                            final tour =
+                                                                snapShot.data;
+                                                            return tour == null
+                                                                ? Center(
+                                                                    child: Text(
+                                                                        'No Find Tour !'),
+                                                                  )
+                                                                : VacationDetails(
+                                                                    assetImage:
+                                                                        'assets/images/picture_tours/SanBeachDetails.jpg',
+                                                                    nameTours:
+                                                                        '${tour.nameTour}',
+                                                                    locationTours:
+                                                                        'Carlsbad, San Marcos.',
+                                                                    moneyTours:
+                                                                        '${tour.priceTour}',
+                                                                    details: textHelpers
+                                                                        .textDetailsSanDiego
+                                                                        .toString(),
+                                                                  );
+                                                          } else if (snapShot
+                                                              .hasError) {
+                                                            // Xử lý trường hợp lỗi
+                                                            return Center(
+                                                                child: Text(
+                                                                    'Error: ${snapShot.error}'));
+                                                          } else {
+                                                            // Hiển thị widget loading khi đang tải dữ liệu
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          }
+                                                        },
                                                       )));
                                           print('Bạn đã bấm vô ảnh SanBeach');
                                         });
@@ -182,17 +334,46 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      VacationDetails(
-                                                        assetImage:
-                                                            'assets/images/picture_tours/ParisDetails.jpg',
-                                                        nameTours:
-                                                            'Paris Capital',
-                                                        locationTours:
-                                                            'Île-de-France',
-                                                        moneyTours: '\$900',
-                                                        details: textHelpers
-                                                            .textDetailsParis
-                                                            .toString(),
+                                                      FutureBuilder(
+                                                        future: readTour(
+                                                            'Paris Capital'),
+                                                        builder: (context,
+                                                            snapShot) {
+                                                          if (snapShot
+                                                              .hasData) {
+                                                            final tour =
+                                                                snapShot.data;
+                                                            return tour == null
+                                                                ? Center(
+                                                                    child: Text(
+                                                                        'No Find Tour !'),
+                                                                  )
+                                                                : VacationDetails(
+                                                                    assetImage:
+                                                                        'assets/images/picture_tours/ParisDetails.jpg',
+                                                                    nameTours:
+                                                                        '${tour.nameTour}',
+                                                                    locationTours:
+                                                                        'Île-de-France',
+                                                                    moneyTours:
+                                                                        '${tour.priceTour}',
+                                                                    details: textHelpers
+                                                                        .textDetailsParis
+                                                                        .toString(),
+                                                                  );
+                                                          } else if (snapShot
+                                                              .hasError) {
+                                                            // Xử lý trường hợp lỗi
+                                                            return Center(
+                                                                child: Text(
+                                                                    'Error: ${snapShot.error}'));
+                                                          } else {
+                                                            // Hiển thị widget loading khi đang tải dữ liệu
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          }
+                                                        },
                                                       )));
                                           print('Bạn đã bấm vô ảnh ParisCity');
                                         });
@@ -212,17 +393,45 @@ class _HomePageState extends State<HomePage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    VacationDetails(
-                                                      assetImage:
-                                                          'assets/images/picture_tours/SwitzerlandDetails.jpg',
-                                                      nameTours:
-                                                          'Jungfrau Mountain',
-                                                      locationTours:
-                                                          'Bernese Oberland, Bern',
-                                                      moneyTours: '\$1800',
-                                                      details: textHelpers
-                                                          .textDetailsJungfrau
-                                                          .toString(),
+                                                    FutureBuilder(
+                                                      future: readTour(
+                                                          'Jungfrau Mountain'),
+                                                      builder:
+                                                          (context, snapShot) {
+                                                        if (snapShot.hasData) {
+                                                          final tour =
+                                                              snapShot.data;
+                                                          return tour == null
+                                                              ? Center(
+                                                                  child: Text(
+                                                                      'No Find Tour !'),
+                                                                )
+                                                              : VacationDetails(
+                                                                  assetImage:
+                                                                      'assets/images/picture_tours/SwitzerlandDetails.jpg',
+                                                                  nameTours:
+                                                                      '${tour.nameTour}',
+                                                                  locationTours:
+                                                                      'Bernese Oberland, Bern',
+                                                                  moneyTours:
+                                                                      '${tour.priceTour}',
+                                                                  details: textHelpers
+                                                                      .textDetailsJungfrau
+                                                                      .toString(),
+                                                                );
+                                                        } else if (snapShot
+                                                            .hasError) {
+                                                          // Xử lý trường hợp lỗi
+                                                          return Center(
+                                                              child: Text(
+                                                                  'Error: ${snapShot.error}'));
+                                                        } else {
+                                                          // Hiển thị widget loading khi đang tải dữ liệu
+                                                          return Center(
+                                                              child:
+                                                                  CircularProgressIndicator());
+                                                        }
+                                                      },
                                                     )));
                                         print('Bạn đã bấm vô ảnh Gerald');
                                       });
@@ -236,16 +445,46 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      VacationDetails(
-                                                        assetImage:
-                                                            'assets/images/picture_tours/MexicoDetails.jpg',
-                                                        nameTours: 'Los Cabos',
-                                                        locationTours:
-                                                            'Plaza Mexico',
-                                                        moneyTours: '\$1000',
-                                                        details: textHelpers
-                                                            .textDetailsMexico
-                                                            .toString(),
+                                                      FutureBuilder(
+                                                        future: readTour(
+                                                            'San Diego'),
+                                                        builder: (context,
+                                                            snapShot) {
+                                                          if (snapShot
+                                                              .hasData) {
+                                                            final tour =
+                                                                snapShot.data;
+                                                            return tour == null
+                                                                ? Center(
+                                                                    child: Text(
+                                                                        'No Find Tour !'),
+                                                                  )
+                                                                : VacationDetails(
+                                                                    assetImage:
+                                                                        'assets/images/picture_tours/MexicoDetails.jpg',
+                                                                    nameTours:
+                                                                        '${tour.nameTour}',
+                                                                    locationTours:
+                                                                        'Plaza Mexico',
+                                                                    moneyTours:
+                                                                        '${tour.priceTour}',
+                                                                    details: textHelpers
+                                                                        .textDetailsMexico
+                                                                        .toString(),
+                                                                  );
+                                                          } else if (snapShot
+                                                              .hasError) {
+                                                            // Xử lý trường hợp lỗi
+                                                            return Center(
+                                                                child: Text(
+                                                                    'Error: ${snapShot.error}'));
+                                                          } else {
+                                                            // Hiển thị widget loading khi đang tải dữ liệu
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          }
+                                                        },
                                                       )));
                                           print('Bạn đã bấm vô ảnh MexicoCity');
                                         });
@@ -260,16 +499,46 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      VacationDetails(
-                                                        assetImage:
-                                                            'assets/images/picture_tours/SeaBeachDetails.jpg',
-                                                        nameTours: 'Santorini',
-                                                        locationTours:
-                                                            'Thiga Island, Aegea',
-                                                        moneyTours: '\$1200',
-                                                        details: textHelpers
-                                                            .textDetailsSantorini
-                                                            .toString(),
+                                                      FutureBuilder(
+                                                        future: readTour(
+                                                            'San Diego'),
+                                                        builder: (context,
+                                                            snapShot) {
+                                                          if (snapShot
+                                                              .hasData) {
+                                                            final tour =
+                                                                snapShot.data;
+                                                            return tour == null
+                                                                ? Center(
+                                                                    child: Text(
+                                                                        'No Find Tour !'),
+                                                                  )
+                                                                : VacationDetails(
+                                                                    assetImage:
+                                                                        'assets/images/picture_tours/SeaBeachDetails.jpg',
+                                                                    nameTours:
+                                                                        '${tour.nameTour}',
+                                                                    locationTours:
+                                                                        'Thiga Island, Aegea',
+                                                                    moneyTours:
+                                                                        '${tour.priceTour}',
+                                                                    details: textHelpers
+                                                                        .textDetailsSantorini
+                                                                        .toString(),
+                                                                  );
+                                                          } else if (snapShot
+                                                              .hasError) {
+                                                            // Xử lý trường hợp lỗi
+                                                            return Center(
+                                                                child: Text(
+                                                                    'Error: ${snapShot.error}'));
+                                                          } else {
+                                                            // Hiển thị widget loading khi đang tải dữ liệu
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          }
+                                                        },
                                                       )));
                                           print(
                                               'Bạn đã bấm vô ảnh Switzerland');
@@ -346,14 +615,35 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/CotaRicaDetails.jpg', //Sữa
-                              nameTours: 'Cota Rica',
-                              locationTours: 'North Brazil',
-                              moneyTours: '\$800',
-                              details: textHelpers.textDetailsCotaRica
-                                  .toString(), //Sữa
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Cota Rica'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/CotaRicaDetails.jpg', //Sữa
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours: 'North Brazil',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers
+                                              .textDetailsCotaRica
+                                              .toString(), //Sữa
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh Cota Rica');
               });
@@ -366,14 +656,37 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VacationDetails(
-                                assetImage:
-                                    'assets/images/picture_tours/SanBeachDetails.jpg',
-                                nameTours: 'San Diego',
-                                locationTours: 'Carlsbad, San Marcos.',
-                                moneyTours: '\$1600',
-                                details:
-                                    textHelpers.textDetailsSanDiego.toString(),
+                          builder: (context) => FutureBuilder(
+                                future: readTour('San Diego'),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
+                                    final tour = snapShot.data;
+                                    return tour == null
+                                        ? Center(
+                                            child: Text('No Find Tour !'),
+                                          )
+                                        : VacationDetails(
+                                            assetImage:
+                                                'assets/images/picture_tours/SanBeachDetails.jpg',
+                                            nameTours: '${tour.nameTour}',
+                                            locationTours:
+                                                'Carlsbad, San Marcos.',
+                                            moneyTours: '${tour.priceTour}',
+                                            details: textHelpers
+                                                .textDetailsSanDiego
+                                                .toString(),
+                                          );
+                                  } else if (snapShot.hasError) {
+                                    // Xử lý trường hợp lỗi
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapShot.error}'));
+                                  } else {
+                                    // Hiển thị widget loading khi đang tải dữ liệu
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
                               )));
                   print('Bạn đã bấm vô ảnh SanBeach');
                 });
@@ -390,14 +703,35 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/NavagioDetails.jpg', //Sữa
-                              nameTours: 'Navagio',
-                              locationTours: 'NavagioBeach, Rome',
-                              moneyTours: '\$1800',
-                              details: textHelpers.textDetailsNavagio
-                                  .toString(), //Sữa
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Navagio'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/NavagioDetails.jpg', //Sữa
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours: 'NavagioBeach, Rome',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers
+                                              .textDetailsNavagio
+                                              .toString(), //Sữa
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh NavagioBeach');
               });
@@ -410,14 +744,37 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VacationDetails(
-                                  assetImage:
-                                      'assets/images/picture_tours/SeaBeachDetails.jpg',
-                                  nameTours: 'Santorini',
-                                  locationTours: 'Thiga Island, Aegea',
-                                  moneyTours: '\$1200',
-                                  details: textHelpers.textDetailsSantorini
-                                      .toString(),
+                            builder: (context) => FutureBuilder(
+                                  future: readTour('Santorini'),
+                                  builder: (context, snapShot) {
+                                    if (snapShot.hasData) {
+                                      final tour = snapShot.data;
+                                      return tour == null
+                                          ? Center(
+                                              child: Text('No Find Tour !'),
+                                            )
+                                          : VacationDetails(
+                                              assetImage:
+                                                  'assets/images/picture_tours/SeaBeachDetails.jpg',
+                                              nameTours: '${tour.nameTour}',
+                                              locationTours:
+                                                  'Thiga Island, Aegea',
+                                              moneyTours: '${tour.priceTour}',
+                                              details: textHelpers
+                                                  .textDetailsSantorini
+                                                  .toString(),
+                                            );
+                                    } else if (snapShot.hasError) {
+                                      // Xử lý trường hợp lỗi
+                                      return Center(
+                                          child:
+                                              Text('Error: ${snapShot.error}'));
+                                    } else {
+                                      // Hiển thị widget loading khi đang tải dữ liệu
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                  },
                                 )));
                     print('Bạn đã bấm vô ảnh Switzerland');
                   });
@@ -440,14 +797,36 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/SwitzerlandDetails.jpg',
-                              nameTours: 'Jungfrau Mountain',
-                              locationTours: 'Bernese Oberland, Bern',
-                              moneyTours: '\$1800',
-                              details:
-                                  textHelpers.textDetailsJungfrau.toString(),
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Jungfrau Mountain'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/SwitzerlandDetails.jpg',
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours:
+                                              'Bernese Oberland, Bern',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers
+                                              .textDetailsJungfrau
+                                              .toString(),
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh Gerald');
               });
@@ -460,14 +839,37 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VacationDetails(
-                                assetImage:
-                                    'assets/images/picture_tours/ChinaMounDetails.jpg',
-                                nameTours: 'Taij Hang',
-                                locationTours: 'North Prades, China',
-                                moneyTours: '\$700',
-                                details:
-                                    textHelpers.textDetailsChina.toString(),
+                          builder: (context) => FutureBuilder(
+                                future: readTour('Taij Hang'),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
+                                    final tour = snapShot.data;
+                                    return tour == null
+                                        ? Center(
+                                            child: Text('No Find Tour !'),
+                                          )
+                                        : VacationDetails(
+                                            assetImage:
+                                                'assets/images/picture_tours/ChinaMounDetails.jpg',
+                                            nameTours: '${tour.nameTour}',
+                                            locationTours:
+                                                'North Prades, China',
+                                            moneyTours: '${tour.priceTour}',
+                                            details: textHelpers
+                                                .textDetailsChina
+                                                .toString(),
+                                          );
+                                  } else if (snapShot.hasError) {
+                                    // Xử lý trường hợp lỗi
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapShot.error}'));
+                                  } else {
+                                    // Hiển thị widget loading khi đang tải dữ liệu
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
                               )));
                   print('Bạn đã bấm vô ảnh ChinaMountain');
                 });
@@ -484,14 +886,35 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/FujiSijuDetails.jpg', //Sữa
-                              nameTours: 'Fuji Siju',
-                              locationTours: 'Kito, Japan',
-                              moneyTours: '\$600',
-                              details: textHelpers.textDetailsFujiSiju
-                                  .toString(), //Sữa
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Fuji Siju'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/FujiSijuDetails.jpg', //Sữa
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours: 'Kito, Japan',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers
+                                              .textDetailsFujiSiju
+                                              .toString(), //Sữa
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh FujiSijuMountain');
               });
@@ -514,13 +937,34 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/ParisDetails.jpg',
-                              nameTours: 'Paris Capital',
-                              locationTours: 'Île-de-France',
-                              moneyTours: '\$900',
-                              details: textHelpers.textDetailsParis.toString(),
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Paris Capital'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/ParisDetails.jpg',
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours: 'Île-de-France',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers.textDetailsParis
+                                              .toString(),
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh ParisCity');
               });
@@ -533,14 +977,36 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VacationDetails(
-                                assetImage:
-                                    'assets/images/picture_tours/MexicoDetails.jpg',
-                                nameTours: 'Los Cabos',
-                                locationTours: 'Plaza Mexico',
-                                moneyTours: '\$1000',
-                                details:
-                                    textHelpers.textDetailsMexico.toString(),
+                          builder: (context) => FutureBuilder(
+                                future: readTour('Los Cabos'),
+                                builder: (context, snapShot) {
+                                  if (snapShot.hasData) {
+                                    final tour = snapShot.data;
+                                    return tour == null
+                                        ? Center(
+                                            child: Text('No Find Tour !'),
+                                          )
+                                        : VacationDetails(
+                                            assetImage:
+                                                'assets/images/picture_tours/MexicoDetails.jpg',
+                                            nameTours: '${tour.nameTour}',
+                                            locationTours: 'Plaza Mexico',
+                                            moneyTours: '${tour.priceTour}',
+                                            details: textHelpers
+                                                .textDetailsMexico
+                                                .toString(),
+                                          );
+                                  } else if (snapShot.hasError) {
+                                    // Xử lý trường hợp lỗi
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapShot.error}'));
+                                  } else {
+                                    // Hiển thị widget loading khi đang tải dữ liệu
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
                               )));
                   print('Bạn đã bấm vô ảnh MexicoCity');
                 });
@@ -557,14 +1023,35 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VacationDetails(
-                              assetImage:
-                                  'assets/images/picture_tours/Rome.jpg', //Sữa
-                              nameTours: 'Colosseum',
-                              locationTours: 'Rome, Italia',
-                              moneyTours: '\$2800',
-                              details: textHelpers.textDetailsColoseeum
-                                  .toString(), //Sữa
+                        builder: (context) => FutureBuilder(
+                              future: readTour('Colosseum'),
+                              builder: (context, snapShot) {
+                                if (snapShot.hasData) {
+                                  final tour = snapShot.data;
+                                  return tour == null
+                                      ? Center(
+                                          child: Text('No Find Tour !'),
+                                        )
+                                      : VacationDetails(
+                                          assetImage:
+                                              'assets/images/picture_tours/Rome.jpg', //Sữa
+                                          nameTours: '${tour.nameTour}',
+                                          locationTours: 'Rome, Italia',
+                                          moneyTours: '${tour.priceTour}',
+                                          details: textHelpers
+                                              .textDetailsColoseeum
+                                              .toString(), //Sữa
+                                        );
+                                } else if (snapShot.hasError) {
+                                  // Xử lý trường hợp lỗi
+                                  return Center(
+                                      child: Text('Error: ${snapShot.error}'));
+                                } else {
+                                  // Hiển thị widget loading khi đang tải dữ liệu
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
                             )));
                 print('Bạn đã bấm vô ảnh FujiSijuMountain');
               });

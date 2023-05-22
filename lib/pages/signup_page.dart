@@ -1,11 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_app/model/user.dart';
-// import 'package:travel_app/pages/main_page.dart';
-
+import 'package:travel_app/model/users.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -16,7 +13,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
   bool _obscureText = false;
 
   final fullNameController = TextEditingController();
@@ -25,18 +21,17 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var _emailError = "Tai khoan khong hop le";
-  var _passError = "Mat khau phai tren 6 ki tu";
-  var _numError = "So dien thoai khong hop le";
-  var _fullNameError = "Ten khong hop le";
-  var _addressErr = "Dia chi khong hop le";
+  var _emailError = "Tài khoảng không hợp lệ";
+  var _passError = "Mật khẩu phải trên 6 ký tự";
+  var _numError = "Số điện thoại không hợp lệ";
+  var _fullNameError = "Tên không hợp lệ";
+  var _addressErr = "Địa chỉ không hợp lệ";
+
   var _emailInValid = false;
   var _passInValid = false;
   var _addressInValid = false;
   var _fullNameInValid = false;
   var _numberPhoneInValid = false;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,45 +78,47 @@ class _SignUpPageState extends State<SignUpPage> {
                                 fontSize: 50, color: Colors.white)),
                         //FullName
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30, right: 30, top: 30, bottom: 15),
-                          child: TextField(
-                              controller: fullNameController,
-                              style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 22, color: Colors.white),
-                            decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                  const BorderSide(color: Colors.white70),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(11),
-                                    borderSide: const BorderSide(
-                                        color: Colors.white70)),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                  const BorderSide(color: Colors.white70),
-                                ),
-                                labelText: 'FullName',
-                                errorText: _fullNameInValid ? _fullNameError : null,
-                                labelStyle:
-                                const TextStyle(color: Colors.white70)))),
+                            padding: const EdgeInsets.only(
+                                left: 30, right: 30, top: 30, bottom: 15),
+                            child: TextField(
+                                controller: fullNameController,
+                                style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 22, color: Colors.white),
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(11),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white70),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(11),
+                                        borderSide: const BorderSide(
+                                            color: Colors.white70)),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(11),
+                                      borderSide: const BorderSide(
+                                          color: Colors.white70),
+                                    ),
+                                    labelText: 'FullName',
+                                    errorText: _fullNameInValid
+                                        ? _fullNameError
+                                        : null,
+                                    labelStyle: const TextStyle(
+                                        color: Colors.white70)))),
 
                         //NumberPhone
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
-                              controller: numberPhoneController,
-                              style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 22, color: Colors.white),
+                            controller: numberPhoneController,
+                            style: GoogleFonts.plusJakartaSans(
+                                fontSize: 22, color: Colors.white),
                             decoration: InputDecoration(
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70),
+                                      const BorderSide(color: Colors.white70),
                                 ),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(11),
@@ -130,12 +127,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70),
+                                      const BorderSide(color: Colors.white70),
                                 ),
                                 labelText: 'Number',
-                                errorText: _numberPhoneInValid ? _numError : null,
+                                errorText:
+                                    _numberPhoneInValid ? _numError : null,
                                 labelStyle:
-                                const TextStyle(color: Colors.white70)),
+                                    const TextStyle(color: Colors.white70)),
                             keyboardType: TextInputType.number,
                           ),
                         ),
@@ -144,14 +142,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 15),
                           child: TextField(
-                            controller: addressController,
+                              controller: addressController,
                               style: GoogleFonts.plusJakartaSans(
                                   fontSize: 22, color: Colors.white),
                               decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(11),
                                     borderSide:
-                                    const BorderSide(color: Colors.white70),
+                                        const BorderSide(color: Colors.white70),
                                   ),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(11),
@@ -160,13 +158,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(11),
                                     borderSide:
-                                    const BorderSide(color: Colors.white70),
+                                        const BorderSide(color: Colors.white70),
                                   ),
                                   labelText: 'Address',
-                                  errorText: _addressInValid ? _addressErr : null,
+                                  errorText:
+                                      _addressInValid ? _addressErr : null,
                                   labelStyle:
-                                  const TextStyle(color: Colors.white70))
-                            ),
+                                      const TextStyle(color: Colors.white70))),
                         ),
 
                         //Email
@@ -181,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70),
+                                      const BorderSide(color: Colors.white70),
                                 ),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(11),
@@ -190,15 +188,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70),
+                                      const BorderSide(color: Colors.white70),
                                 ),
                                 labelText: 'Email',
                                 errorText: _emailInValid ? _emailError : null,
-
                                 labelStyle:
-                                const TextStyle(color: Colors.white70)),
+                                    const TextStyle(color: Colors.white70)),
                           ),
                         ),
+
                         //Password
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -241,102 +239,62 @@ class _SignUpPageState extends State<SignUpPage> {
                             obscureText: !_obscureText,
                           ),
                         ),
+
+                        //Nút đăng ký
                         Padding(
                           padding: const EdgeInsets.all(40),
                           child: SizedBox(
                             width: size.width * 2 / 3,
                             height: size.height * 1 / 17,
-                            child:  ElevatedButton (
+                            child: ElevatedButton(
                               onPressed: () {
-                                if(fullNameController.text.length<1){
+                                if (fullNameController.text.length < 1) {
                                   _fullNameInValid = true;
-                                }
-                                else{
-                                  _fullNameInValid=false;
+                                } else {
+                                  _fullNameInValid = false;
                                 }
                                 //Đăng ký user-auth
-                                if(!emailController.text.contains("@")){
-                                  _emailInValid=true;
-                                }else{
-                                  _emailInValid=false;
+                                if (!emailController.text.contains("@")) {
+                                  _emailInValid = true;
+                                } else {
+                                  _emailInValid = false;
                                 }
-                                if(numberPhoneController.text.length<10){
-                                  _numberPhoneInValid=true;
-                                }else{
-                                  _numberPhoneInValid=false;
+                                if (numberPhoneController.text.length < 10) {
+                                  _numberPhoneInValid = true;
+                                } else {
+                                  _numberPhoneInValid = false;
                                 }
-                                if(passwordController.text.length<6){
-                                  _passInValid=true;
+                                if (passwordController.text.length < 6) {
+                                  _passInValid = true;
+                                } else {
+                                  _passInValid = false;
                                 }
-                                else{
-                                  _passInValid=false;
+                                if (addressController.text.length < 1) {
+                                  _addressInValid = true;
+                                } else {
+                                  _addressInValid = false;
                                 }
-                                if(addressController.text.length<1){
-                                  _addressInValid=true;
-                                }
-                                else{
-                                  _addressInValid=false;
-                                }
+                                //Đăng ký Username,Password vào Firebase Auth
+                                FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: emailController.text,
+                                        password: passwordController.text);
 
-                                if(!_emailInValid && !_numberPhoneInValid &&
-                                    !_addressInValid &&
-                                    !_fullNameInValid &&
-                                    !_passInValid) {
+                                //Đăng ký user (Firestore)
+                                final user = Users(
+                                    nameUser: fullNameController.text,
+                                    numberPhone:
+                                        int.parse(numberPhoneController.text),
+                                    address: addressController.text,
+                                    email: emailController.text);
 
-                                    showDialog(
-                                      context: context, barrierDismissible: false, // user must tap button!
-
-                                      builder: (BuildContext context) {
-                                        return new AlertDialog(
-                                          title: new Text('Notification'),
-                                          content: new SingleChildScrollView(
-                                            child: new ListBody(
-                                              children: [
-                                                new Text('Sign up succesfully. Click OK to login.'),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: [
-                                            new TextButton(
-                                              child: new Text('OK',style: GoogleFonts.plusJakartaSans()),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                        const LoginPage()));
-                                              },
-                                            ),
-                                          ],
-                                        // shape:CircleBorder(),
-                                        //   contentTextStyle: GoogleFonts.plusJakartaSans(),
-                                        //   backgroundColor: Colors.white,
-                                        );
-                                      },
-                                    );
-
-
-
-                                  FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text);
-                                  //Đăng ký user (Firestore)
-                                  final user = Users(
-                                      nameUser: fullNameController.text,
-                                      numberPhone: int.parse(
-                                          numberPhoneController.text),
-                                      address: addressController.text,
-                                      email: emailController.text);
-
-                                  createUsers(user);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //         const LoginPage()));
-
-                                }
+                                createUsers(user);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()));
+                                //}
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFF5B5B),
@@ -362,7 +320,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-Future createUsers(Users users) async{
+Future createUsers(Users users) async {
   final docUser = FirebaseFirestore.instance.collection('User').doc();
   users.idUser = docUser.id;
 
@@ -387,9 +345,3 @@ InputDecoration decoration(String labelText) {
       labelText: labelText,
       labelStyle: const TextStyle(color: Colors.white70));
 }
-
-
-
-
-
-
