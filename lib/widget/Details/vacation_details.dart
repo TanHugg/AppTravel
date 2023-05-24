@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:like_button/like_button.dart';
@@ -9,17 +10,23 @@ class VacationDetails extends StatelessWidget {
   const VacationDetails(
       {Key? key,
       required this.assetImage,
-      required this.nameTours,
+      // required this.nameTours,
       required this.locationTours,
-      required this.moneyTours,
-      required this.details})
+      // required this.moneyTours,
+      required this.details,
+      required this.addressCurrent,
+      required this.idUserCurrent,
+      required this.tour})
       : super(key: key);
 
   final String assetImage;
-  final String nameTours;
+  // final String nameTours;
   final String locationTours;
-  final String moneyTours;
+  // final String moneyTours;
   final String details;
+  final String addressCurrent;
+  final String idUserCurrent;
+  final aTour tour; //Trong đây nó có idUserCurrent
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +82,7 @@ class VacationDetails extends StatelessWidget {
                     width: size.width,
                     child: Row(children: <Widget>[
                       CustomText(
-                        text: nameTours.toString(),
+                        text: tour.nameTour.toString(),
                         fontSize: 26,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.13,
@@ -147,7 +154,7 @@ class VacationDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text.rich(TextSpan(
-                          text: moneyTours.toString(),
+                          text: '\$ ${tour.priceTour.toString()}',
                           style: GoogleFonts.plusJakartaSans(
                               fontSize: 24,
                               decoration: TextDecoration.none,
@@ -177,8 +184,12 @@ class VacationDetails extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                    FlightTicket(nameTours: this.nameTours)));
+                                    builder: (context) => FlightTicket(
+                                          nameTours: tour.nameTour.toString(),
+                                          addressCurrent: addressCurrent,
+                                          tour: tour,
+                                          //Chuyển thêm cái id nữa
+                                        )));
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.pink,

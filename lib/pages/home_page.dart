@@ -100,6 +100,9 @@ class _HomePageState extends State<HomePage> {
     //createTours(); Khi nào cần ghi dữ liệu Tour lên Database thì mở cái này lên
   }
 
+  String addressCurrent = '';
+  String idUserCurrent = '';
+
   @override
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
@@ -127,14 +130,18 @@ class _HomePageState extends State<HomePage> {
                     future: readUsers(),
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
-                        final users = snapShot.data;
-
+                        final users =
+                            snapShot.data; //Đã lấy đủ dữ liệu bỏ vào users
+                        addressCurrent = users!.address;
+                        idUserCurrent = users.idUser;
                         return users == null
                             ? Center(child: Text('No Find User !'))
                             : Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Container(
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Hi! ${users.nameUser}',
@@ -151,10 +158,9 @@ class _HomePageState extends State<HomePage> {
                                                 color: Color(0xff6c757d)),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 10),
+                                                  left: 5),
                                               child: CustomText(
-                                                  text:
-                                                      users.address.toString(),
+                                                  text: users.address,
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                   letterSpacing: 1.5,
@@ -233,8 +239,11 @@ class _HomePageState extends State<HomePage> {
                                                       builder:
                                                           (context, snapShot) {
                                                         if (snapShot.hasData) {
-                                                          final tour =
-                                                              snapShot.data;
+                                                          //Hình như cái tour này nó biến mất
+                                                          final tour = snapShot
+                                                              .data; //Khúc này là thằng tour nó đã có dữ liệu
+                                                          tour!.idUser =
+                                                              idUserCurrent; //Gán thêm idUser nữa là đủ
                                                           return tour == null
                                                               ? Center(
                                                                   child: Text(
@@ -243,15 +252,22 @@ class _HomePageState extends State<HomePage> {
                                                               : VacationDetails(
                                                                   assetImage:
                                                                       'assets/images/picture_tours/ChinaMounDetails.jpg',
-                                                                  nameTours:
-                                                                      '${tour.nameTour}',
+                                                                  // nameTours:
+                                                                  //     '${tour.nameTour}',
                                                                   locationTours:
                                                                       'North Prades, China',
-                                                                  moneyTours:
-                                                                      '${tour.priceTour}',
+                                                                  // moneyTours:
+                                                                  //     '${tour.priceTour}',
                                                                   details: textHelpers
                                                                       .textDetailsChina
                                                                       .toString(),
+
+                                                                  //Gửi address và id của User qua layout tiếp theo
+                                                                  addressCurrent:
+                                                                      addressCurrent,
+                                                                  idUserCurrent:
+                                                                      idUserCurrent,
+                                                                  tour: tour,
                                                                 );
                                                         } else if (snapShot
                                                             .hasError) {
@@ -289,6 +305,8 @@ class _HomePageState extends State<HomePage> {
                                                               .hasData) {
                                                             final tour =
                                                                 snapShot.data;
+                                                            tour!.idUser =
+                                                                idUserCurrent;
                                                             return tour == null
                                                                 ? Center(
                                                                     child: Text(
@@ -297,15 +315,20 @@ class _HomePageState extends State<HomePage> {
                                                                 : VacationDetails(
                                                                     assetImage:
                                                                         'assets/images/picture_tours/SanBeachDetails.jpg',
-                                                                    nameTours:
-                                                                        '${tour.nameTour}',
+                                                                    // nameTours:
+                                                                    //     '${tour.nameTour}',
                                                                     locationTours:
                                                                         'Carlsbad, San Marcos.',
-                                                                    moneyTours:
-                                                                        '${tour.priceTour}',
+                                                                    // moneyTours:
+                                                                    //     '${tour.priceTour}',
                                                                     details: textHelpers
                                                                         .textDetailsSanDiego
                                                                         .toString(),
+                                                                    addressCurrent:
+                                                                        addressCurrent,
+                                                                    idUserCurrent:
+                                                                        idUserCurrent,
+                                                                    tour: tour,
                                                                   );
                                                           } else if (snapShot
                                                               .hasError) {
@@ -343,6 +366,8 @@ class _HomePageState extends State<HomePage> {
                                                               .hasData) {
                                                             final tour =
                                                                 snapShot.data;
+                                                            tour!.idUser =
+                                                                idUserCurrent;
                                                             return tour == null
                                                                 ? Center(
                                                                     child: Text(
@@ -351,15 +376,20 @@ class _HomePageState extends State<HomePage> {
                                                                 : VacationDetails(
                                                                     assetImage:
                                                                         'assets/images/picture_tours/ParisDetails.jpg',
-                                                                    nameTours:
-                                                                        '${tour.nameTour}',
+                                                                    // nameTours:
+                                                                    //     '${tour.nameTour}',
                                                                     locationTours:
                                                                         'Île-de-France',
-                                                                    moneyTours:
-                                                                        '${tour.priceTour}',
+                                                                    // moneyTours:
+                                                                    //     '${tour.priceTour}',
                                                                     details: textHelpers
                                                                         .textDetailsParis
                                                                         .toString(),
+                                                                    addressCurrent:
+                                                                        addressCurrent,
+                                                                    idUserCurrent:
+                                                                        idUserCurrent,
+                                                                    tour: tour,
                                                                   );
                                                           } else if (snapShot
                                                               .hasError) {
@@ -401,6 +431,8 @@ class _HomePageState extends State<HomePage> {
                                                         if (snapShot.hasData) {
                                                           final tour =
                                                               snapShot.data;
+                                                          tour!.idUser =
+                                                              idUserCurrent;
                                                           return tour == null
                                                               ? Center(
                                                                   child: Text(
@@ -409,15 +441,20 @@ class _HomePageState extends State<HomePage> {
                                                               : VacationDetails(
                                                                   assetImage:
                                                                       'assets/images/picture_tours/SwitzerlandDetails.jpg',
-                                                                  nameTours:
-                                                                      '${tour.nameTour}',
+                                                                  // nameTours:
+                                                                  //     '${tour.nameTour}',
                                                                   locationTours:
                                                                       'Bernese Oberland, Bern',
-                                                                  moneyTours:
-                                                                      '${tour.priceTour}',
+                                                                  // moneyTours:
+                                                                  //     '${tour.priceTour}',
                                                                   details: textHelpers
                                                                       .textDetailsJungfrau
                                                                       .toString(),
+                                                                  addressCurrent:
+                                                                      addressCurrent,
+                                                                  idUserCurrent:
+                                                                      idUserCurrent,
+                                                                  tour: tour,
                                                                 );
                                                         } else if (snapShot
                                                             .hasError) {
@@ -454,6 +491,8 @@ class _HomePageState extends State<HomePage> {
                                                               .hasData) {
                                                             final tour =
                                                                 snapShot.data;
+                                                            tour!.idUser =
+                                                                idUserCurrent;
                                                             return tour == null
                                                                 ? Center(
                                                                     child: Text(
@@ -462,15 +501,20 @@ class _HomePageState extends State<HomePage> {
                                                                 : VacationDetails(
                                                                     assetImage:
                                                                         'assets/images/picture_tours/MexicoDetails.jpg',
-                                                                    nameTours:
-                                                                        '${tour.nameTour}',
+                                                                    // nameTours:
+                                                                    //     '${tour.nameTour}',
                                                                     locationTours:
                                                                         'Plaza Mexico',
-                                                                    moneyTours:
-                                                                        '${tour.priceTour}',
+                                                                    // moneyTours:
+                                                                    //     '${tour.priceTour}',
                                                                     details: textHelpers
                                                                         .textDetailsMexico
                                                                         .toString(),
+                                                                    addressCurrent:
+                                                                        addressCurrent,
+                                                                    idUserCurrent:
+                                                                        idUserCurrent,
+                                                                    tour: tour,
                                                                   );
                                                           } else if (snapShot
                                                               .hasError) {
@@ -508,6 +552,8 @@ class _HomePageState extends State<HomePage> {
                                                               .hasData) {
                                                             final tour =
                                                                 snapShot.data;
+                                                            tour!.idUser =
+                                                                idUserCurrent;
                                                             return tour == null
                                                                 ? Center(
                                                                     child: Text(
@@ -516,15 +562,20 @@ class _HomePageState extends State<HomePage> {
                                                                 : VacationDetails(
                                                                     assetImage:
                                                                         'assets/images/picture_tours/SeaBeachDetails.jpg',
-                                                                    nameTours:
-                                                                        '${tour.nameTour}',
+                                                                    // nameTours:
+                                                                    //     '${tour.nameTour}',
                                                                     locationTours:
                                                                         'Thiga Island, Aegea',
-                                                                    moneyTours:
-                                                                        '${tour.priceTour}',
+                                                                    // moneyTours:
+                                                                    //     '${tour.priceTour}',
                                                                     details: textHelpers
                                                                         .textDetailsSantorini
                                                                         .toString(),
+                                                                    addressCurrent:
+                                                                        addressCurrent,
+                                                                    idUserCurrent:
+                                                                        idUserCurrent,
+                                                                    tour: tour,
                                                                   );
                                                           } else if (snapShot
                                                               .hasError) {
@@ -620,6 +671,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -627,12 +679,16 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/CotaRicaDetails.jpg', //Sữa
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours: 'North Brazil',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers
                                               .textDetailsCotaRica
-                                              .toString(), //Sữa
+                                              .toString() //Sữa
+                                          ,
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi
@@ -661,6 +717,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, snapShot) {
                                   if (snapShot.hasData) {
                                     final tour = snapShot.data;
+                                    tour!.idUser = idUserCurrent;
                                     return tour == null
                                         ? Center(
                                             child: Text('No Find Tour !'),
@@ -668,13 +725,16 @@ class _HomePageState extends State<HomePage> {
                                         : VacationDetails(
                                             assetImage:
                                                 'assets/images/picture_tours/SanBeachDetails.jpg',
-                                            nameTours: '${tour.nameTour}',
+                                            // nameTours: '${tour.nameTour}',
                                             locationTours:
                                                 'Carlsbad, San Marcos.',
-                                            moneyTours: '${tour.priceTour}',
+                                            // moneyTours: '${tour.priceTour}',
                                             details: textHelpers
                                                 .textDetailsSanDiego
                                                 .toString(),
+                                            addressCurrent: addressCurrent,
+                                            idUserCurrent: idUserCurrent,
+                                            tour: tour,
                                           );
                                   } else if (snapShot.hasError) {
                                     // Xử lý trường hợp lỗi
@@ -708,6 +768,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -715,12 +776,16 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/NavagioDetails.jpg', //Sữa
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours: 'NavagioBeach, Rome',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers
                                               .textDetailsNavagio
-                                              .toString(), //Sữa
+                                              .toString() //Sữa
+                                          ,
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi
@@ -749,6 +814,7 @@ class _HomePageState extends State<HomePage> {
                                   builder: (context, snapShot) {
                                     if (snapShot.hasData) {
                                       final tour = snapShot.data;
+                                      tour!.idUser = idUserCurrent;
                                       return tour == null
                                           ? Center(
                                               child: Text('No Find Tour !'),
@@ -756,13 +822,16 @@ class _HomePageState extends State<HomePage> {
                                           : VacationDetails(
                                               assetImage:
                                                   'assets/images/picture_tours/SeaBeachDetails.jpg',
-                                              nameTours: '${tour.nameTour}',
+                                              // nameTours: '${tour.nameTour}',
                                               locationTours:
                                                   'Thiga Island, Aegea',
-                                              moneyTours: '${tour.priceTour}',
+                                              // moneyTours: '${tour.priceTour}',
                                               details: textHelpers
                                                   .textDetailsSantorini
                                                   .toString(),
+                                              addressCurrent: addressCurrent,
+                                              idUserCurrent: idUserCurrent,
+                                              tour: tour,
                                             );
                                     } else if (snapShot.hasError) {
                                       // Xử lý trường hợp lỗi
@@ -802,6 +871,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -809,13 +879,16 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/SwitzerlandDetails.jpg',
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours:
                                               'Bernese Oberland, Bern',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers
                                               .textDetailsJungfrau
                                               .toString(),
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi
@@ -844,6 +917,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, snapShot) {
                                   if (snapShot.hasData) {
                                     final tour = snapShot.data;
+                                    tour!.idUser = idUserCurrent;
                                     return tour == null
                                         ? Center(
                                             child: Text('No Find Tour !'),
@@ -851,13 +925,16 @@ class _HomePageState extends State<HomePage> {
                                         : VacationDetails(
                                             assetImage:
                                                 'assets/images/picture_tours/ChinaMounDetails.jpg',
-                                            nameTours: '${tour.nameTour}',
+                                            // nameTours: '${tour.nameTour}',
                                             locationTours:
                                                 'North Prades, China',
-                                            moneyTours: '${tour.priceTour}',
+                                            // moneyTours: '${tour.priceTour}',
                                             details: textHelpers
                                                 .textDetailsChina
                                                 .toString(),
+                                            addressCurrent: addressCurrent,
+                                            idUserCurrent: idUserCurrent,
+                                            tour: tour,
                                           );
                                   } else if (snapShot.hasError) {
                                     // Xử lý trường hợp lỗi
@@ -891,6 +968,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -898,12 +976,16 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/FujiSijuDetails.jpg', //Sữa
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours: 'Kito, Japan',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers
                                               .textDetailsFujiSiju
-                                              .toString(), //Sữa
+                                              .toString() //Sữa
+                                          ,
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi
@@ -942,6 +1024,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -949,11 +1032,14 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/ParisDetails.jpg',
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours: 'Île-de-France',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers.textDetailsParis
                                               .toString(),
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi
@@ -982,6 +1068,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context, snapShot) {
                                   if (snapShot.hasData) {
                                     final tour = snapShot.data;
+                                    tour!.idUser = idUserCurrent;
                                     return tour == null
                                         ? Center(
                                             child: Text('No Find Tour !'),
@@ -989,12 +1076,15 @@ class _HomePageState extends State<HomePage> {
                                         : VacationDetails(
                                             assetImage:
                                                 'assets/images/picture_tours/MexicoDetails.jpg',
-                                            nameTours: '${tour.nameTour}',
+                                            // nameTours: '${tour.nameTour}',
                                             locationTours: 'Plaza Mexico',
-                                            moneyTours: '${tour.priceTour}',
+                                            // moneyTours: '${tour.priceTour}',
                                             details: textHelpers
                                                 .textDetailsMexico
                                                 .toString(),
+                                            addressCurrent: addressCurrent,
+                                            idUserCurrent: idUserCurrent,
+                                            tour: tour,
                                           );
                                   } else if (snapShot.hasError) {
                                     // Xử lý trường hợp lỗi
@@ -1028,6 +1118,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (context, snapShot) {
                                 if (snapShot.hasData) {
                                   final tour = snapShot.data;
+                                  tour!.idUser = idUserCurrent;
                                   return tour == null
                                       ? Center(
                                           child: Text('No Find Tour !'),
@@ -1035,12 +1126,16 @@ class _HomePageState extends State<HomePage> {
                                       : VacationDetails(
                                           assetImage:
                                               'assets/images/picture_tours/Rome.jpg', //Sữa
-                                          nameTours: '${tour.nameTour}',
+                                          // nameTours: '${tour.nameTour}',
                                           locationTours: 'Rome, Italia',
-                                          moneyTours: '${tour.priceTour}',
+                                          // moneyTours: '${tour.priceTour}',
                                           details: textHelpers
                                               .textDetailsColoseeum
-                                              .toString(), //Sữa
+                                              .toString() //Sữa
+                                          ,
+                                          addressCurrent: addressCurrent,
+                                          idUserCurrent: idUserCurrent,
+                                          tour: tour,
                                         );
                                 } else if (snapShot.hasError) {
                                   // Xử lý trường hợp lỗi

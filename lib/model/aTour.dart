@@ -1,5 +1,5 @@
 class aTour {
-  String idTour;
+  String? idTour;
   String? nameTour;
   int? priceTour;
   bool isFavorite = false;
@@ -12,20 +12,24 @@ class aTour {
       required this.isFavorite,
       required this.idUser});
 
+  void setIdUser(String idUserNew) {
+    this.idUser = idUserNew;
+  }
+
   Map<String, dynamic> toJson() => {
-    'idTour': idTour,
-    'nameTour': nameTour,
-    'price': priceTour,
-    'isFavorite': isFavorite,
-    'idUser': idUser
-  };
+        'idTour': idTour,
+        'nameTour': nameTour,
+        'price': priceTour,
+        'isFavorite': isFavorite,
+        'idUser': idUser
+      };
 
   //Lấy từ trên FirebaseStore xuống
   static aTour fromJson(Map<String, dynamic> json) => aTour(
-    idTour: json['idTour'].toString(),
-    nameTour: json['nameTour'].toString(),
-    priceTour: json['price'],
-    isFavorite: json['isFavorite'],
-    idUser: json['idUser'].toString(),
-  );
+        idTour: json['idTour'].toString(),
+        nameTour: json['nameTour'].toString(),
+        priceTour: json['price'],
+        isFavorite: json['isFavorite'],
+        idUser: json['idUser'].toString(),
+      );
 }

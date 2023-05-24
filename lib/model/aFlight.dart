@@ -1,5 +1,5 @@
 class aFlight {
-  String idFlight;
+  String? idFlight;
   String? nameFlight;
   int? priceFlight;
   String? idTour;
