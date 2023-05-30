@@ -79,25 +79,26 @@ flutter:
     - assets/images/flyIntro.jpg
     - assets/images/plane/plane_1.png
     - assets/images/plane/plane_2.png
-    - assets/images/picture_tours/ChinaMountain.jpg
-    - assets/images/picture_tours/Gerald.jpg
+    - assets/images/picture_tours/Taij Hang.jpg
+    - assets/images/picture_tours/Jungfrau Mountain.jpg
     - assets/images/picture_tours/MexicoCity.jpg
-    - assets/images/picture_tours/ParisCity.jpg
-    - assets/images/picture_tours/SanBeach.jpg
-    - assets/images/picture_tours/Switzerland.jpg
-    - assets/images/picture_tours/ChinaMounDetails.jpg
-    - assets/images/picture_tours/SanBeachDetails.jpg
+    - assets/images/picture_tours/Paris Capital.jpg
+    - assets/images/picture_tours/San Diego.jpg
+    - assets/images/picture_tours/Los Cabos.jpg
+    - assets/images/picture_tours/Taij Hang Details.jpg
+    - assets/images/picture_tours/Santorini.jpg
     - assets/images/picture_tours/ParisDetails.jpg
     - assets/images/picture_tours/SwitzerlandDetails.jpg
     - assets/images/picture_tours/MexicoDetails.jpg
     - assets/images/picture_tours/SeaBeachDetails.jpg
-    - assets/images/picture_tours/CotaRicaBeach.jpg
+    - assets/images/picture_tours/Cota Rica.jpg
     - assets/images/picture_tours/CotaRicaDetails.jpg
-    - assets/images/picture_tours/NavagioBeach.jpg
-    - assets/images/picture_tours/FujiSijuMountain.jpg
-    - assets/images/picture_tours/Rome.jpg
+    - assets/images/picture_tours/Navagio.jpg
+    - assets/images/picture_tours/Fuji Siju.jpg
+    - assets/images/picture_tours/Colosseum.jpg
     - assets/images/picture_tours/NavagioDetails.jpg
     - assets/images/picture_tours/FujiSijuDetails.jpg
+    - assets/images/picture_tours/RomeDetails.jpg
 
 
   #   - images/a_dot_ham.jpeg

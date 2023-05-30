@@ -6,9 +6,8 @@ class SearchTours extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Container(
+    //Size size = MediaQuery.of(context).size * 0.8;
+    return Container(
         width: 470,
         height: 55,
         decoration: BoxDecoration(
@@ -45,7 +44,6 @@ class SearchTours extends StatelessWidget {
             )
           ],
         ),
-      ),
     );
   }
 }

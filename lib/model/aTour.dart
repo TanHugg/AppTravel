@@ -2,24 +2,32 @@ class aTour {
   String? idTour;
   String? nameTour;
   int? priceTour;
-  bool isFavorite = false;
+  bool? isFavorite;
   String? idUser;
+  int? startDay;
+  int? startMonth;
+  int? startYear;
+  String? typeTour;
 
   aTour(
       {this.idTour = '',
       required this.nameTour,
       required this.priceTour,
-      required this.isFavorite,
-      required this.idUser});
-
-  void setIdUser(String idUserNew) {
-    this.idUser = idUserNew;
-  }
+        required this.typeTour,
+      this.isFavorite = false,
+      required this.idUser,
+      required this.startDay,
+      required this.startMonth,
+      required this.startYear});
 
   Map<String, dynamic> toJson() => {
         'idTour': idTour,
         'nameTour': nameTour,
         'price': priceTour,
+        'typeTour': typeTour,
+        'startDay': startDay,
+        'startMonth': startMonth,
+        'startYear': startYear,
         'isFavorite': isFavorite,
         'idUser': idUser
       };
@@ -29,7 +37,11 @@ class aTour {
         idTour: json['idTour'].toString(),
         nameTour: json['nameTour'].toString(),
         priceTour: json['price'],
+        typeTour: json['typeTour'],
         isFavorite: json['isFavorite'],
         idUser: json['idUser'].toString(),
-      );
+        startDay: json['startDay'],
+        startMonth: json['startMonth'],
+        startYear: json['startYear'],
+  );
 }

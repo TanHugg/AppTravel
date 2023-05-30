@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/model/billTotal.dart';
 import 'package:travel_app/pages/home_page.dart';
-import 'package:travel_app/values/custom_snackBar.dart';
 import 'package:travel_app/values/custom_text.dart';
 
 import '../model/aTour.dart';
@@ -41,7 +40,7 @@ class BillPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    late Users usersCurrent;
     return Container(
       color: Color(0xffd9d9d9),
       child: Stack(
@@ -60,8 +59,8 @@ class BillPage extends StatelessWidget {
                     future: readUsers(),
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
-                        final users =
-                            snapShot.data; //Đã lấy đủ dữ liệu bỏ vào users
+                        final users = snapShot.data;
+                        usersCurrent = users!; //Đã lấy đủ dữ liệu bỏ vào users
                         return users == null
                             ? Center(child: Text('No Find User !'))
                             : Column(
@@ -191,17 +190,19 @@ class BillPage extends StatelessWidget {
                           height: 60,
                           child: ElevatedButton(
                             onPressed: () {
-                              final bill = billTotal(
-                                  idTour: tour.idTour,
-                                  idFlight: flight.idFlight,
-                                  priceBill:
-                                      tour.priceTour! + flight.priceFlight!,
-                                  idUser: tour.idUser);
-                              createBill(bill);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()));
+                              // final bill = billTotal(
+                              //     idTour: tour.idTour,
+                              //     idFlight: flight.idFlight,
+                              //     priceBill:
+                              //         tour.priceTour! + flight.priceFlight!,
+                              //     idUser: tour.idUser);
+                              // createBill(bill);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage(
+                                            users: usersCurrent,
+                                          )));
                             },
                             child: Text(
                               'Pay',

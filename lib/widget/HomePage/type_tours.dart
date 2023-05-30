@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../values/custom_text.dart';
 
-int check = 0;
+String checkType = '';
 
 class TypeTours extends StatefulWidget {
   const TypeTours({Key? key, required this.refreshLayout}) : super(key: key);
@@ -12,8 +11,8 @@ class TypeTours extends StatefulWidget {
   @override
   State<TypeTours> createState() => _TypeToursState();
 
-  int checkTypeTours() {
-    return check;
+  String checkTypeTours() {
+    return checkType;
   }
 }
 
@@ -31,24 +30,25 @@ class _TypeToursState extends State<TypeTours> {
         child: Row(children: <Widget>[
           TypeContainer("beach", "Beach", () {
             setState(() {
-              check = 1;
               _listenRefresh();
+              checkType = 'beach';
               print('Bạn đã nhấn vào Beach');
             });
           }),
           SizedBox(width: 11),
           TypeContainer("tent", "Mountain", () {
             setState(() {
-              check = 2;
               _listenRefresh();
+              checkType = 'mountain';
+              //check = 'mountain';
               print('Bạn đã nhấn vào Moutain');
             });
           }),
           SizedBox(width: 11),
           TypeContainer("city", "City", () {
             setState(() {
-              check = 3;
               _listenRefresh();
+              checkType = 'city';
               print('Bạn đã nhấn vào City');
             });
           }),
