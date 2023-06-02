@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/model/billTotal.dart';
 import 'package:travel_app/pages/home_page.dart';
+import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
 import '../model/aTour.dart';
@@ -42,7 +43,7 @@ class BillPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     late Users usersCurrent;
     return Container(
-      color: Color(0xffd9d9d9),
+      color: Color(0xffe5e5e5),
       child: Stack(
         children: <Widget>[
           Padding(
@@ -200,9 +201,7 @@ class BillPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage(
-                                            users: usersCurrent,
-                                          )));
+                                      builder: (context) => MainPage()));
                             },
                             child: Text(
                               'Pay',

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/model/aTour.dart';
+import 'package:travel_app/model/tourDetails.dart';
 import 'package:travel_app/pages/bill_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
@@ -11,18 +12,21 @@ class FlightTicket extends StatelessWidget {
   const FlightTicket(
       {Key? key,
       required this.nameTours,
-      required this.addressCurrent,
-      required this.tour})
+      required this.tour,
+      required this.tourDetail})
       : super(key: key);
 
   final String nameTours;
-  final String addressCurrent;
   final aTour tour;
+  final tourDetails tourDetail;
 
   //Hàm đăng ký Flight từ dữ liệu lên Firebase
-  void createFlight(String nameFlight, int priceFlight, idTour) {
+  void createFlight(String nameFlight, int priceFlight, idTour, String rank) {
     final flight = aFlight(
-        nameFlight: nameFlight, priceFlight: priceFlight, idTour: idTour);
+        nameFlight: nameFlight,
+        priceFlight: priceFlight,
+        idTour: idTour,
+        rank: rank);
 
     Future createAFlight(aFlight flight) async {
       final docUser = FirebaseFirestore.instance.collection('Fly').doc();
@@ -37,8 +41,8 @@ class FlightTicket extends StatelessWidget {
 
   //Đổ dữ liệu vào Firebase collection Fly
   void createFlights() async {
-    createFlight('Gatwick Airplanes', 1100, '');
-    createFlight('Austrian Airplanes', 845, '');
+    createFlight('Gatwick Airplanes', 1100, '', 'Thương gia');
+    createFlight('Austrian Airplanes', 845, '', 'Phổ thông');
   }
 
   //Đọc dữ liệu từ Database xuống khi đúng tên mà bạn truyền vô
@@ -57,7 +61,7 @@ class FlightTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    //createFlights();
+    //createFlights(); khi nào cần tạo lại thì vô đây
     return Container(
       color: Color(0xffe5e5e5),
       child: SingleChildScrollView(
@@ -152,7 +156,8 @@ class FlightTicket extends StatelessWidget {
                                     },
                                 'plane_1',
                                 '${flight.nameFlight}',
-                                flight.priceFlight!);
+                                flight.priceFlight!,
+                                flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
                         return Center(child: Text('Error: ${snapShot.error}'));
@@ -168,6 +173,8 @@ class FlightTicket extends StatelessWidget {
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
                         final flight = snapShot.data;
+                        flight!.idTour =
+                            tour.idTour;
                         return flight == null
                             ? Center(
                                 child: Text('No Find Flight !'),
@@ -188,7 +195,8 @@ class FlightTicket extends StatelessWidget {
                                     },
                                 'plane_2',
                                 '${flight.nameFlight}',
-                                flight.priceFlight!);
+                                flight.priceFlight!,
+                                flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
                         return Center(child: Text('Error: ${snapShot.error}'));
@@ -209,7 +217,7 @@ class FlightTicket extends StatelessWidget {
   }
 
   Widget bookTickets(Size size, String nameTours, Function() onTap,
-      String nameImages, String nameAirplane, int moneyAirplane) {
+      String nameImages, String nameAirplane, int moneyAirplane, String rank) {
     return GestureDetector(
         onTap: onTap,
         child: Container(
@@ -234,7 +242,7 @@ class FlightTicket extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             CustomText(
-                                text: 'ORD',
+                                text: 'SGN',
                                 color: Color(0xffff9f1c),
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
@@ -277,7 +285,7 @@ class FlightTicket extends StatelessWidget {
                             ),
                             Spacer(),
                             CustomText(
-                                text: 'TIA',
+                                text: 'ORD',
                                 color: Color(0xff9d4edd),
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
@@ -295,21 +303,11 @@ class FlightTicket extends StatelessWidget {
                             Container(
                               width: 84,
                               child: CustomText(
-                                  text: '${addressCurrent}',
+                                  text: 'TpHCM',
                                   color: Color(0xff6c757d),
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 0.3,
-                                  height: 1),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 52),
-                              child: CustomText(
-                                  text: '12h 10m',
-                                  color: Color(0xff242423),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1,
                                   height: 1),
                             ),
                             Spacer(),
@@ -336,20 +334,12 @@ class FlightTicket extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         CustomText(
-                            text: '18:10',
+                            text: 'Giờ: ${tourDetail.timeStart.toString()}',
                             color: Color(0xff242423),
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 0.7,
                             height: 1),
-                        Spacer(),
-                        CustomText(
-                            text: '14:20',
-                            color: Color(0xff242423),
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.7,
-                            height: 1)
                       ],
                     ),
                     Padding(
@@ -357,15 +347,16 @@ class FlightTicket extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           CustomText(
-                              text: 'August 23,2020',
+                              text:
+                                  'Ngày: ${tourDetail.startDay}/${tourDetail.startMonth}/${tourDetail.startYear}',
                               color: Color(0xff6c757d),
-                              fontSize: 15,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 1,
                               height: 1),
                           Spacer(),
                           CustomText(
-                              text: 'August 23,2020',
+                              text: 'Hạng: ${rank}',
                               color: Color(0xff6c757d),
                               fontSize: 15,
                               fontWeight: FontWeight.w500,

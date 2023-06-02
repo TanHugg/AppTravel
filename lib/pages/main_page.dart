@@ -36,7 +36,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    //FORM TRANG CHỦ
     return Scaffold(
       backgroundColor: Color(0xffedede9),
       bottomNavigationBar: Container(
@@ -80,9 +79,9 @@ class _MainPageState extends State<MainPage> {
                 : IndexedStack(
                     index: _currentIndex,
                     children: [
-                      HomePage(users: users,),
+                      HomePage(users: users),
                       FavoritePage(),
-                      BoughtPage(users: users,),
+                      BoughtPage(users: users),
                       Container(color: Colors.pink),
                     ],
                   );

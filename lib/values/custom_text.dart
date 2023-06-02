@@ -32,7 +32,7 @@ class CustomText extends StatelessWidget {
           decoration: textDecoration,
           fontWeight: fontWeight,
           letterSpacing: letterSpacing,
-          height: height
+          height: height,
         )
     );
   }

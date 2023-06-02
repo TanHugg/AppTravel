@@ -3,18 +3,22 @@ class aFlight {
   String? nameFlight;
   int? priceFlight;
   String? idTour;
+  String? rank;
+
 
   aFlight(
       {this.idFlight = '',
       required this.nameFlight,
       required this.priceFlight,
-      required this.idTour});
+      required this.idTour,
+      required this.rank});
 
   Map<String, dynamic> toJson() => {
     'idFly': idFlight,
     'nameFlight': nameFlight,
     'price': priceFlight,
-    'idTour': idTour
+    'idTour': idTour,
+    'rank': rank
   };
 
   //Lấy từ trên FirebaseStore xuống
@@ -23,5 +27,6 @@ class aFlight {
     nameFlight: json['nameFlight'].toString(),
     priceFlight: json['price'],
     idTour: json['idTour'].toString(),
+    rank: json['rank'].toString(),
   );
 }

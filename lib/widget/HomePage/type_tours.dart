@@ -28,7 +28,7 @@ class _TypeToursState extends State<TypeTours> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(children: <Widget>[
-          TypeContainer("beach", "Beach", () {
+          TypeContainer("beach", "Biển", () {
             setState(() {
               _listenRefresh();
               checkType = 'beach';
@@ -36,7 +36,7 @@ class _TypeToursState extends State<TypeTours> {
             });
           }),
           SizedBox(width: 11),
-          TypeContainer("tent", "Mountain", () {
+          TypeContainer("tent", "Núi", () {
             setState(() {
               _listenRefresh();
               checkType = 'mountain';
@@ -45,7 +45,7 @@ class _TypeToursState extends State<TypeTours> {
             });
           }),
           SizedBox(width: 11),
-          TypeContainer("city", "City", () {
+          TypeContainer("city", "Thành Phố", () {
             setState(() {
               _listenRefresh();
               checkType = 'city';
@@ -61,7 +61,7 @@ class _TypeToursState extends State<TypeTours> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 60, width: 160, //Mountain
+        height: 60, width: 190, //Mountain
         decoration: BoxDecoration(
             color: Color(0xfff4f3ee), borderRadius: BorderRadius.circular(20)),
         padding: EdgeInsets.all(7),
@@ -79,7 +79,7 @@ class _TypeToursState extends State<TypeTours> {
             ),
             CustomText(
                 text: nameType,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 0.8,
                 height: 0,

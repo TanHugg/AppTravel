@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     createATour('Cota Rica', 800, 'beach', false, '', 14, 6, 2023);
     createATour('San Diego', 1600, 'beach', false, '', 15, 6, 2023);
     createATour('Navagio', 1800, 'beach', false, '', 15, 6, 2023);
-    createATour('Jungfrau Mountain', 1800, 'mountain', false, '', 16, 6, 2023);
+    createATour('Jungfrau', 1800, 'mountain', false, '', 16, 6, 2023);
     createATour('Fuji Siju', 600, 'mountain', false, '', 16, 6, 2023);
     createATour('Taij Hang', 700, 'mountain', false, '', 17, 6, 2023);
     createATour('Paris Capital', 900, 'city', false, '', 17, 6, 2023);
@@ -96,7 +96,9 @@ class _HomePageState extends State<HomePage> {
       int startMonth,
       int startYear,
       String imageTourDetails,
-      String description) {
+      String description,
+      int dayEnd,
+      String hotel) {
     final tourDetail = tourDetails(
         idTour: idTour,
         placeTour: placeTour,
@@ -105,7 +107,8 @@ class _HomePageState extends State<HomePage> {
         startMonth: startMonth,
         startYear: startYear,
         imageTourDetails: imageTourDetails,
-        description: description);
+        description: description,
+        dayEnd: dayEnd,hotel: hotel);
 
     Future createTourDetails(tourDetails tourDetail) async {
       final docUser =
@@ -120,25 +123,25 @@ class _HomePageState extends State<HomePage> {
 
   void createAllTourDetail() {
     createTourDetail('3djRBpyWwVmzoJOvXciI', 'Bernese Oberland, Bern', '13:50',
-        16, 6, 2023, 'SwitzerlandDetails', textHelpers.textDetailsJungfrau);
+        16, 6, 2023, 'SwitzerlandDetails', textHelpers.textDetailsJungfrau,4,'Khách sạn: 4 sao');
     createTourDetail('4DWChCQcaIoCEPdrFuNp', 'Rome, Italia', '14:20', 19, 6,
-        2023, 'SwitzerlandDetails', textHelpers.textDetailsColoseeum);
+        2023, 'RomeDetails', textHelpers.textDetailsColoseeum,5,'Khách sạn: 3 sao');
     createTourDetail('9PErBZSG7Q6zkJ2cjxFk', 'North Brazil', '6:00', 14, 6,
-        2023, 'CotaRicaDetails', textHelpers.textDetailsCotaRica);
+        2023, 'CotaRicaDetails', textHelpers.textDetailsCotaRica,6,'Khách sạn: 5 sao');
     createTourDetail('FNlOfuXdZu3NwK95gUke', 'Plaza Mexico', '8:30', 19, 6,
-        2023, 'MexicoDetails', textHelpers.textDetailsMexico);
+        2023, 'MexicoDetails', textHelpers.textDetailsMexico,5,'Khách sạn: 4 sao');
     createTourDetail('HqBctWHtOUMX6QhJHxxf', 'North Prades, China', '8:30', 17,
-        6, 2023, 'Taij Hang Details', textHelpers.textDetailsChina);
+        6, 2023, 'Taij Hang Details', textHelpers.textDetailsChina,4,'Khách sạn: 6 sao');
     createTourDetail('RVvwPP6DzRGklL363RGW', 'Carlsbad, San Marcos', '18:30',
-        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSanDiego);
+        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSanDiego,4,'Khách sạn: 4 sao');
     createTourDetail('RmeN4de8tPfIBa5E7VkP', 'Naviotar, Italy', '10:30', 15, 6,
-        2023, 'NavagioDetails', textHelpers.textDetailsNavagio);
+        2023, 'NavagioDetails', textHelpers.textDetailsNavagio,5,'Khách sạn: 5 sao');
     createTourDetail('T8MzTP74OtukBqOlxOUa', 'Thiga Island, Aegea', '12:30',
-        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSantorini);
+        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSantorini,5,'Khách sạn: 4 sao');
     createTourDetail('Ub4UPmMrxZ7oOG88RZ5u', 'Île-de France', '4:30', 17, 6,
-        2023, 'ParisDetails', textHelpers.textDetailsParis);
+        2023, 'ParisDetails', textHelpers.textDetailsParis,4,'Khách sạn: 4 sao');
     createTourDetail('pS0Whurv8qLE20mOLAkG', 'Kyoto, Japan', '2:30', 16, 6,
-        2023, 'FujiSijuDetails', textHelpers.textDetailsFujiSiju);
+        2023, 'FujiSijuDetails', textHelpers.textDetailsFujiSiju,5,'Khách sạn: 4 sao');
   }
 
   //Gọi hàm này để load lại Layout
@@ -245,17 +248,17 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(top: 15, left: 7),
                   child: CustomText(
-                      text: 'Explorer',
+                      text: 'Khám phá',
                       fontSize: 30,
                       fontWeight: FontWeight.w400,
-                      letterSpacing: 0.7,
+                      letterSpacing: 0.5,
                       height: 0,
                       color: Colors.black)),
-              //Container Tours
               SizedBox(height: 10),
+              //Container Tours
               Container(
-                  height: 350,
-                  width: size.width,
+                height: 350,
+                width: size.width,
                   child: StreamBuilder<List<aTour>>(
                     stream: readListTour(typeTours.checkTypeTours()),
                     builder: (context, snapshot) {
@@ -265,6 +268,7 @@ class _HomePageState extends State<HomePage> {
                         final aTour = snapshot.data;
                         return ListView(
                           children: aTour!.map((item) {
+                            item.idUser = idUserCurrent;
                             return GestureDetector(
                               onTap: () {
                                 print(// Xử lý sự kiện khi bấm vào phần tử
