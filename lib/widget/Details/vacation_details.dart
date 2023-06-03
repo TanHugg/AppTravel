@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
+import 'package:travel_app/model/favoriteDetails.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:like_button/like_button.dart';
 import '../../model/tourDetails.dart';
 
-class VacationDetails extends StatelessWidget {
+class VacationDetails extends StatefulWidget {
   const VacationDetails({Key? key, required this.tour}) : super(key: key);
-  final aTour tour; //Trong đây nó có idUserCurrent
+  final aTour tour;
+  @override
+  State<VacationDetails> createState() => _VacationDetailsState();
+}
 
+class _VacationDetailsState extends State<VacationDetails> {
+  //Trong đây nó có idUserCurrent
   Future<tourDetails?> readTourDetail(String idTour) async {
     final docTourDetails = FirebaseFirestore.instance
         .collection("TourDetails")
@@ -24,11 +30,30 @@ class VacationDetails extends StatelessWidget {
     return null;
   }
 
+  Future createFavoriteDetails(FavoriteDetails favoriteDetails) async {
+    final docFavoriteDetails =
+        FirebaseFirestore.instance.collection("FavoriteDetails").doc();
+    favoriteDetails.idFavoriteDetails = docFavoriteDetails.id;
+
+    final json = favoriteDetails.toJson();
+    await docFavoriteDetails.set(json);
+  }
+
+  Future deleteFavoriteDetails(String idUser, String idTour) async {
+    final docFavoriteDetails = FirebaseFirestore.instance
+        .collection("FavoriteDetails")
+        .where('idUser', isEqualTo: idUser)
+        .where('idTour', isEqualTo: idTour);
+    final snapshot = await docFavoriteDetails.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return FutureBuilder(
-      future: readTourDetail(tour.idTour.toString()),
+      future: readTourDetail(widget.tour.idTour.toString()),
       builder: (context, snapShot) {
         if (snapShot.hasData) {
           final tourDetails = snapShot.data;
@@ -90,7 +115,7 @@ class VacationDetails extends StatelessWidget {
                                   width: size.width,
                                   child: Row(children: <Widget>[
                                     CustomText(
-                                      text: tour.nameTour.toString(),
+                                      text: widget.tour.nameTour.toString(),
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: 0.13,
@@ -103,6 +128,39 @@ class VacationDetails extends StatelessWidget {
                                       child: LikeButton(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
+                                        isLiked:
+                                            widget.tour.isFavorite ?? false,
+                                        onTap: (bool isLiked) async {
+                                          setState(() {
+                                            widget.tour.isFavorite =
+                                                !(widget.tour.isFavorite ??
+                                                    false);
+                                            FavoriteDetails favorite =
+                                                FavoriteDetails(
+                                                    idUser: widget.tour.idUser,
+                                                    idTour: widget.tour.idTour,
+                                                    favorite:
+                                                        widget.tour.isFavorite);
+
+                                            (widget.tour.isFavorite == true)
+                                                ? {
+                                                    createFavoriteDetails(
+                                                        favorite),
+                                                    print('Đã thêm ${widget.tour.idTour}')
+                                                  }
+                                                : {
+                                                    deleteFavoriteDetails(
+                                                        widget.tour.idUser
+                                                            .toString(),
+                                                        widget.tour.idTour
+                                                            .toString()),
+                                                    print('Đã xóa ${widget.tour.idTour}')
+                                                  };
+                                            //Mở Firebase ra lưu vào IdUser, IdTour, và trạng thái lúc này là true
+                                          });
+                                          return widget.tour.isFavorite ??
+                                              false;
+                                        },
                                         size: 35,
                                         circleColor: CircleColor(
                                             start: Color(0xff00ddff),
@@ -216,7 +274,8 @@ class VacationDetails extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     Text.rich(TextSpan(
-                                        text: '\$ ${tour.priceTour.toString()}',
+                                        text:
+                                            '\$ ${widget.tour.priceTour.toString()}',
                                         style: GoogleFonts.plusJakartaSans(
                                             fontSize: 24,
                                             decoration: TextDecoration.none,
@@ -252,9 +311,10 @@ class VacationDetails extends StatelessWidget {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       FlightTicket(
-                                                        nameTours: tour.nameTour
+                                                        nameTours: widget
+                                                            .tour.nameTour
                                                             .toString(),
-                                                        tour: tour,
+                                                        tour: widget.tour,
                                                         tourDetail: tourDetails,
 
                                                         //Chuyển thêm cái id nữa
