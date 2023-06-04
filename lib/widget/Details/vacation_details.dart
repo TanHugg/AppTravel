@@ -49,6 +49,7 @@ class _VacationDetailsState extends State<VacationDetails> {
       await doc.reference.delete();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
@@ -132,21 +133,25 @@ class _VacationDetailsState extends State<VacationDetails> {
                                             widget.tour.isFavorite ?? false,
                                         onTap: (bool isLiked) async {
                                           setState(() {
-                                            widget.tour.isFavorite =
-                                                !(widget.tour.isFavorite ??
-                                                    false);
-                                            FavoriteDetails favorite =
-                                                FavoriteDetails(
-                                                    idUser: widget.tour.idUser,
-                                                    idTour: widget.tour.idTour,
-                                                    favorite:
-                                                        widget.tour.isFavorite);
-
+                                            widget.tour.isFavorite = !isLiked;
+                                          });
+                                          print(isLiked);
+                                          FavoriteDetails favorite;
+                                          setState(() {
+                                            print(widget.tour.isFavorite);
                                             (widget.tour.isFavorite == true)
                                                 ? {
+                                                    favorite = FavoriteDetails(
+                                                        idUser:
+                                                            widget.tour.idUser,
+                                                        idTour:
+                                                            widget.tour.idTour,
+                                                        favorite: widget
+                                                            .tour.isFavorite),
                                                     createFavoriteDetails(
                                                         favorite),
-                                                    print('Đã thêm ${widget.tour.idTour}')
+                                                    print(
+                                                        'Đã thêm ${widget.tour.idTour}')
                                                   }
                                                 : {
                                                     deleteFavoriteDetails(
@@ -154,12 +159,12 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .toString(),
                                                         widget.tour.idTour
                                                             .toString()),
-                                                    print('Đã xóa ${widget.tour.idTour}')
+                                                    print(
+                                                        'Đã xóa ${widget.tour.idTour}')
                                                   };
                                             //Mở Firebase ra lưu vào IdUser, IdTour, và trạng thái lúc này là true
                                           });
-                                          return widget.tour.isFavorite ??
-                                              false;
+                                          return widget.tour.isFavorite ?? false;
                                         },
                                         size: 35,
                                         circleColor: CircleColor(

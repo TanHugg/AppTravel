@@ -26,9 +26,8 @@ class BoughtPage extends StatelessWidget {
             return Text('Something went wrong! ${snapshot.error}');
           } else if (snapshot.hasData) {
             final billTotal = snapshot.data!;
-
             return ListView(
-              children: billTotal.map(buildUser).toList(),
+              children: billTotal.map(buildTour).toList(),
             );
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -38,7 +37,7 @@ class BoughtPage extends StatelessWidget {
     );
   }
 
-  Widget buildUser(billTotal bill) => ListTile(
+  Widget buildTour(billTotal bill) => ListTile(
         leading: CircleAvatar(child: Text('${bill.idBill}')),
         title: Text(bill.idTour ?? ""),
         subtitle: Text('${bill.priceBill}'),
