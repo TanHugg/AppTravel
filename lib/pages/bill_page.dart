@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/model/billTotal.dart';
-import 'package:travel_app/pages/home_page.dart';
 import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 

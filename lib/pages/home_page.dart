@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final user_auth = FirebaseAuth.instance.currentUser!;
 
-  //Lấy thuộc tính nameTour trong FirebaseStore collection Tour
+  //Lấy ra cái Tour nào có thuộc tính truyền vào là nameTour
   Future<aTour?> readTour(String nameTour) async {
     final docUser = FirebaseFirestore.instance
         .collection("Tour")
@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
+  //Lấy ra tất cả tour có trong Firebase thông qua typeTour truyền vô
   Stream<List<aTour>> readListTour(String typeTour) => (typeTour == '')
       ? FirebaseFirestore.instance.collection('Tour').snapshots().map(
           (snapshot) =>
@@ -88,6 +89,7 @@ class _HomePageState extends State<HomePage> {
     createATour('Santorini', 1200, 'city', false, '', 26, 6, 2023);
   }
 
+  //Hàm đăng ký dữ liệu tourDetails lên Firebase
   void createTourDetail(
       String idTour,
       String placeTour,
@@ -108,7 +110,8 @@ class _HomePageState extends State<HomePage> {
         startYear: startYear,
         imageTourDetails: imageTourDetails,
         description: description,
-        dayEnd: dayEnd,hotel: hotel);
+        dayEnd: dayEnd,
+        hotel: hotel);
 
     Future createTourDetails(tourDetails tourDetail) async {
       final docUser =
@@ -118,30 +121,122 @@ class _HomePageState extends State<HomePage> {
       final json = tourDetail.toJson();
       await docUser.set(json);
     }
+
     createTourDetails(tourDetail);
   }
 
+  //Hàm đưa dữ liệu lên Firebase
   void createAllTourDetail() {
-    createTourDetail('3djRBpyWwVmzoJOvXciI', 'Bernese Oberland, Bern', '13:50',
-        16, 6, 2023, 'SwitzerlandDetails', textHelpers.textDetailsJungfrau,4,'Khách sạn: 4 sao');
-    createTourDetail('4DWChCQcaIoCEPdrFuNp', 'Rome, Italia', '14:20', 19, 6,
-        2023, 'RomeDetails', textHelpers.textDetailsColoseeum,5,'Khách sạn: 3 sao');
-    createTourDetail('9PErBZSG7Q6zkJ2cjxFk', 'North Brazil', '6:00', 14, 6,
-        2023, 'CotaRicaDetails', textHelpers.textDetailsCotaRica,6,'Khách sạn: 5 sao');
-    createTourDetail('FNlOfuXdZu3NwK95gUke', 'Plaza Mexico', '8:30', 19, 6,
-        2023, 'MexicoDetails', textHelpers.textDetailsMexico,5,'Khách sạn: 4 sao');
-    createTourDetail('HqBctWHtOUMX6QhJHxxf', 'North Prades, China', '8:30', 17,
-        6, 2023, 'Taij Hang Details', textHelpers.textDetailsChina,4,'Khách sạn: 6 sao');
-    createTourDetail('RVvwPP6DzRGklL363RGW', 'Carlsbad, San Marcos', '18:30',
-        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSanDiego,4,'Khách sạn: 4 sao');
-    createTourDetail('RmeN4de8tPfIBa5E7VkP', 'Naviotar, Italy', '10:30', 15, 6,
-        2023, 'NavagioDetails', textHelpers.textDetailsNavagio,5,'Khách sạn: 5 sao');
-    createTourDetail('T8MzTP74OtukBqOlxOUa', 'Thiga Island, Aegea', '12:30',
-        15, 6, 2023, 'SeaBeachDetails', textHelpers.textDetailsSantorini,5,'Khách sạn: 4 sao');
-    createTourDetail('Ub4UPmMrxZ7oOG88RZ5u', 'Île-de France', '4:30', 17, 6,
-        2023, 'ParisDetails', textHelpers.textDetailsParis,4,'Khách sạn: 4 sao');
-    createTourDetail('pS0Whurv8qLE20mOLAkG', 'Kyoto, Japan', '2:30', 16, 6,
-        2023, 'FujiSijuDetails', textHelpers.textDetailsFujiSiju,5,'Khách sạn: 4 sao');
+    createTourDetail(
+        '3djRBpyWwVmzoJOvXciI',
+        'Bernese Oberland, Bern',
+        '13:50',
+        16,
+        6,
+        2023,
+        'SwitzerlandDetails',
+        textHelpers.textDetailsJungfrau,
+        4,
+        'Khách sạn: 4 sao');
+    createTourDetail(
+        '4DWChCQcaIoCEPdrFuNp',
+        'Rome, Italia',
+        '14:20',
+        19,
+        6,
+        2023,
+        'RomeDetails',
+        textHelpers.textDetailsColoseeum,
+        5,
+        'Khách sạn: 3 sao');
+    createTourDetail(
+        '9PErBZSG7Q6zkJ2cjxFk',
+        'North Brazil',
+        '6:00',
+        14,
+        6,
+        2023,
+        'CotaRicaDetails',
+        textHelpers.textDetailsCotaRica,
+        6,
+        'Khách sạn: 5 sao');
+    createTourDetail(
+        'FNlOfuXdZu3NwK95gUke',
+        'Plaza Mexico',
+        '8:30',
+        19,
+        6,
+        2023,
+        'MexicoDetails',
+        textHelpers.textDetailsMexico,
+        5,
+        'Khách sạn: 4 sao');
+    createTourDetail(
+        'HqBctWHtOUMX6QhJHxxf',
+        'North Prades, China',
+        '8:30',
+        17,
+        6,
+        2023,
+        'Taij Hang Details',
+        textHelpers.textDetailsChina,
+        4,
+        'Khách sạn: 6 sao');
+    createTourDetail(
+        'RVvwPP6DzRGklL363RGW',
+        'Carlsbad, San Marcos',
+        '18:30',
+        15,
+        6,
+        2023,
+        'SeaBeachDetails',
+        textHelpers.textDetailsSanDiego,
+        4,
+        'Khách sạn: 4 sao');
+    createTourDetail(
+        'RmeN4de8tPfIBa5E7VkP',
+        'Naviotar, Italy',
+        '10:30',
+        15,
+        6,
+        2023,
+        'NavagioDetails',
+        textHelpers.textDetailsNavagio,
+        5,
+        'Khách sạn: 5 sao');
+    createTourDetail(
+        'T8MzTP74OtukBqOlxOUa',
+        'Thiga Island, Aegea',
+        '12:30',
+        15,
+        6,
+        2023,
+        'SeaBeachDetails',
+        textHelpers.textDetailsSantorini,
+        5,
+        'Khách sạn: 4 sao');
+    createTourDetail(
+        'Ub4UPmMrxZ7oOG88RZ5u',
+        'Île-de France',
+        '4:30',
+        17,
+        6,
+        2023,
+        'ParisDetails',
+        textHelpers.textDetailsParis,
+        4,
+        'Khách sạn: 4 sao');
+    createTourDetail(
+        'pS0Whurv8qLE20mOLAkG',
+        'Kyoto, Japan',
+        '2:30',
+        16,
+        6,
+        2023,
+        'FujiSijuDetails',
+        textHelpers.textDetailsFujiSiju,
+        5,
+        'Khách sạn: 4 sao');
   }
 
   //Gọi hàm này để load lại Layout
@@ -162,8 +257,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     addressCurrent = widget.users.address;
     idUserCurrent = widget.users.idUser;
-    // createTours(); //Khi nào cần ghi dữ liệu Tour lên Database thì mở cái này lên
-    //createAllTourDetail();
+    // createTours(); //Mở ra khi nào muốn add tất cả tour lên Firebase lại
+    //createAllTourDetail(); //Mở ra khi nào muốn add tất cả tourDetails
   }
 
   @override
@@ -242,7 +337,7 @@ class _HomePageState extends State<HomePage> {
               //Container Search
               Padding(padding: EdgeInsets.only(top: 20), child: SearchTours()),
               //3 block mountain, beach, city,
-              TypeTours(refreshLayout: _refreshLayout), //Hơi cấn cấn
+              TypeTours(refreshLayout: _refreshLayout),
               //Container Explorer
               Container(
                   alignment: Alignment.topLeft,
@@ -257,8 +352,8 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               //Container Tours
               Container(
-                height: 350,
-                width: size.width,
+                  height: 350,
+                  width: size.width,
                   child: StreamBuilder<List<aTour>>(
                     stream: readListTour(typeTours.checkTypeTours()),
                     builder: (context, snapshot) {
@@ -266,23 +361,21 @@ class _HomePageState extends State<HomePage> {
                         return Text('Something went wrong! ${snapshot.error}');
                       } else if (snapshot.hasData) {
                         final aTour = snapshot.data;
-                        return ListView(
-                          children: aTour!.map((item) {
-                            item.idUser = idUserCurrent;
+                        return ListView.builder(
+                          itemCount: aTour!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            aTour[index].idUser = idUserCurrent;
                             return GestureDetector(
                               onTap: () {
-                                print(// Xử lý sự kiện khi bấm vào phần tử
-                                    'Bạn đã bấm vào phần tử: ${item.idTour}');
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                        VacationDetails(
-                                            tour: item)));
+                                        builder: (context) => VacationDetails(
+                                            tour: aTour[index])));
                               },
-                              child: buildATour(item),
+                              child: buildATour(aTour[index]),
                             );
-                          }).toList(),
+                          },
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());

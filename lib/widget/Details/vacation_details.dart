@@ -135,10 +135,8 @@ class _VacationDetailsState extends State<VacationDetails> {
                                           setState(() {
                                             widget.tour.isFavorite = !isLiked;
                                           });
-                                          print(isLiked);
                                           FavoriteDetails favorite;
                                           setState(() {
-                                            print(widget.tour.isFavorite);
                                             (widget.tour.isFavorite == true)
                                                 ? {
                                                     favorite = FavoriteDetails(
@@ -150,8 +148,11 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .tour.isFavorite),
                                                     createFavoriteDetails(
                                                         favorite),
-                                                    print(
-                                                        'Đã thêm ${widget.tour.idTour}')
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                "Thêm vào danh sách yêu thích thành công")))
                                                   }
                                                 : {
                                                     deleteFavoriteDetails(
@@ -159,12 +160,16 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .toString(),
                                                         widget.tour.idTour
                                                             .toString()),
-                                                    print(
-                                                        'Đã xóa ${widget.tour.idTour}')
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                "Thêm vào danh sách yêu thích thành công")))
                                                   };
                                             //Mở Firebase ra lưu vào IdUser, IdTour, và trạng thái lúc này là true
                                           });
-                                          return widget.tour.isFavorite ?? false;
+                                          return widget.tour.isFavorite ??
+                                              false;
                                         },
                                         size: 35,
                                         circleColor: CircleColor(

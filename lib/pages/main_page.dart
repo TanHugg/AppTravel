@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
                     index: _currentIndex,
                     children: [
                       HomePage(users: users),
-                      FavoritePage(),
+                      FavoritePage(users: users),
                       BoughtPage(users: users),
                       Container(color: Colors.pink),
                     ],

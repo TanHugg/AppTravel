@@ -3,17 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/aTour.dart';
 import '../model/favoriteDetails.dart';
+import '../model/users.dart';
 import '../widget/Details/vacation_details.dart';
 import '../widget/HomePage/custom_tours.dart';
 
-class FavoritePage extends StatelessWidget {
-  const FavoritePage({Key? key}) : super(key: key);
+class FavoritePage extends StatefulWidget {
+  const FavoritePage({Key? key, required this.users}) : super(key: key);
+
+  final Users users;
+
+  @override
+  State<FavoritePage> createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends State<FavoritePage> {
+  List<aTour> _favoriteTours = [];
 
   Stream<List<FavoriteDetails>> readFavoriteDetails() =>
-      FirebaseFirestore.instance.collection('FavoriteDetails').snapshots().map(
-          (snapshot) => snapshot.docs
+      FirebaseFirestore.instance
+          .collection('FavoriteDetails')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
               .map((doc) => FavoriteDetails.fromJson(doc.data()))
-              .toList());
+              .toList())
+          .map((favDetails) {
+        // Cập nhật danh sách các aTour yêu thích trong State object
+        _favoriteTours = [];
+        for (final item in favDetails) {
+          readTour(item.idTour.toString()).then((tour) {
+            if (tour != null) {
+              tour.isFavorite = item.favorite;
+              tour.idUser = item.idUser;
+              _favoriteTours.add(tour);
+            }
+          });
+        }
+        return favDetails;
+      });
 
   Future<aTour?> readTour(String idTour) async {
     final docUser = FirebaseFirestore.instance
@@ -25,6 +51,23 @@ class FavoritePage extends StatelessWidget {
       return aTour.fromJson(snapshot.docs.first.data());
     }
     return null;
+  }
+
+  Future deleteFavoriteDetails(String idUser, String idTour) async {
+    final docFavoriteDetails = FirebaseFirestore.instance
+        .collection("FavoriteDetails")
+        .where('idUser', isEqualTo: idUser)
+        .where('idTour', isEqualTo: idTour);
+    final snapshot = await docFavoriteDetails.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+    // Xóa aTour khỏi danh sách trong State object và rebuild widget tree
+    setState(() {
+      _favoriteTours.removeWhere((tour) => tour.idTour == idTour);
+    });
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Xóa thành công}")));
   }
 
   @override
@@ -74,6 +117,7 @@ class FavoritePage extends StatelessWidget {
                               if (snapshot.hasData) {
                                 aTour tour = snapshot.data!;
                                 tour.isFavorite = item.favorite;
+                                tour.idUser = item.idUser;
                                 return GestureDetector(
                                   onTap: () {
                                     print(
@@ -115,15 +159,15 @@ class FavoritePage extends StatelessWidget {
         background: Container(
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Icon(Icons.delete_forever,size: 80),
+            child: Icon(Icons.delete_forever, size: 80),
           ),
           color: Colors.red,
         ),
         secondaryBackground: Container(color: Colors.red),
         onDismissed: (direction) {
           if (direction == DismissDirection.endToStart) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Xóa thành công")));
+            deleteFavoriteDetails(
+                tour.idUser.toString(), tour.idTour.toString());
           }
         },
         child: Padding(
