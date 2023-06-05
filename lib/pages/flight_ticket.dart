@@ -9,19 +9,15 @@ import 'package:travel_app/pages/bill_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
 class FlightTicket extends StatelessWidget {
-  const FlightTicket(
-      {Key? key,
-      required this.nameTours,
-      required this.tour,
-      required this.tourDetail})
+  const FlightTicket({Key? key, required this.tour, required this.tourDetail})
       : super(key: key);
 
-  final String nameTours;
   final aTour tour;
   final tourDetails tourDetail;
 
   //Hàm đăng ký Flight từ dữ liệu lên Firebase
-  void createFlight(String nameFlight, int priceFlight, idTour, String rank) {
+  void createFlight(
+      String nameFlight, String priceFlight, idTour, String rank) {
     final flight = aFlight(
         nameFlight: nameFlight,
         priceFlight: priceFlight,
@@ -41,8 +37,8 @@ class FlightTicket extends StatelessWidget {
 
   //Đổ dữ liệu vào Firebase collection Fly
   void createFlights() async {
-    createFlight('Gatwick Airplanes', 1100, '', 'Thương gia');
-    createFlight('Austrian Airplanes', 845, '', 'Phổ thông');
+    createFlight('Gatwick Airplanes', '', '', 'Thương gia');
+    createFlight('Austrian Airplanes', '', '', 'Phổ thông');
   }
 
   //Đọc dữ liệu từ Database xuống khi đúng tên mà bạn truyền vô
@@ -61,7 +57,7 @@ class FlightTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    //createFlights(); khi nào cần tạo lại thì vô đây
+    //createFlights(); Đưa dữ liệu lên Firebase
     return Container(
       color: Color(0xffe5e5e5),
       child: SingleChildScrollView(
@@ -136,13 +132,14 @@ class FlightTicket extends StatelessWidget {
                         final flight = snapShot.data;
                         flight!.idTour =
                             tour.idTour; //Flight lúc này đang đủ dữ liệu
+                        flight.priceFlight = tourDetail.priceFlightEconomy;
                         return flight == null
                             ? Center(
                                 child: Text('No Find Tour !'),
                               )
                             : bookTickets(
                                 size,
-                                nameTours,
+                                tour.nameTour.toString(),
                                 () => {
                                       Navigator.push(
                                           context,
@@ -151,12 +148,10 @@ class FlightTicket extends StatelessWidget {
                                                     flight: flight,
                                                     tour: tour,
                                                   ))),
-                                      print(
-                                          'Bạn đã nhấp vào Austrian Airplanes'),
                                     },
                                 'plane_1',
                                 '${flight.nameFlight}',
-                                flight.priceFlight!,
+                                '${flight.priceFlight}',
                                 flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
@@ -173,15 +168,15 @@ class FlightTicket extends StatelessWidget {
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
                         final flight = snapShot.data;
-                        flight!.idTour =
-                            tour.idTour;
+                        flight!.idTour = tour.idTour;
+                        flight.priceFlight = tourDetail.priceFlightBusiness;
                         return flight == null
                             ? Center(
                                 child: Text('No Find Flight !'),
                               )
                             : bookTickets(
                                 size,
-                                nameTours,
+                                tour.nameTour.toString(),
                                 () => {
                                       Navigator.push(
                                           context,
@@ -190,12 +185,10 @@ class FlightTicket extends StatelessWidget {
                                                     flight: flight,
                                                     tour: tour,
                                                   ))),
-                                      print(
-                                          'Bạn đã nhấp vào Gatwick Airplanes'),
                                     },
                                 'plane_2',
                                 '${flight.nameFlight}',
-                                flight.priceFlight!,
+                                '${flight.priceFlight}',
                                 flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
@@ -216,8 +209,14 @@ class FlightTicket extends StatelessWidget {
     );
   }
 
-  Widget bookTickets(Size size, String nameTours, Function() onTap,
-      String nameImages, String nameAirplane, int moneyAirplane, String rank) {
+  Widget bookTickets(
+      Size size,
+      String nameTours,
+      Function() onTap,
+      String nameImages,
+      String nameAirplane,
+      String moneyAirplane,
+      String rank) {
     return GestureDetector(
         onTap: onTap,
         child: Container(
@@ -404,7 +403,7 @@ class FlightTicket extends StatelessWidget {
                     CustomText(
                         text: '\$${moneyAirplane}',
                         color: Colors.black,
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.7,
                         height: 1.5)

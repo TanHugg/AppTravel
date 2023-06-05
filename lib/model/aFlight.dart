@@ -1,7 +1,7 @@
 class aFlight {
   String? idFlight;
   String? nameFlight;
-  int? priceFlight;
+  String? priceFlight;
   String? idTour;
   String? rank;
 
@@ -25,7 +25,7 @@ class aFlight {
   static aFlight fromJson(Map<String, dynamic> json) => aFlight(
     idFlight: json['idFly'].toString(),
     nameFlight: json['nameFlight'].toString(),
-    priceFlight: json['price'],
+    priceFlight: json['price'].toString(),
     idTour: json['idTour'].toString(),
     rank: json['rank'].toString(),
   );

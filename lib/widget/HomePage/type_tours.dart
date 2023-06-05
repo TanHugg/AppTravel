@@ -40,7 +40,6 @@ class _TypeToursState extends State<TypeTours> {
             setState(() {
               _listenRefresh();
               checkType = 'mountain';
-              //check = 'mountain';
               print('Bạn đã nhấn vào Moutain');
             });
           }),

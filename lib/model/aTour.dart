@@ -1,13 +1,14 @@
 class aTour {
   String? idTour;
   String? nameTour;
-  int? priceTour;
+  String? priceTour;
   bool? isFavorite;
   String? idUser;
   int? startDay;
   int? startMonth;
   int? startYear;
   String? typeTour;
+
 
   aTour(
       {this.idTour = '',
@@ -36,7 +37,7 @@ class aTour {
   static aTour fromJson(Map<String, dynamic> json) => aTour(
         idTour: json['idTour'].toString(),
         nameTour: json['nameTour'].toString(),
-        priceTour: json['price'],
+        priceTour: json['price'].toString(),
         typeTour: json['typeTour'],
         isFavorite: json['isFavorite'],
         idUser: json['idUser'].toString(),

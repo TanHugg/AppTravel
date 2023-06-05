@@ -10,6 +10,8 @@ class tourDetails {
   String? imageTourDetails;
   String? description;
   String? hotel;
+  String? priceFlightEconomy;
+  String? priceFlightBusiness;
 
   tourDetails(
       {this.idTourDetails = '',
@@ -22,7 +24,9 @@ class tourDetails {
       required this.imageTourDetails,
       required this.description,
       required this.dayEnd,
-      required this.hotel});
+      required this.hotel,
+      required this.priceFlightEconomy,
+      required this.priceFlightBusiness});
 
   Map<String, dynamic> toJson() => {
         'idTourDetail': idTourDetails,
@@ -35,7 +39,9 @@ class tourDetails {
         'dayEnd': dayEnd,
         'imageTourDetails': imageTourDetails,
         'description': description,
-        'hotel': hotel
+        'hotel': hotel,
+        'priceFlightEconomy': priceFlightEconomy,
+        'priceFlightBusiness': priceFlightBusiness
       };
 
   //Lấy từ trên FirebaseStore xuống
@@ -50,5 +56,8 @@ class tourDetails {
       dayEnd: json['dayEnd'],
       imageTourDetails: json['imageTourDetails'].toString(),
       description: json['description'].toString(),
-      hotel: json['hotel'].toString());
+      hotel: json['hotel'].toString(),
+      priceFlightEconomy: json['priceFlightEconomy'].toString(),
+      priceFlightBusiness: json['priceFlightBusiness'].toString(),
+      );
 }

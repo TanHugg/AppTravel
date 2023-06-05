@@ -8,6 +8,7 @@ import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:like_button/like_button.dart';
 import '../../model/tourDetails.dart';
+import 'package:intl/intl.dart';
 
 class VacationDetails extends StatefulWidget {
   const VacationDetails({Key? key, required this.tour}) : super(key: key);
@@ -17,6 +18,9 @@ class VacationDetails extends StatefulWidget {
 }
 
 class _VacationDetailsState extends State<VacationDetails> {
+  static final formattedPrice =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
+
   //Trong đây nó có idUserCurrent
   Future<tourDetails?> readTourDetail(String idTour) async {
     final docTourDetails = FirebaseFirestore.instance
@@ -102,7 +106,7 @@ class _VacationDetailsState extends State<VacationDetails> {
                         top: size.height * 4 / 10,
                         child: Container(
                           padding: EdgeInsets.only(
-                              left: 25, top: 30, right: 25, bottom: 50),
+                              left: 20, top: 30, right: 20, bottom: 50),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(35),
@@ -284,10 +288,10 @@ class _VacationDetailsState extends State<VacationDetails> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     Text.rich(TextSpan(
-                                        text:
-                                            '\$ ${widget.tour.priceTour.toString()}',
+                                        text: formattedPrice.format(int.parse(
+                                            '${widget.tour.priceTour}')),
                                         style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 24,
+                                            fontSize: 16,
                                             decoration: TextDecoration.none,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600),
@@ -321,12 +325,8 @@ class _VacationDetailsState extends State<VacationDetails> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       FlightTicket(
-                                                        nameTours: widget
-                                                            .tour.nameTour
-                                                            .toString(),
                                                         tour: widget.tour,
                                                         tourDetail: tourDetails,
-
                                                         //Chuyển thêm cái id nữa
                                                       )));
                                         },
@@ -336,10 +336,10 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                 borderRadius:
                                                     BorderRadius.circular(25))),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(14.0),
+                                          padding: const EdgeInsets.all(12.5),
                                           child: CustomText(
                                               text: 'Book Now',
-                                              fontSize: 20,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: 1.5,
                                               height: 0,

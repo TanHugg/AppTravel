@@ -44,7 +44,7 @@ class CustomATours extends StatelessWidget { //Class này dùng để custom tou
         customDetailATour(10, 10, 150, heiContain, nameTour.toString()),
         customDetailATour(
             10, 170, 100, heiContain, '${startDay}/${startMonth}/${startYear}'),
-        customDetailATour(120, 260, widContain, heiContain, money.toString()),
+        customDetailATour(120, 220, 125, heiContain, money.toString()),
       ],
     );
   }

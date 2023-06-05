@@ -28,6 +28,18 @@ class _LoginPageState extends State<LoginPage> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Email hoặc Mật khẩu không đúng!",
+              style: TextStyle(fontSize: 20),
+            ),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(bottom: 20,left: 20,right: 20),
+            backgroundColor: Color(0xff6d6875),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+            duration: Duration(seconds: 3),
+            elevation: 3.0,));
         print("No user found for that email");
       }
     }
@@ -49,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
-    // widget tree.
+    // Widget tree.
     emailController.dispose();
     passwordController.dispose();
     super.dispose();

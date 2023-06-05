@@ -9,13 +9,17 @@ import 'package:travel_app/values/custom_text.dart';
 import '../model/aTour.dart';
 import '../model/users.dart';
 
-//Size ở page này còn lũng
+import 'package:intl/intl.dart';
+
 class BillPage extends StatelessWidget {
   const BillPage({Key? key, required this.flight, required this.tour})
       : super(key: key);
 
   final aFlight flight;
   final aTour tour;
+
+  static final formattedPrice =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
 
   Future<Users?> readUsers() async {
     final docUser = FirebaseFirestore.instance
@@ -116,7 +120,8 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 25),
                                   CustomText(
-                                      text: 'PriceTour:  \$${tour.priceTour} ',
+                                      text:
+                                          'PriceTour:  ${formattedPrice.format(int.parse('${tour.priceTour}'))} ',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
@@ -125,7 +130,7 @@ class BillPage extends StatelessWidget {
                                   SizedBox(height: 15),
                                   CustomText(
                                       text:
-                                          'PriceFlight:  \$${flight.priceFlight}',
+                                          'PriceFlight:  ${formattedPrice.format(int.parse('${flight.priceFlight}'))}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
@@ -173,7 +178,7 @@ class BillPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 30, top: 15),
                     child: CustomText(
                         text:
-                            'Total:  \$${tour.priceTour! + flight.priceFlight!}',
+                            'Total:  ${formattedPrice.format(int.parse('${int.parse(tour.priceTour!) + int.parse(flight.priceFlight!)}'))}',
                         color: Colors.black,
                         fontSize: 24,
                         fontWeight: FontWeight.w600,

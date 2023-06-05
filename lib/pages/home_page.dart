@@ -12,6 +12,7 @@ import 'package:travel_app/widget/HomePage/type_tours.dart';
 import '../values/custom_text.dart';
 import '../widget/Details/vacation_details.dart';
 import '../widget/HomePage/custom_tours.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.users}) : super(key: key);
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   final user_auth = FirebaseAuth.instance.currentUser!;
 
   //Lấy ra cái Tour nào có thuộc tính truyền vào là nameTour
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               snapshot.docs.map((doc) => aTour.fromJson(doc.data())).toList());
 
   //Hàm đăng ký Tour từ dữ liệu lên Firebase
-  void createATour(String nameTour, int priceTour, String typeTour,
+  void createATour(String nameTour, String priceTour, String typeTour,
       bool isFavorite, idUser, int startDay, int startMonth, int startYear) {
     final tour = aTour(
       nameTour: nameTour,
@@ -77,16 +79,16 @@ class _HomePageState extends State<HomePage> {
 
   //Hàm đưa dữ liệu lên Firebase
   void createTours() async {
-    createATour('Cota Rica', 800, 'beach', false, '', 14, 6, 2023);
-    createATour('San Diego', 1600, 'beach', false, '', 15, 6, 2023);
-    createATour('Navagio', 1800, 'beach', false, '', 15, 6, 2023);
-    createATour('Jungfrau', 1800, 'mountain', false, '', 16, 6, 2023);
-    createATour('Fuji Siju', 600, 'mountain', false, '', 16, 6, 2023);
-    createATour('Taij Hang', 700, 'mountain', false, '', 17, 6, 2023);
-    createATour('Paris Capital', 900, 'city', false, '', 17, 6, 2023);
-    createATour('Colosseum', 2800, 'city', false, '', 19, 6, 2023);
-    createATour('Los Cabos', 1000, 'beach', false, '', 19, 6, 2023);
-    createATour('Santorini', 1200, 'city', false, '', 26, 6, 2023);
+    createATour('Cota Rica', '8000000', 'beach', false, '', 14, 6, 2023);
+    createATour('San Diego', '16000000', 'beach', false, '', 15, 6, 2023);
+    createATour('Navagio', '18000000', 'beach', false, '', 15, 6, 2023);
+    createATour('Jungfrau', '18000000', 'mountain', false, '', 16, 6, 2023);
+    createATour('Fuji Siju', '16000000', 'mountain', false, '', 16, 6, 2023);
+    createATour('Taij Hang', '7000000', 'mountain', false, '', 17, 6, 2023);
+    createATour('Paris Capital', '9000000', 'city', false, '', 17, 6, 2023);
+    createATour('Colosseum', '28000000', 'city', false, '', 19, 6, 2023);
+    createATour('Los Cabos', '18000000', 'city', false, '', 19, 6, 2023);
+    createATour('Santorini', '12000000', 'beach', false, '', 26, 6, 2023);
   }
 
   //Hàm đăng ký dữ liệu tourDetails lên Firebase
@@ -100,7 +102,9 @@ class _HomePageState extends State<HomePage> {
       String imageTourDetails,
       String description,
       int dayEnd,
-      String hotel) {
+      String hotel,
+      String priceFlightEconomy,
+      String priceFlightBusiness) {
     final tourDetail = tourDetails(
         idTour: idTour,
         placeTour: placeTour,
@@ -111,7 +115,9 @@ class _HomePageState extends State<HomePage> {
         imageTourDetails: imageTourDetails,
         description: description,
         dayEnd: dayEnd,
-        hotel: hotel);
+        hotel: hotel,
+        priceFlightEconomy: priceFlightEconomy,
+        priceFlightBusiness: priceFlightBusiness);
 
     Future createTourDetails(tourDetails tourDetail) async {
       final docUser =
@@ -128,7 +134,7 @@ class _HomePageState extends State<HomePage> {
   //Hàm đưa dữ liệu lên Firebase
   void createAllTourDetail() {
     createTourDetail(
-        '3djRBpyWwVmzoJOvXciI',
+        'Nhd7srL72oNncFxiIthz',
         'Bernese Oberland, Bern',
         '13:50',
         16,
@@ -137,9 +143,10 @@ class _HomePageState extends State<HomePage> {
         'SwitzerlandDetails',
         textHelpers.textDetailsJungfrau,
         4,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao',
+        '7000000','1000000');
     createTourDetail(
-        '4DWChCQcaIoCEPdrFuNp',
+        'SbRDwEwcYgcuxmYTehhL',
         'Rome, Italia',
         '14:20',
         19,
@@ -148,9 +155,10 @@ class _HomePageState extends State<HomePage> {
         'RomeDetails',
         textHelpers.textDetailsColoseeum,
         5,
-        'Khách sạn: 3 sao');
+        'Khách sạn: 3 sao',
+        '6000000','1100000');
     createTourDetail(
-        '9PErBZSG7Q6zkJ2cjxFk',
+        'wvtz2gWH5JSD2SbqrgXS',
         'North Brazil',
         '6:00',
         14,
@@ -159,9 +167,10 @@ class _HomePageState extends State<HomePage> {
         'CotaRicaDetails',
         textHelpers.textDetailsCotaRica,
         6,
-        'Khách sạn: 5 sao');
+        'Khách sạn: 5 sao',
+        '5500000', '1200000');
     createTourDetail(
-        'FNlOfuXdZu3NwK95gUke',
+        'gLAdqipmIx6NEyCuUI6m',
         'Plaza Mexico',
         '8:30',
         19,
@@ -170,9 +179,9 @@ class _HomePageState extends State<HomePage> {
         'MexicoDetails',
         textHelpers.textDetailsMexico,
         5,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao', '8000000','1040000');
     createTourDetail(
-        'HqBctWHtOUMX6QhJHxxf',
+        'SBDCHMgUWJwuq0O5FiIL',
         'North Prades, China',
         '8:30',
         17,
@@ -181,9 +190,9 @@ class _HomePageState extends State<HomePage> {
         'Taij Hang Details',
         textHelpers.textDetailsChina,
         4,
-        'Khách sạn: 6 sao');
+        'Khách sạn: 6 sao','1000000','1250000');
     createTourDetail(
-        'RVvwPP6DzRGklL363RGW',
+        '0OcwRPVBXh5jiq0irDQ0',
         'Carlsbad, San Marcos',
         '18:30',
         15,
@@ -192,9 +201,9 @@ class _HomePageState extends State<HomePage> {
         'SeaBeachDetails',
         textHelpers.textDetailsSanDiego,
         4,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao','7000000','8000000');
     createTourDetail(
-        'RmeN4de8tPfIBa5E7VkP',
+        'RBMxsvSMnnVZz9xGuFnv',
         'Naviotar, Italy',
         '10:30',
         15,
@@ -203,20 +212,20 @@ class _HomePageState extends State<HomePage> {
         'NavagioDetails',
         textHelpers.textDetailsNavagio,
         5,
-        'Khách sạn: 5 sao');
-    createTourDetail(
-        'T8MzTP74OtukBqOlxOUa',
+        'Khách sạn: 5 sao','900000','1200000');
+    createTourDetail( // 1
+        'Efq4Gj39QUreThwVOSMw',
         'Thiga Island, Aegea',
         '12:30',
         15,
         6,
         2023,
-        'SeaBeachDetails',
+        'SantoriniDetails',
         textHelpers.textDetailsSantorini,
         5,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao','9600000','1100000');
     createTourDetail(
-        'Ub4UPmMrxZ7oOG88RZ5u',
+        'ybAO0F5euchxoBN5pUpu',
         'Île-de France',
         '4:30',
         17,
@@ -225,9 +234,9 @@ class _HomePageState extends State<HomePage> {
         'ParisDetails',
         textHelpers.textDetailsParis,
         4,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao','7000000','9000000');
     createTourDetail(
-        'pS0Whurv8qLE20mOLAkG',
+        'l9mogjPKYlPoeji2uccW',
         'Kyoto, Japan',
         '2:30',
         16,
@@ -236,7 +245,7 @@ class _HomePageState extends State<HomePage> {
         'FujiSijuDetails',
         textHelpers.textDetailsFujiSiju,
         5,
-        'Khách sạn: 4 sao');
+        'Khách sạn: 4 sao','9000000','9900000');
   }
 
   //Gọi hàm này để load lại Layout
@@ -257,7 +266,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     addressCurrent = widget.users.address;
     idUserCurrent = widget.users.idUser;
-    // createTours(); //Mở ra khi nào muốn add tất cả tour lên Firebase lại
+    //createTours(); //Mở ra khi nào muốn add tất cả tour lên Firebase lại
     //createAllTourDetail(); //Mở ra khi nào muốn add tất cả tourDetails
   }
 
@@ -389,6 +398,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  static final formattedPrice = NumberFormat.currency(locale: 'vi_VN',symbol: 'đ');
   Widget buildATour(aTour tour) => Padding(
         padding: EdgeInsets.only(bottom: 15),
         child: CustomATours(
@@ -401,7 +411,7 @@ class _HomePageState extends State<HomePage> {
           heiSizeBox: 170,
           widContain: 70,
           heiContain: 30,
-          money: '\$ ${tour.priceTour}',
+          money: formattedPrice.format(int.parse('${tour.priceTour}')),
         ),
       );
 }

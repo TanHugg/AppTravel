@@ -6,6 +6,7 @@ import '../model/favoriteDetails.dart';
 import '../model/users.dart';
 import '../widget/Details/vacation_details.dart';
 import '../widget/HomePage/custom_tours.dart';
+import 'package:intl/intl.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key, required this.users}) : super(key: key);
@@ -120,8 +121,6 @@ class _FavoritePageState extends State<FavoritePage> {
                                 tour.idUser = item.idUser;
                                 return GestureDetector(
                                   onTap: () {
-                                    print(
-                                        'Bạn đã bấm vào phần tử: ${item.idTour}');
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -154,6 +153,7 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 
+  static final formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
   Widget buildATour(aTour tour, int index, BuildContext context) => Dismissible(
         key: Key(index.toString()),
         background: Container(
@@ -182,7 +182,7 @@ class _FavoritePageState extends State<FavoritePage> {
             heiSizeBox: 170,
             widContain: 70,
             heiContain: 30,
-            money: '\$ ${tour.priceTour}',
+            money: formattedPrice.format(int.parse('${tour.priceTour}')),
           ),
         ),
       );
