@@ -7,7 +7,7 @@ import '../model/users.dart';
 class BoughtPage extends StatelessWidget {
   const BoughtPage({Key? key, required this.users}) : super(key: key);
 
-  final Users users;
+  final Users users; //User hiện tại
 
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')

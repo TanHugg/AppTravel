@@ -5,6 +5,7 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/pages/bought_page.dart';
 import 'package:travel_app/pages/favorite_page.dart';
+import 'package:travel_app/pages/profile_page.dart';
 
 import '../model/users.dart';
 import 'home_page.dart';
@@ -82,7 +83,7 @@ class _MainPageState extends State<MainPage> {
                       HomePage(users: users),
                       FavoritePage(users: users),
                       BoughtPage(users: users),
-                      Container(color: Colors.pink),
+                      ProfilePage(users: users),
                     ],
                   );
           } else {
