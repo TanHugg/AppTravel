@@ -3,8 +3,6 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:travel_app/pages/profile_page.dart';
 class UpdateProfileScreen extends StatelessWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
-
-
   @override
   Widget build(BuildContext context) {
     final fullNameController = TextEditingController();
@@ -33,7 +31,7 @@ class UpdateProfileScreen extends StatelessWidget {
                   SizedBox(
                     width: 130,
                     height: 130,
-                    child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image(image: AssetImage(ProfileImage))),
+                    child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image(image: AssetImage("assets/images/picture_tours/Colosseum.jpg"))),
                   ),
                   Positioned(
                     bottom: 0,
