@@ -195,13 +195,13 @@ class BillPage extends StatelessWidget {
                           height: 60,
                           child: ElevatedButton(
                             onPressed: () {
-                              // final bill = billTotal(
-                              //     idTour: tour.idTour,
-                              //     idFlight: flight.idFlight,
-                              //     priceBill:
-                              //         tour.priceTour! + flight.priceFlight!,
-                              //     idUser: tour.idUser);
-                              // createBill(bill);
+                              final bill = billTotal(
+                                  idTour: tour.idTour,
+                                  idFlight: flight.idFlight,
+                                  priceBill:
+                                      int.parse(tour.priceTour! + flight.priceFlight!),
+                                  idUser: tour.idUser);
+                              createBill(bill);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
