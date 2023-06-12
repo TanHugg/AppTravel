@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/model/tourDetails.dart';
 import 'package:travel_app/model/users.dart';
-import 'package:travel_app/values/helpers.dart';
+import 'package:travel_app/widget/HomePage/bell_notification.dart';
 import 'package:travel_app/widget/HomePage/search_tours.dart';
 import 'package:travel_app/widget/HomePage/type_tours.dart';
 import '../values/custom_text.dart';
@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final user_auth = FirebaseAuth.instance.currentUser!;
 
   //Lấy ra cái Tour nào có thuộc tính truyền vào là nameTour
@@ -41,18 +40,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Lấy ra tất cả tour có trong Firebase thông qua typeTour truyền vô
-  Stream<List<aTour>> readListTour(String typeTour, String searchTour) => (typeTour == '')
-      ? FirebaseFirestore.instance.collection('Tour')
-      .where('nameTour',isGreaterThanOrEqualTo: searchTour)
-      .snapshots().map(
-          (snapshot) =>
-              snapshot.docs.map((doc) => aTour.fromJson(doc.data())).toList())
-      : FirebaseFirestore.instance
-          .collection('Tour')
-          .where('typeTour', isEqualTo: typeTour)
-          .snapshots()
-          .map((snapshot) =>
-              snapshot.docs.map((doc) => aTour.fromJson(doc.data())).toList());
+  Stream<List<aTour>> readListTour(String typeTour, String searchTour) =>
+      (typeTour == '')
+          ? FirebaseFirestore.instance
+              .collection('Tour')
+              .where('nameTour', isGreaterThanOrEqualTo: searchTour)
+              .snapshots()
+              .map((snapshot) => snapshot.docs
+                  .map((doc) => aTour.fromJson(doc.data()))
+                  .toList())
+          : FirebaseFirestore.instance
+              .collection('Tour')
+              .where('typeTour', isEqualTo: typeTour)
+              .snapshots()
+              .map((snapshot) => snapshot.docs
+                  .map((doc) => aTour.fromJson(doc.data()))
+                  .toList());
 
   //Hàm đăng ký Tour từ dữ liệu lên Firebase
   void createATour(String nameTour, String priceTour, String typeTour,
@@ -250,11 +253,10 @@ class _HomePageState extends State<HomePage> {
         'Khách sạn: 4 sao','9000000','9900000');
   }*/
 
-  //Gọi hàm này để load lại Layout
   TypeTours typeTours = TypeTours(refreshLayout: () {});
-
-
-  SearchTours searchTours = SearchTours(refreshLayout: () {},);
+  SearchTours searchTours = SearchTours(
+    refreshLayout: () {},
+  );
 
   //Hàm bắt buộc class này phải dc reBuild
   void _refreshLayout() {
@@ -278,10 +280,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
+    //Viết hoa chữ cái đầu
+    String capitalize(String s) =>
+        s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 67, right: 20),
+          // padding: EdgeInsets.only(left: 20, top: 67, right: 20),
+          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             children: <Widget>[
               Container(
@@ -334,22 +340,31 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          print('Bạn đã nhấp vào cái chuông');
-                        });
-                      },
-                      icon: FaIcon(
-                        FontAwesomeIcons.bell,
-                        size: 30,
-                      ),
-                    )
+                    StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                      return IconButton(
+                        onPressed: () {
+                          setState(() {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BellNotification(users: idUserCurrent,)));
+                          });
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.solidBell,
+                          size: 35,
+                          color: Color(0xfffdc500),
+                        ),
+                      );
+                    })
                   ],
                 ),
               ),
               //Container Search
-              Padding(padding: EdgeInsets.only(top: 20), child: SearchTours(refreshLayout: _refreshLayout)),
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: SearchTours(refreshLayout: _refreshLayout)),
               //3 block mountain, beach, city,
               TypeTours(refreshLayout: _refreshLayout),
               //Container Explorer
@@ -366,10 +381,12 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               //Container List Tours
               Container(
-                  height: 350,
+                  // height: 350, bữa thi mà mở lỗi thì vô đây
+                  height: 442,
                   width: size.width,
                   child: StreamBuilder<List<aTour>>(
-                    stream: readListTour(typeTours.checkTypeTours(),searchTours.checkSearchTour()),
+                    stream: readListTour(typeTours.checkTypeTours(),
+                        capitalize(searchTours.checkSearchTour())),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Text('Something went wrong! ${snapshot.error}');
@@ -403,7 +420,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  static final formattedPrice = NumberFormat.currency(locale: 'vi_VN',symbol: 'đ');
+  static final formattedPrice =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
   Widget buildATour(aTour tour) => Padding(
         padding: EdgeInsets.only(bottom: 15),
         child: CustomATours(

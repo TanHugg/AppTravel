@@ -106,6 +106,7 @@ flutter:
     - assets/images/picture_tours/FujiSijuDetails.jpg
     - assets/images/picture_tours/RomeDetails.jpg
     - assets/images/picture_tours/SantoriniDetails.jpg
+    - assets/images/nobackground/CoconutTree.png
 
 
   #   - images/a_dot_ham.jpeg

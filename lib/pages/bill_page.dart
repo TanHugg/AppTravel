@@ -45,6 +45,7 @@ class BillPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     late Users usersCurrent;
+    DateTime dateTimeNow = DateTime.now();
     return Container(
       color: Color(0xffe5e5e5),
       child: Stack(
@@ -200,7 +201,8 @@ class BillPage extends StatelessWidget {
                                   idFlight: flight.idFlight,
                                   priceBill:
                                       int.parse(tour.priceTour! + flight.priceFlight!),
-                                  idUser: tour.idUser);
+                                  idUser: tour.idUser,
+                                  dateTime: dateTimeNow.toString());
                               createBill(bill);
                               Navigator.push(
                                   context,

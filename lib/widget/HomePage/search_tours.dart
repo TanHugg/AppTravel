@@ -16,6 +16,8 @@ class SearchTours extends StatefulWidget {
 }
 
 class _SearchToursState extends State<SearchTours> {
+
+  //Refresh lại layout
   void _listenRefresh() {
     widget.refreshLayout();
   }
@@ -57,15 +59,15 @@ class _SearchToursState extends State<SearchTours> {
                     fontSize: 23,
                   ),
                   decoration: InputDecoration(
-                      hintText: 'Search place', border: InputBorder.none),
+                      hintText: 'Tìm kiếm', border: InputBorder.none),
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(left: 20),
               child: Container(
-                width: 70,
-                height: 50,
+                width: 55,
+                height: 35,
                 padding: EdgeInsets.all(0), // đặt lề cho Container bằng 0
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -84,9 +86,9 @@ class _SearchToursState extends State<SearchTours> {
                     _listenRefresh();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white.withOpacity(0.5)
+                    backgroundColor: Color(0xfff4f3ee).withOpacity(0.6)
                   ),
-                  child: FaIcon(FontAwesomeIcons.arrowRight,size: 30),
+                  child: FaIcon(FontAwesomeIcons.arrowRight,size: 25,color: Color(0xffd7e3fc)),
                 ),
               ),
             )

@@ -88,14 +88,10 @@ class _VacationDetailsState extends State<VacationDetails> {
                             },
                             style: OutlinedButton.styleFrom(
                               shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(14),
                               backgroundColor: Colors.black12,
                             ),
-                            child: const Icon(
-                              Icons.arrow_back,
-                              size: 30,
-                              color: Colors.white,
-                            ),
+                            child: FaIcon(FontAwesomeIcons.arrowLeftLong,size: 33,color: Colors.white,)
                           ),
                         ),
                       ]),

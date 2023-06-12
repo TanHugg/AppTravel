@@ -75,9 +75,11 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Container(
-      padding: EdgeInsets.only(top: 80, left: 22, right: 22, bottom: 15),
+      // padding: EdgeInsets.only(top: 67, left: 20, right: 20, bottom: 15),
+      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
       width: size.width,
-      height: 720,
+      height: 735,
+      color: Colors.white,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -85,7 +87,7 @@ class _FavoritePageState extends State<FavoritePage> {
             Text.rich(TextSpan(
                 text: 'Your',
                 style: GoogleFonts.poppins(
-                    fontSize: 32,
+                    fontSize: 52,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1,
                     color: Colors.black),
@@ -99,7 +101,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           color: Colors.black87))
                 ])),
             Container(
-                height: 570,
+                height: 649,
                 width: size.width,
                 child: StreamBuilder<List<FavoriteDetails>>(
                   stream: readFavoriteDetails(),

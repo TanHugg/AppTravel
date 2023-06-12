@@ -87,14 +87,10 @@ class FlightTicket extends StatelessWidget {
                   },
                   style: OutlinedButton.styleFrom(
                     shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(13),
+                    padding: const EdgeInsets.all(14),
                     backgroundColor: Colors.black38,
                   ),
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 35,
-                  ),
+                  child: FaIcon(FontAwesomeIcons.arrowLeftLong,size: 33,color: Colors.white,)
                 ),
               ),
             ),
