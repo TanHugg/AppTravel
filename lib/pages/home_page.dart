@@ -41,8 +41,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Lấy ra tất cả tour có trong Firebase thông qua typeTour truyền vô
-  Stream<List<aTour>> readListTour(String typeTour) => (typeTour == '')
-      ? FirebaseFirestore.instance.collection('Tour').snapshots().map(
+  Stream<List<aTour>> readListTour(String typeTour, String searchTour) => (typeTour == '')
+      ? FirebaseFirestore.instance.collection('Tour')
+      .where('nameTour',isGreaterThanOrEqualTo: searchTour)
+      .snapshots().map(
           (snapshot) =>
               snapshot.docs.map((doc) => aTour.fromJson(doc.data())).toList())
       : FirebaseFirestore.instance
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Hàm đưa dữ liệu lên Firebase
-  void createTours() async {
+  /*void createTours() async {
     createATour('Cota Rica', '8000000', 'beach', false, '', 14, 6, 2023);
     createATour('San Diego', '16000000', 'beach', false, '', 15, 6, 2023);
     createATour('Navagio', '18000000', 'beach', false, '', 15, 6, 2023);
@@ -89,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     createATour('Colosseum', '28000000', 'city', false, '', 19, 6, 2023);
     createATour('Los Cabos', '18000000', 'city', false, '', 19, 6, 2023);
     createATour('Santorini', '12000000', 'beach', false, '', 26, 6, 2023);
-  }
+  }*/
 
   //Hàm đăng ký dữ liệu tourDetails lên Firebase
   void createTourDetail(
@@ -132,7 +134,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //Hàm đưa dữ liệu lên Firebase
-  void createAllTourDetail() {
+  /*void createAllTourDetail() {
     createTourDetail(
         'Nhd7srL72oNncFxiIthz',
         'Bernese Oberland, Bern',
@@ -246,16 +248,19 @@ class _HomePageState extends State<HomePage> {
         textHelpers.textDetailsFujiSiju,
         5,
         'Khách sạn: 4 sao','9000000','9900000');
-  }
+  }*/
 
   //Gọi hàm này để load lại Layout
-  TypeTours typeTours = TypeTours(
-    refreshLayout: () {},
-  );
+  TypeTours typeTours = TypeTours(refreshLayout: () {});
+
+
+  SearchTours searchTours = SearchTours(refreshLayout: () {},);
 
   //Hàm bắt buộc class này phải dc reBuild
   void _refreshLayout() {
-    setState(() {});
+    setState(() {
+      typeTours.setTypeTour();
+    });
   }
 
   late String addressCurrent;
@@ -344,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               //Container Search
-              Padding(padding: EdgeInsets.only(top: 20), child: SearchTours()),
+              Padding(padding: EdgeInsets.only(top: 20), child: SearchTours(refreshLayout: _refreshLayout)),
               //3 block mountain, beach, city,
               TypeTours(refreshLayout: _refreshLayout),
               //Container Explorer
@@ -359,12 +364,12 @@ class _HomePageState extends State<HomePage> {
                       height: 0,
                       color: Colors.black)),
               SizedBox(height: 10),
-              //Container Tours
+              //Container List Tours
               Container(
                   height: 350,
                   width: size.width,
                   child: StreamBuilder<List<aTour>>(
-                    stream: readListTour(typeTours.checkTypeTours()),
+                    stream: readListTour(typeTours.checkTypeTours(),searchTours.checkSearchTour()),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Text('Something went wrong! ${snapshot.error}');

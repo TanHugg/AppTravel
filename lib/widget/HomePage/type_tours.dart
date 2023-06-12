@@ -14,6 +14,10 @@ class TypeTours extends StatefulWidget {
   String checkTypeTours() {
     return checkType;
   }
+
+  setTypeTour(){
+    checkType = '';
+  }
 }
 
 class _TypeToursState extends State<TypeTours> {
@@ -32,7 +36,7 @@ class _TypeToursState extends State<TypeTours> {
             setState(() {
               _listenRefresh();
               checkType = 'beach';
-              print('Bạn đã nhấn vào Beach');
+              //print('Bạn đã nhấn vào Beach');
             });
           }),
           SizedBox(width: 11),
@@ -40,7 +44,7 @@ class _TypeToursState extends State<TypeTours> {
             setState(() {
               _listenRefresh();
               checkType = 'mountain';
-              print('Bạn đã nhấn vào Moutain');
+              //print('Bạn đã nhấn vào Moutain');
             });
           }),
           SizedBox(width: 11),
@@ -48,7 +52,7 @@ class _TypeToursState extends State<TypeTours> {
             setState(() {
               _listenRefresh();
               checkType = 'city';
-              print('Bạn đã nhấn vào City');
+              //print('Bạn đã nhấn vào City');
             });
           }),
         ]),
