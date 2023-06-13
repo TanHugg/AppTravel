@@ -107,7 +107,12 @@ flutter:
     - assets/images/picture_tours/RomeDetails.jpg
     - assets/images/picture_tours/SantoriniDetails.jpg
     - assets/images/nobackground/CoconutTree.png
-
+    - assets/images/cover_images/Picture_1.jpg
+    - assets/images/cover_images/Picture_2.jpg
+    - assets/images/cover_images/Picture_3.jpg
+    - assets/images/cover_images/Picture_4.jpg
+    - assets/images/cover_images/Picture_5.jpg
+    - assets/images/face_images/Face_1.jpg
 
   #   - images/a_dot_ham.jpeg
 

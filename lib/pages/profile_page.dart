@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:travel_app/pages/update_profile_screen.dart';
 import 'package:travel_app/values/custom_text.dart';
+import 'package:travel_app/widget/ProfilePage/information_page.dart';
 import '../model/users.dart';
 import '../widget/ProfilePage/profile_menu.dart';
 
@@ -43,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      body: Container(
         padding: const EdgeInsets.all(30),
         child: Column(
           children: [
@@ -90,25 +91,23 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UpdateProfileScreen()));
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: PrimaryColor,
-                    side: BorderSide.none,
-                    shape: StadiumBorder()),
-                child:
-                    const CustomText(
-                        text: 'Edit Profile',
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1,
-                        height: 1)
-              ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UpdateProfileScreen()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: PrimaryColor,
+                      side: BorderSide.none,
+                      shape: StadiumBorder()),
+                  child: const CustomText(
+                      text: 'Edit Profile',
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
+                      height: 1)),
             ),
 
             //Settings,BillingDetails,User Management
@@ -133,12 +132,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 }),
             const Divider(color: Colors.grey),
             const SizedBox(height: 10),
-            ProfileMenuWidget(
-                title: "Information",
-                icon: LineAwesomeIcons.info,
-                onPress: () {
-                  print("DA NHAN VAO Informationt");
-                }),
+
+            //Nút Information
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return ProfileMenuWidget(
+                    title: "Information",
+                    icon: LineAwesomeIcons.info,
+                    onPress: () {
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InformationPage(user: widget.users,)));
+                      });
+                    });
+              },
+            ),
+
             ProfileMenuWidget(
                 title: "Logout",
                 icon: LineAwesomeIcons.alternate_sign_out,
@@ -208,10 +219,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-
 }
-
 
 //KHAI BÁO CHO TIỆN DUNG
 const String Profile = "Profile";
