@@ -199,8 +199,8 @@ class BillPage extends StatelessWidget {
                               final bill = billTotal(
                                   idTour: tour.idTour,
                                   idFlight: flight.idFlight,
-                                  priceBill:
-                                      int.parse(tour.priceTour! + flight.priceFlight!),
+                                  priceBill: int.parse(
+                                      tour.priceTour! + flight.priceFlight!),
                                   idUser: tour.idUser,
                                   dateTime: dateTimeNow.toString());
                               createBill(bill);

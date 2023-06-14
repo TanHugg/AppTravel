@@ -19,18 +19,24 @@ class _AutoImagesSliderState extends State<AutoImagesSlider> {
     'assets/images/cover_images/Picture_4.jpg',
     'assets/images/cover_images/Picture_5.jpg'
   ];
-
+  late Timer _timer;
   int _currentImage = 0;
 
   @override
   void initState() {
     super.initState();
 
-    Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         _currentImage = (_currentImage + 1) % images.length;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // Hủy bỏ Timer
+    super.dispose();
   }
 
   @override

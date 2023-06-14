@@ -5,8 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:travel_app/pages/update_profile_screen.dart';
+import 'package:travel_app/widget/ProfilePage/update_profile_screen.dart';
 import 'package:travel_app/values/custom_text.dart';
+import 'package:travel_app/widget/ProfilePage/contact_page.dart';
+import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
 import 'package:travel_app/widget/ProfilePage/information_page.dart';
 import '../model/users.dart';
 import '../widget/ProfilePage/profile_menu.dart';
@@ -23,8 +25,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? image;
 
-  // late PickedFile _imageFile;
-  // final ImagePicker _picker = ImagePicker();
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -43,14 +43,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(30),
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width,
+      height: size.height,
+      color: Colors.white,
+      padding: const EdgeInsets.all(30),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Stack(children: [
-              //AVATAR
-              image != null
+              (image != null) //Avata
                   ? ClipOval(
                       child: Image.file(
                         image!,
@@ -61,6 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   : FlutterLogo(size: 130),
               Positioned(
+                  //Camera
                   bottom: 0,
                   right: 65,
                   child: InkWell(
@@ -76,17 +80,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )),
             ]),
-
             //Tên và Email
             const SizedBox(height: 12),
-            Text(UserNameProfile,
+            Text(widget.users.nameUser,
                 style: GoogleFonts.plusJakartaSans(
                     fontSize: 40, color: Colors.black87)),
-            Text(EmailProfile,
+            Text(widget.users.email,
                 style: GoogleFonts.plusJakartaSans(
                     fontSize: 20, color: Colors.black87)),
             const SizedBox(height: 20),
-
             //Nút Edit Profile
             SizedBox(
               width: 200,
@@ -109,49 +111,67 @@ class _ProfilePageState extends State<ProfilePage> {
                       letterSpacing: 1,
                       height: 1)),
             ),
-
             //Settings,BillingDetails,User Management
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
             ProfileMenuWidget(
                 title: "Settings",
                 icon: LineAwesomeIcons.cog,
                 onPress: () {
                   print("DA NHAN VAO Settings");
                 }),
-            ProfileMenuWidget(
-                title: "Billing Details",
-                icon: LineAwesomeIcons.wallet,
-                onPress: () {
-                  print("DA NHAN VAO Billing Details");
-                }),
-            ProfileMenuWidget(
-                title: "User Management",
-                icon: LineAwesomeIcons.user_check,
-                onPress: () {
-                  print("DA NHAN VAO User Management");
-                }),
-            const Divider(color: Colors.grey),
             const SizedBox(height: 10),
-
-            //Nút Information
+            //Nút Góp ý
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return ProfileMenuWidget(
-                    title: "Information",
+                    title: "Góp ý",
+                    icon: LineAwesomeIcons.wallet,
+                    onPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FeedBackPage(
+                                idUser: widget.users.idUser,
+                              )));
+                    });
+              },
+            ),
+            const SizedBox(height: 10),
+            //Nút liên hệ
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return ProfileMenuWidget(
+                    title: "Liên hệ",
+                    icon: LineAwesomeIcons.user_check,
+                    onPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactPage()));
+                    });
+              },
+            ),
+            const Divider(color: Colors.grey),
+            const SizedBox(height: 10),
+            //Nút Thông tin cá nhân
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return ProfileMenuWidget(
+                    title: "Thông tin cá nhân",
                     icon: LineAwesomeIcons.info,
                     onPress: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InformationPage(user: widget.users,)));
-                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InformationPage(
+                                user: widget.users,
+                              )));
                     });
               },
             ),
 
             ProfileMenuWidget(
-                title: "Logout",
+                title: "Thoát",
                 icon: LineAwesomeIcons.alternate_sign_out,
                 textColor: Colors.yellow,
                 endIcon: false,
@@ -165,7 +185,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // get setState => null;
   @override
 //POPUP LUC NHAN THAY DOI AVA
   Widget bottomSheet() {

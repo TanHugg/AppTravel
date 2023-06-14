@@ -33,6 +33,15 @@ class _SignUpPageState extends State<SignUpPage> {
   var _fullNameInValid = false;
   var _numberPhoneInValid = false;
 
+  // @override
+  // void dispose() {
+  //   // Clean up the controller when the widget is removed from the
+  //   // Widget tree.
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
