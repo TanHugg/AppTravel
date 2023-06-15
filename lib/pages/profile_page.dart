@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  //Hàm Logout
+  //Hàm đăng xuất
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -57,8 +57,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? ClipOval(
                       child: Image.file(
                         image!,
-                        width: 160,
-                        height: 160,
+                        width: 140,
+                        height: 140,
                         fit: BoxFit.cover,
                       ),
                     )
@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Positioned(
                   //Camera
                   bottom: 0,
-                  right: 65,
+                  right: 0,
                   child: InkWell(
                     onTap: () {
                       showModalBottomSheet(
@@ -76,7 +76,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Icon(
                       Icons.camera_alt,
                       color: Colors.black,
-                      size: 26,
+                      size: 38,
+                      shadows: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: Offset(0, 2),
+                          blurRadius: 5.0,
+                          spreadRadius: 1.0,
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: Offset(0, 4),
+                          blurRadius: 15.0,
+                          spreadRadius: 1.0,
+                        ),
+                      ],
                     ),
                   )),
             ]),
@@ -97,7 +111,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UpdateProfileScreen()));
+                            builder: (context) => UpdateProfileScreen(
+                                  idUser: widget.users.idUser,
+                                )));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: PrimaryColor,
@@ -113,13 +129,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             //Settings,BillingDetails,User Management
             const SizedBox(height: 25),
-            ProfileMenuWidget(
-                title: "Settings",
-                icon: LineAwesomeIcons.cog,
-                onPress: () {
-                  print("DA NHAN VAO Settings");
-                }),
-            const SizedBox(height: 10),
             //Nút Góp ý
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -131,8 +140,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => FeedBackPage(
-                                idUser: widget.users.idUser,
-                              )));
+                                    idUser: widget.users.idUser,
+                                  )));
                     });
               },
             ),
@@ -164,8 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => InformationPage(
-                                user: widget.users,
-                              )));
+                                    user: widget.users,
+                                  )));
                     });
               },
             ),

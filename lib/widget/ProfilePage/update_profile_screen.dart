@@ -1,12 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_app/pages/profile_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
 import 'Custom_Information/MyClipper.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  const UpdateProfileScreen({Key? key}) : super(key: key);
+  const UpdateProfileScreen({Key? key, required this.idUser}) : super(key: key);
+
+  final idUser;
+
+  Future updateFavoriteDetails(String idUser, String name, int numberPhone,
+      String address) async {
+    final docUser = FirebaseFirestore.instance.collection("User").doc(idUser);
+    await docUser.update({
+      'name': name,
+      'numberPhone': numberPhone,
+      'address': address,
+    });
+  }
 
   @override
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
@@ -15,15 +29,15 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final fullNameController = TextEditingController();
   final numberPhoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  // final emailController = TextEditingController();
+  final addressController = TextEditingController();
 
   @override
   void dispose() {
     fullNameController.dispose();
     numberPhoneController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    // emailController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -69,19 +83,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               Form(
                   child: Column(
                 children: [
+                  QrImageView(
+                    data: widget.idUser.toString(),
+                    version: QrVersions.auto,
+                    size: 100.0,
+                  ),
                   TextFormField(
                     controller: fullNameController,
                     decoration: const InputDecoration(
                         labelText: "Full Name",
                         prefixIcon: Icon(Icons.person_outline_rounded)),
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                        labelText: "Email",
-                        prefixIcon: Icon(Icons.email_outlined)),
-                  ),
+                  // const SizedBox(height: 20),
+                  // TextFormField(
+                  //   controller: emailController,
+                  //   decoration: const InputDecoration(
+                  //       labelText: "Email",
+                  //       prefixIcon: Icon(Icons.email_outlined)),
+                  // ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: numberPhoneController,
@@ -91,9 +110,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: passwordController,
+                    controller: addressController,
                     decoration: const InputDecoration(
-                        labelText: "Password",
+                        labelText: "Address",
                         prefixIcon: Icon(Icons.fingerprint)),
                   ),
                   const SizedBox(height: 35),
@@ -107,10 +126,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 50,
                         child: ElevatedButton(
                             onPressed: () {
-                              print('${fullNameController.text}'
-                                  '\n${emailController.text}'
-                                  '\n${numberPhoneController.text}'
-                                  '\n${passwordController.text}');
+                              widget.updateFavoriteDetails(
+                                widget.idUser.toString(),
+                                fullNameController.text,
+                                int.parse(numberPhoneController.text),
+                                addressController.text,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("Update thành công}")));
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffd500),
