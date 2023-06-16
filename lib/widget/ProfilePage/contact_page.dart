@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'Custom_Information/MyClipper.dart';
-
-class ContactPage extends StatelessWidget {
+class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);
+
+  @override
+  State<ContactPage> createState() => _ContactPageState();
+}
+
+class _ContactPageState extends State<ContactPage> {
+  final Uri _url_insta = Uri.parse('https://www.instagram.com/');
+  final Uri _url_facebook = Uri.parse('https://www.facebook.com/');
+  final Uri _url_twitter = Uri.parse('https://twitter.com/?lang=vi');
 
   @override
   Widget build(BuildContext context) {
@@ -69,20 +76,17 @@ class ContactPage extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () async {
-                                Uri _url = Uri.parse('https://flutter.dev'); // Thay đổi đường dẫn tới Facebook tại đây
-                                if (await canLaunchUrl(_url)) {
-                                  await launchUrl(_url);
-                                } else {
-                                  throw 'Không thể mở $_url';
-                                }
+                              onTap: () {
+                                _launchUrl(_url_insta);
                               },
                               child: SizedBox(
-                                height: 95,width: 95,
+                                height: 95,
+                                width: 95,
                                 child: ClipOval(
                                   child: Image(
-                                    image:AssetImage(
-                                        'assets/images/nobackground/insta.png'),fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/nobackground/insta.png'),
+                                    fit: BoxFit.cover,
                                   ),
                                   clipper: MyClipper(),
                                 ),
@@ -90,15 +94,17 @@ class ContactPage extends StatelessWidget {
                             ),
                             SizedBox(width: 20),
                             GestureDetector(
-                              onTap: (){
-                                print('Facebook');
+                              onTap: () {
+                                _launchUrl(_url_facebook);
                               },
                               child: SizedBox(
-                                height: size.height,width: 80,
+                                height: size.height,
+                                width: 80,
                                 child: ClipOval(
                                   child: Image(
-                                    image:AssetImage(
-                                        'assets/images/nobackground/facebook.jpg'),fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/nobackground/facebook.jpg'),
+                                    fit: BoxFit.cover,
                                   ),
                                   clipper: MyClipper(),
                                 ),
@@ -106,15 +112,17 @@ class ContactPage extends StatelessWidget {
                             ),
                             SizedBox(width: 26),
                             GestureDetector(
-                              onTap: (){
-                                print('Twitter');
+                              onTap: () {
+                                _launchUrl(_url_twitter);
                               },
                               child: SizedBox(
-                                height: size.height,width: 80,
+                                height: size.height,
+                                width: 80,
                                 child: ClipOval(
                                   child: Image(
-                                    image:AssetImage(
-                                        'assets/images/nobackground/tweeter.jpg'),fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/images/nobackground/tweeter.jpg'),
+                                    fit: BoxFit.cover,
                                   ),
                                   clipper: MyClipper(),
                                 ),
@@ -158,12 +166,21 @@ class ContactPage extends StatelessWidget {
                     padding: const EdgeInsets.all(14),
                     backgroundColor: Colors.black12,
                   ),
-                  child: FaIcon(FontAwesomeIcons.arrowLeftLong,size: 33,color: Colors.white,)
-              ),
+                  child: FaIcon(
+                    FontAwesomeIcons.arrowLeftLong,
+                    size: 33,
+                    color: Colors.white,
+                  )),
             ),
           ]),
         ),
       ],
     );
+  }
+
+  Future<void> _launchUrl(Uri linkURL) async {
+    if (!await launchUrl(linkURL)) {
+      throw Exception('Could not launch $linkURL');
+    }
   }
 }
