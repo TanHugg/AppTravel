@@ -20,21 +20,24 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var _currentIndex = 0;
 
+  //Lấy ra User hiện tại trong FirebaseAuthen
   final user_auth = FirebaseAuth.instance.currentUser!;
 
-  //Lấy thuộc tính Email trong FirebaseStore collection Users
+  //Lấy dữ liệu User từ FireStore thông qua Email của FirebaseAuthen
   Future<Users?> readUsers() async {
     final docUser = FirebaseFirestore.instance
         .collection("User")
-        .where('email', isEqualTo: user_auth.email.toString());
+        .where('email', isEqualTo: user_auth.email);
     final snapshot = await docUser.get();
 
     if (snapshot.docs.isNotEmpty) {
       return Users.fromJson(snapshot.docs.first.data());
+    }else {
+      throw Exception('No user found with this email');
     }
-    return null;
   }
 
+  //Thanh BottomBar
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,16 +55,14 @@ class _MainPageState extends State<MainPage> {
             SalomonBottomBarItem(
               icon: Icon(FontAwesomeIcons.house, size: 25),
               title: Text('Home'),
-              selectedColor: Colors.purple,
-            ),
+              selectedColor: Colors.purple,),
             SalomonBottomBarItem(
               icon: Icon(FontAwesomeIcons.solidHeart, size: 25),
               title: Text('Like'),
-              selectedColor: Colors.pink,
-            ),
+              selectedColor: Colors.pink,),
             SalomonBottomBarItem(
                 icon: Icon(FontAwesomeIcons.briefcase, size: 25),
-                title: Text('Bought Tours'),
+                title: Text('Purchased'),
                 selectedColor: Colors.green),
             SalomonBottomBarItem(
                 icon: Icon(FontAwesomeIcons.solidUser, size: 25),

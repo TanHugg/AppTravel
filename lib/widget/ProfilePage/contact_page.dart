@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'Custom_Information/MyClipper.dart';
 
 class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -26,7 +30,7 @@ class ContactPage extends StatelessWidget {
                   children: <Widget>[
                     Container(
                         width: size.width,
-                        height: size.width,
+                        height: 270,
                         margin: const EdgeInsets.only(top: 65),
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 15),
@@ -56,7 +60,70 @@ class ContactPage extends StatelessWidget {
                                     decoration: TextDecoration.none,
                                     fontWeight: FontWeight.w500),
                               ),
-                            ])))
+                            ]))),
+                    Container(
+                      width: size.width,
+                      height: 80,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 45),
+                        child: Row(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () async {
+                                Uri _url = Uri.parse('https://flutter.dev'); // Thay đổi đường dẫn tới Facebook tại đây
+                                if (await canLaunchUrl(_url)) {
+                                  await launchUrl(_url);
+                                } else {
+                                  throw 'Không thể mở $_url';
+                                }
+                              },
+                              child: SizedBox(
+                                height: 95,width: 95,
+                                child: ClipOval(
+                                  child: Image(
+                                    image:AssetImage(
+                                        'assets/images/nobackground/insta.png'),fit: BoxFit.cover,
+                                  ),
+                                  clipper: MyClipper(),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 20),
+                            GestureDetector(
+                              onTap: (){
+                                print('Facebook');
+                              },
+                              child: SizedBox(
+                                height: size.height,width: 80,
+                                child: ClipOval(
+                                  child: Image(
+                                    image:AssetImage(
+                                        'assets/images/nobackground/facebook.jpg'),fit: BoxFit.cover,
+                                  ),
+                                  clipper: MyClipper(),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 26),
+                            GestureDetector(
+                              onTap: (){
+                                print('Twitter');
+                              },
+                              child: SizedBox(
+                                height: size.height,width: 80,
+                                child: ClipOval(
+                                  child: Image(
+                                    image:AssetImage(
+                                        'assets/images/nobackground/tweeter.jpg'),fit: BoxFit.cover,
+                                  ),
+                                  clipper: MyClipper(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

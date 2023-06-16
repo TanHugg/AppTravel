@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import '../values/custom_text.dart';
 import '../widget/Details/vacation_details.dart';
 import '../widget/HomePage/custom_tours.dart';
 import 'package:intl/intl.dart';
+
+import '../widget/ProfilePage/Custom_Information/MyClipper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.users}) : super(key: key);
@@ -286,39 +289,40 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          // padding: EdgeInsets.only(left: 20, top: 67, right: 20),
           padding: EdgeInsets.only(top: 20, left: 20, right: 20),
           child: Column(
             children: <Widget>[
               Container(
-                //Container Layout và Info
+                //Container Layout và Infor
                 child: Row(
                   children: <Widget>[
-                    Container(
-                      //Container Avata
-                      width: 60,
-                      height: 60,
-                      decoration: ShapeDecoration(
-                          shape: CircleBorder(
-                              side:
-                                  BorderSide(width: 2, color: Colors.white24))),
-                      child: Image.asset(
-                        'assets/images/avata.png',
-                        fit: BoxFit.cover,
+                    SizedBox(
+                      height: 60,width: 60,
+                      child: ClipOval(
+                        child: Image(
+                          image:AssetImage(
+                              'assets/images/face_images/Face_1.jpg'),fit: BoxFit.cover,
+                        ),
+                        clipper: MyClipper(),
                       ),
                     ),
-                    Padding(
-                      //Container Information
+                    Padding( //Container Name,Address
                       padding: const EdgeInsets.only(left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Hi! ${widget.users.nameUser}',
-                            style: GoogleFonts.plusJakartaSans(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff111111)),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: 230,height: 50,
+                            child: AutoSizeText(
+                              'Hi! ${widget.users.nameUser}',
+                              maxFontSize: 27,
+                              maxLines: 1,
+                              style: GoogleFonts.lato(
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff111111)),
+                            ),
                           ),
                           Row(
                             children: <Widget>[
@@ -326,13 +330,21 @@ class _HomePageState extends State<HomePage> {
                                   size: 20, color: Color(0xff6c757d)),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: CustomText(
-                                    text: widget.users.address,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1.5,
-                                    height: 0,
-                                    color: Color(0xff6c757d)),
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  width: 200,height: 30,
+                                  child: AutoSizeText(
+                                    widget.users.address,
+                                    maxFontSize: 18,
+                                    maxLines: 1,
+                                    style: GoogleFonts.lato(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 2,
+                                        height: 0,
+                                        color: Color(0xff6c757d)),
+                                  ),
+                                ),
                               )
                             ],
                           ),
@@ -340,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Spacer(),
-                    StatefulBuilder(
+                    StatefulBuilder( //Container BellYellow
                         builder: (BuildContext context, StateSetter setState) {
                       return IconButton(
                         onPressed: () {
@@ -348,7 +360,9 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => BellNotification(users: idUserCurrent,)));
+                                    builder: (context) => BellNotification(
+                                          users: idUserCurrent,
+                                        )));
                           });
                         },
                         icon: FaIcon(
@@ -381,8 +395,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               //Container List Tours
               Container(
-                  // height: 350, bữa thi mà mở lỗi thì vô đây
-                  height: 442,
+                  height: 430,
                   width: size.width,
                   child: StreamBuilder<List<aTour>>(
                     stream: readListTour(typeTours.checkTypeTours(),

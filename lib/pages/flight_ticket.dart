@@ -8,6 +8,8 @@ import 'package:travel_app/model/tourDetails.dart';
 import 'package:travel_app/pages/bill_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 
+import 'package:intl/intl.dart';
+
 class FlightTicket extends StatelessWidget {
   const FlightTicket({Key? key, required this.tour, required this.tourDetail})
       : super(key: key);
@@ -36,10 +38,10 @@ class FlightTicket extends StatelessWidget {
   }
 
   //Đổ dữ liệu vào Firebase collection Fly
-  void createFlights() async {
-    createFlight('Gatwick Airplanes', '', '', 'Thương gia');
-    createFlight('Austrian Airplanes', '', '', 'Phổ thông');
-  }
+  // void createFlights() async {
+  //   createFlight('Gatwick Airplanes', '', '', 'Thương gia');
+  //   createFlight('Austrian Airplanes', '', '', 'Phổ thông');
+  // }
 
   //Đọc dữ liệu từ Database xuống khi đúng tên mà bạn truyền vô
   Future<aFlight?> readFlight(String nameFlight) async {
@@ -82,16 +84,19 @@ class FlightTicket extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(left: 30, top: 65),
                 child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(14),
-                    backgroundColor: Colors.black38,
-                  ),
-                  child: FaIcon(FontAwesomeIcons.arrowLeftLong,size: 33,color: Colors.white,)
-                ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(14),
+                      backgroundColor: Colors.black38,
+                    ),
+                    child: FaIcon(
+                      FontAwesomeIcons.arrowLeftLong,
+                      size: 33,
+                      color: Colors.white,
+                    )),
               ),
             ),
           ]),
@@ -129,26 +134,22 @@ class FlightTicket extends StatelessWidget {
                         flight!.idTour =
                             tour.idTour; //Flight lúc này đang đủ dữ liệu
                         flight.priceFlight = tourDetail.priceFlightEconomy;
-                        return flight == null
-                            ? Center(
-                                child: Text('No Find Tour !'),
-                              )
-                            : bookTickets(
-                                size,
-                                tour.nameTour.toString(),
-                                () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => BillPage(
-                                                    flight: flight,
-                                                    tour: tour,
-                                                  ))),
-                                    },
-                                'plane_1',
-                                '${flight.nameFlight}',
-                                '${flight.priceFlight}',
-                                flight.rank.toString());
+                        return bookTickets(
+                            size,
+                            tour.nameTour.toString(),
+                            () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BillPage(
+                                                flight: flight,
+                                                tour: tour,
+                                              ))),
+                                },
+                            'plane_1',
+                            '${flight.nameFlight}',
+                            '${flight.priceFlight}',
+                            flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
                         return Center(child: Text('Error: ${snapShot.error}'));
@@ -166,26 +167,22 @@ class FlightTicket extends StatelessWidget {
                         final flight = snapShot.data;
                         flight!.idTour = tour.idTour;
                         flight.priceFlight = tourDetail.priceFlightBusiness;
-                        return flight == null
-                            ? Center(
-                                child: Text('No Find Flight !'),
-                              )
-                            : bookTickets(
-                                size,
-                                tour.nameTour.toString(),
-                                () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => BillPage(
-                                                    flight: flight,
-                                                    tour: tour,
-                                                  ))),
-                                    },
-                                'plane_2',
-                                '${flight.nameFlight}',
-                                '${flight.priceFlight}',
-                                flight.rank.toString());
+                        return bookTickets(
+                            size,
+                            tour.nameTour.toString(),
+                            () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BillPage(
+                                                flight: flight,
+                                                tour: tour,
+                                              ))),
+                                },
+                            'plane_2',
+                            '${flight.nameFlight}',
+                            '${flight.priceFlight}',
+                            flight.rank.toString());
                       } else if (snapShot.hasError) {
                         // Xử lý trường hợp lỗi
                         return Center(child: Text('Error: ${snapShot.error}'));
@@ -205,6 +202,8 @@ class FlightTicket extends StatelessWidget {
     );
   }
 
+  static final formattedPrice =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
   Widget bookTickets(
       Size size,
       String nameTours,
@@ -218,7 +217,7 @@ class FlightTicket extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           width: size.width,
-          height: 265,
+          height: 285,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Color(0xfff8f9fa),
@@ -372,37 +371,51 @@ class FlightTicket extends StatelessWidget {
                   height: 0),
               Container(
                 width: size.width,
-                height: 70,
-                child: Row(
+                height: 90,
+                child: Column(
                   children: <Widget>[
-                    Container(
-                      width: 47,
-                      height: 47,
-                      decoration: ShapeDecoration(
-                          shape: CircleBorder(
-                              side:
-                                  BorderSide(width: 2, color: Colors.white24))),
-                      child: Image.asset(
-                        'assets/images/plane/${nameImages}.png',
-                        fit: BoxFit.cover,
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: 47,
+                          height: 47,
+                          decoration: ShapeDecoration(
+                              shape: CircleBorder(
+                                  side: BorderSide(
+                                      width: 2, color: Colors.white24))),
+                          child: Image.asset(
+                            'assets/images/plane/${nameImages}.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        CustomText(
+                            text: nameAirplane,
+                            color: Color(0xff6c757d),
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.5,
+                            height: 1.5),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5,left: 110),
+                      child: Row(
+                        children: <Widget>[
+                          FaIcon(FontAwesomeIcons.dollarSign,
+                              color: Color(0xffffc300),size: 27),
+                          SizedBox(width: 8),
+                          CustomText(
+                              text:
+                                  'Giá: ${formattedPrice.format(int.parse('${moneyAirplane}'))}',
+                              color: Colors.black,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.7,
+                              height: 1.2),
+                        ],
                       ),
                     ),
-                    SizedBox(width: 10),
-                    CustomText(
-                        text: nameAirplane,
-                        color: Color(0xff6c757d),
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                        height: 1.5),
-                    Spacer(),
-                    CustomText(
-                        text: '\$${moneyAirplane}',
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.7,
-                        height: 1.5)
                   ],
                 ),
               ),

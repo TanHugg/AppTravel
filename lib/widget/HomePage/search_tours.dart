@@ -25,7 +25,6 @@ class _SearchToursState extends State<SearchTours> {
   final searchTourController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    //Size size = MediaQuery.of(context).size * 0.8;
     return Container(
         width: 470,
         height: 70,
@@ -59,15 +58,17 @@ class _SearchToursState extends State<SearchTours> {
                     fontSize: 23,
                   ),
                   decoration: InputDecoration(
-                      hintText: 'Tìm kiếm', border: InputBorder.none),
+                      hintText: 'Tìm kiếm',
+                      border: InputBorder.none,
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(left: 20),
               child: Container(
-                width: 55,
-                height: 35,
+                width: 50,
+                height: 30,
                 padding: EdgeInsets.all(0), // đặt lề cho Container bằng 0
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/model/favoriteDetails.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:like_button/like_button.dart';
 import '../../model/tourDetails.dart';
@@ -69,6 +70,7 @@ class _VacationDetailsState extends State<VacationDetails> {
               : Stack(
                   children: <Widget>[
                     Container(
+                      //Images Background
                       width: size.width,
                       height: size.height * 3 / 6,
                       child: Image.asset(
@@ -77,36 +79,42 @@ class _VacationDetailsState extends State<VacationDetails> {
                           fit: BoxFit.cover),
                     ),
                     Positioned(
+                      //IconBackScreen
                       top: 15,
                       child: Row(children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
                           margin: const EdgeInsets.only(left: 22, top: 65),
                           child: OutlinedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: OutlinedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(14),
-                              backgroundColor: Colors.black12,
-                            ),
-                            child: FaIcon(FontAwesomeIcons.arrowLeftLong,size: 33,color: Colors.white,)
-                          ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(14),
+                                backgroundColor: Colors.black12,
+                              ),
+                              child: FaIcon(
+                                FontAwesomeIcons.arrowLeftLong,
+                                size: 33,
+                                color: Colors.white,
+                              )),
                         ),
                       ]),
                     ),
                     Positioned(
+                        //Container name,location,details,...
                         width: size.width,
                         height: 500,
                         top: size.height * 4 / 10,
                         child: Container(
+                          //Full WhiteScreen
                           padding: EdgeInsets.only(
                               left: 20, top: 30, right: 20, bottom: 50),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(35),
-                                  topRight: Radius.circular(35)),
+                                  topLeft: Radius.circular(40),
+                                  topRight: Radius.circular(40)),
                               color: Colors.white),
                           child: SingleChildScrollView(
                             child: Column(
@@ -116,6 +124,7 @@ class _VacationDetailsState extends State<VacationDetails> {
                                   width: size.width,
                                   child: Row(children: <Widget>[
                                     CustomText(
+                                      //Name tour
                                       text: widget.tour.nameTour.toString(),
                                       fontSize: 26,
                                       fontWeight: FontWeight.w700,
@@ -125,6 +134,7 @@ class _VacationDetailsState extends State<VacationDetails> {
                                     ),
                                     Spacer(),
                                     Padding(
+                                      //Favorite
                                       padding: EdgeInsets.only(right: 20),
                                       child: LikeButton(
                                         mainAxisAlignment:
@@ -148,11 +158,8 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .tour.isFavorite),
                                                     createFavoriteDetails(
                                                         favorite),
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                            content: Text(
-                                                                "Thêm vào danh sách yêu thích thành công")))
+                                                    CustomSnackbar.show(context,
+                                                        'Thêm vào danh sách yêu thích thành công'),
                                                   }
                                                 : {
                                                     deleteFavoriteDetails(
@@ -160,11 +167,8 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .toString(),
                                                         widget.tour.idTour
                                                             .toString()),
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(SnackBar(
-                                                            content: Text(
-                                                                "Thêm vào danh sách yêu thích thành công")))
+                                                    CustomSnackbar.show(context,
+                                                        'Xóa khỏi danh sách yêu thích thành công'),
                                                   };
                                             //Mở Firebase ra lưu vào IdUser, IdTour, và trạng thái lúc này là true
                                           });

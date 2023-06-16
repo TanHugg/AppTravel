@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 import '../model/aTour.dart';
 import '../model/favoriteDetails.dart';
 import '../model/users.dart';
@@ -67,109 +69,121 @@ class _FavoritePageState extends State<FavoritePage> {
     setState(() {
       _favoriteTours.removeWhere((tour) => tour.idTour == idTour);
     });
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Xóa thành công}")));
+    CustomSnackbar.show(context, 'Xóa thành công');
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Container(
-      // padding: EdgeInsets.only(top: 67, left: 20, right: 20, bottom: 15),
-      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+      padding: EdgeInsets.only(top: 20, left: 22, right: 22),
       width: size.width,
       height: 735,
       color: Colors.white,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: <Widget>[
-            Text.rich(TextSpan(
-                text: 'Your',
-                style: GoogleFonts.poppins(
-                    fontSize: 52,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1,
-                    color: Colors.black),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: ' Likes',
-                      style: GoogleFonts.poppins(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1,
-                          color: Colors.black87))
-                ])),
-            Container(
-                height: 649,
-                width: size.width,
-                child: StreamBuilder<List<FavoriteDetails>>(
-                  stream: readFavoriteDetails(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Something went wrong! ${snapshot.error}');
-                    } else if (snapshot.hasData) {
-                      final favDetails = snapshot.data;
-                      return ListView.builder(
-                        itemCount: favDetails?.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final item = favDetails![index];
-                          return FutureBuilder<aTour?>(
-                            future: readTour(item.idTour.toString()),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                aTour tour = snapshot.data!;
-                                tour.isFavorite = item.favorite;
-                                tour.idUser = item.idUser;
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            VacationDetails(tour: tour),
-                                      ),
-                                    );
-                                  },
-                                  child: buildATour(tour, index, context),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text('Error: ${snapshot.error}'));
-                              } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            },
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                )),
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          RichText(
+              text: TextSpan(
+              text: 'Y',
+              style: GoogleFonts.berkshireSwash(
+                  fontSize: 72,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xffff4d6d)),
+              children: <TextSpan>[
+                customTextSpan('o', 52, Colors.black87),
+                customTextSpan('u', 38, Colors.black87),
+                customTextSpan('r', 32, Colors.black87),
+                customTextSpan('L', 68, Color(0xffff4d6d)),
+                customTextSpan('i', 44, Colors.black87),
+                customTextSpan('k', 36, Colors.black87),
+                customTextSpan('e', 32, Colors.black87),
+              ])),
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Container(
+                  height: 600,
+                  width: size.width,
+                  child: StreamBuilder<List<FavoriteDetails>>(
+                    stream: readFavoriteDetails(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong! ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        final favDetails = snapshot.data;
+                        return ListView.builder(
+                          itemCount: favDetails?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = favDetails![index];
+                            return FutureBuilder<aTour?>(
+                              future: readTour(item.idTour.toString()),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  aTour tour = snapshot.data!;
+                                  tour.isFavorite = item.favorite;
+                                  tour.idUser = item.idUser;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VacationDetails(tour: tour),
+                                        ),
+                                      );
+                                    },
+                                    child: buildATour(tour, index, context),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text('Error: ${snapshot.error}'));
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  )),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  static final formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
+  //A Widget FavoriteLike
+  static final formattedPrice =
+      NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
   Widget buildATour(aTour tour, int index, BuildContext context) => Dismissible(
-        key: Key(index.toString()),
+        key: UniqueKey(),
         background: Container(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Icon(Icons.delete_forever, size: 80),
-          ),
-          color: Colors.red,
+          decoration: BoxDecoration(
+              color: Color(0xffd81159),
+              borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+              padding: EdgeInsets.only(left: 25, top: 70),
+              child: FaIcon(
+                FontAwesomeIcons.trashCan,
+                size: 55,
+                color: Colors.white,
+              )),
         ),
         secondaryBackground: Container(color: Colors.red),
+        direction: DismissDirection.startToEnd,
         onDismissed: (direction) {
-          if (direction == DismissDirection.endToStart) {
+          if (direction == DismissDirection.startToEnd) {
             deleteFavoriteDetails(
                 tour.idUser.toString(), tour.idTour.toString());
+            // Remove the Dismissible widget from the list of favorites.
+            setState(() {
+              _favoriteTours.removeAt(index);
+            });
           }
         },
         child: Padding(
@@ -188,4 +202,12 @@ class _FavoritePageState extends State<FavoritePage> {
           ),
         ),
       );
+
+  //Custom TextSpan
+  TextSpan customTextSpan(String text, double size, Color colors) {
+    return TextSpan(
+        text: text,
+        style: GoogleFonts.berkshireSwash(
+            fontSize: size, fontWeight: FontWeight.w400, color: colors));
+  }
 }

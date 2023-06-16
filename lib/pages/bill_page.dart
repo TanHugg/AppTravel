@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aFlight.dart';
 import 'package:travel_app/model/billTotal.dart';
 import 'package:travel_app/pages/main_page.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 import 'package:travel_app/values/custom_text.dart';
 
 import '../model/aTour.dart';
@@ -66,13 +67,11 @@ class BillPage extends StatelessWidget {
                       if (snapShot.hasData) {
                         final users = snapShot.data;
                         usersCurrent = users!; //Đã lấy đủ dữ liệu bỏ vào users
-                        return users == null
-                            ? Center(child: Text('No Find User !'))
-                            : Column(
+                        return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   CustomText(
-                                      text: 'Name: ${users.nameUser}',
+                                      text: 'Tên: ${users.nameUser}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w300,
@@ -80,7 +79,7 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 5),
                                   CustomText(
-                                      text: 'Number: 0${users.numberPhone}',
+                                      text: 'Số điện thoại: 0${users.numberPhone}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w300,
@@ -96,7 +95,7 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 20),
                                   CustomText(
-                                      text: '1. Name Tour: ${tour.nameTour}',
+                                      text: '1. Giá Tour: ${tour.nameTour}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w300,
@@ -105,7 +104,7 @@ class BillPage extends StatelessWidget {
                                   SizedBox(height: 5),
                                   CustomText(
                                       text:
-                                          '2. Ticket Flight: ${flight.nameFlight}',
+                                          '2. Tên máy bay: ${flight.nameFlight}',
                                       color: Colors.black,
                                       fontSize: 19,
                                       fontWeight: FontWeight.w300,
@@ -113,7 +112,7 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 25),
                                   CustomText(
-                                      text: 'Money: ',
+                                      text: 'Money ',
                                       color: Colors.black,
                                       fontSize: 30,
                                       fontWeight: FontWeight.w600,
@@ -122,7 +121,7 @@ class BillPage extends StatelessWidget {
                                   SizedBox(height: 25),
                                   CustomText(
                                       text:
-                                          'PriceTour:  ${formattedPrice.format(int.parse('${tour.priceTour}'))} ',
+                                          'Giá Tour:  ${formattedPrice.format(int.parse('${tour.priceTour}'))} ',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
@@ -131,7 +130,7 @@ class BillPage extends StatelessWidget {
                                   SizedBox(height: 15),
                                   CustomText(
                                       text:
-                                          'PriceFlight:  ${formattedPrice.format(int.parse('${flight.priceFlight}'))}',
+                                          'Giá vé Máy Bay:  ${formattedPrice.format(int.parse('${flight.priceFlight}'))}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
@@ -179,7 +178,7 @@ class BillPage extends StatelessWidget {
                     padding: EdgeInsets.only(left: 30, top: 15),
                     child: CustomText(
                         text:
-                            'Total:  ${formattedPrice.format(int.parse('${int.parse(tour.priceTour!) + int.parse(flight.priceFlight!)}'))}',
+                            'Tổng:  ${formattedPrice.format(int.parse('${int.parse(tour.priceTour!) + int.parse(flight.priceFlight!)}'))}',
                         color: Colors.black,
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -208,6 +207,7 @@ class BillPage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MainPage()));
+                              CustomSnackbar.show(context, 'Thanh toán thành công!');
                             },
                             child: Text(
                               'Pay',
