@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -28,18 +29,8 @@ class _LoginPageState extends State<LoginPage> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              "Email hoặc Mật khẩu không đúng!",
-              style: TextStyle(fontSize: 20),
-            ),
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.only(bottom: 20,left: 20,right: 20),
-            backgroundColor: Color(0xff6d6875),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)),
-            duration: Duration(seconds: 3),
-            elevation: 3.0,));
+        CustomSnackbar.show(
+            context, 'Email hoặc Mật khẩu không đúng!');
         print("No user found for that email");
       }
     }
@@ -70,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
+    bool _isValid = true;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -122,22 +114,21 @@ class _LoginPageState extends State<LoginPage> {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                    const BorderSide(color: Colors.white70),
+                                const BorderSide(color: Colors.white70),
                               ),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                      const BorderSide(color: Colors.white70)),
+                                  const BorderSide(color: Colors.white70)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                    const BorderSide(color: Colors.white70),
+                                const BorderSide(color: Colors.white70),
                               ),
                               labelText: 'Email',
-                              errorText: _emailInValid ? _emailError : null,
-                              labelStyle:
-                                  const TextStyle(color: Colors.white70),
-                              //BẬT / TẮT HIỂN THỊ MẬT KHẨU
+                              errorText:
+                              !_isValid || _emailInValid ? _emailError : null,
+                              labelStyle: const TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -193,27 +184,33 @@ class _LoginPageState extends State<LoginPage> {
                             //NÚT  LOGIN
                             child: ElevatedButton(
                               onPressed: () async {
-                                User? user = await loginUsingEmailPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    context: context);
                                 if (!emailController.text.contains("@")) {
                                   _emailInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _emailInValid = false;
                                 }
                                 if (passwordController.text.length < 6) {
                                   _passInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _passInValid = false;
                                 }
 
-                                if (user != null) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MainPage()));
+                                if (_isValid) {
+                                  User? user = await loginUsingEmailPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      context: context);
+
+                                  if (user != null) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => const MainPage()));
+                                  }
+                                } else {
+                                  setState(() {});
                                 }
                               },
                               style: ElevatedButton.styleFrom(

@@ -45,6 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
+    bool _isValid = true;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -259,62 +260,67 @@ class _SignUpPageState extends State<SignUpPage> {
                               onPressed: () {
                                 if (fullNameController.text.length < 1) {
                                   _fullNameInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _fullNameInValid = false;
                                 }
                                 //Đăng ký user-auth
                                 if (!emailController.text.contains("@")) {
                                   _emailInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _emailInValid = false;
                                 }
                                 if (numberPhoneController.text.length < 10) {
                                   _numberPhoneInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _numberPhoneInValid = false;
                                 }
                                 if (passwordController.text.length < 6) {
                                   _passInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _passInValid = false;
                                 }
                                 if (addressController.text.length < 1) {
                                   _addressInValid = true;
+                                  _isValid = false;
                                 } else {
                                   _addressInValid = false;
                                 }
-                                //Đăng ký Username,Password vào Firebase Auth
-                                FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passwordController.text);
 
-                                //Đăng ký user (Firestore)
-                                final user = Users(
+                                if (_isValid) {
+                                  //Đăng ký Username,Password vào Firebase Auth
+                                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text);
+
+                                  //Đăng ký user (Firestore)
+                                  final user = Users(
                                     nameUser: fullNameController.text,
-                                    numberPhone:
-                                        int.parse(numberPhoneController.text),
+                                    numberPhone: int.parse(numberPhoneController.text),
                                     address: addressController.text,
                                     email: emailController.text,
                                     imageUser: '',
-                                    );
+                                  );
 
-                                createUsers(user);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
-                                //}
+                                  createUsers(user);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const LoginPage())
+                                  );
+                                } else {
+                                  setState(() {});
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFF5B5B),
                                   shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(22)))),
-                              child: Text('Sign up',
-                                  style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 25)),
+                                      borderRadius: BorderRadius.all(Radius.circular(22))
+                                  )
+                              ),
+                              child: Text('Sign up', style: GoogleFonts.plusJakartaSans(fontSize: 25)),
                             ),
                           ),
                         ),

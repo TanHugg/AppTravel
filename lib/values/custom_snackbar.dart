@@ -7,7 +7,7 @@ class CustomSnackbar{
         backgroundColor: Colors.green,
         duration: Duration(seconds: 3),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(20),
         ),
         behavior: SnackBarBehavior.floating,
         content: Row(

@@ -235,6 +235,8 @@ class ShowBoughtTour extends StatelessWidget {
                                     ],
                                   ),
                                 ),
+
+                                //Images
                                 Positioned(
                                   top: 120,
                                   left: 220,
