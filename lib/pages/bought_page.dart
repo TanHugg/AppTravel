@@ -89,8 +89,7 @@ class BoughtPage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                ShowBoughtTour(
-                                              billTotal: billTotal[index],
+                                                ShowBoughtTour(bill: billTotal[index],
                                             ),
                                           ),
                                         );
