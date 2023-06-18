@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -271,11 +273,19 @@ class _HomePageState extends State<HomePage> {
   late String addressCurrent;
   late String idUserCurrent;
 
+  late String path_to_images;
+  late File imagesFile;
+  late Image images;
+
   @override
   void initState() {
     super.initState();
     addressCurrent = widget.users.address;
     idUserCurrent = widget.users.idUser;
+    path_to_images = widget.users.imageUser;
+    imagesFile = File(path_to_images);
+    images = Image.file(imagesFile);
+
     //createTours(); //Mở ra khi nào muốn add tất cả tour lên Firebase lại
     //createAllTourDetail(); //Mở ra khi nào muốn add tất cả tourDetails
   }
@@ -299,9 +309,11 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 60,width: 60,
                       child: ClipOval(
-                        child: Image(
-                          image:AssetImage(
-                              'assets/images/face_images/Face_1.jpg'),fit: BoxFit.cover,
+                        child: Image.file(
+                          imagesFile,
+                          width: 140,
+                          height: 140,
+                          fit: BoxFit.cover,
                         ),
                         clipper: MyClipper(),
                       ),

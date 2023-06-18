@@ -5,7 +5,7 @@ class CustomSnackbar{
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -13,8 +13,8 @@ class CustomSnackbar{
         content: Row(
           children: [
             Icon(Icons.check, color: Colors.white),
-            SizedBox(width: 10.0),
-            Text(message, style: TextStyle(color: Colors.white)),
+            SizedBox(width: 10.0,height: 30,),
+            Text(message,softWrap: true, style: TextStyle(color: Colors.white)),
           ],
         ),
       ),

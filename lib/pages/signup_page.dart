@@ -295,7 +295,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                     numberPhone:
                                         int.parse(numberPhoneController.text),
                                     address: addressController.text,
-                                    email: emailController.text);
+                                    email: emailController.text,
+                                    imageUser: '',
+                                    );
 
                                 createUsers(user);
                                 Navigator.push(

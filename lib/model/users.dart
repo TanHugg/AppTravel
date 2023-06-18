@@ -5,13 +5,15 @@ class Users {
   late int numberPhone;
   late String address;
   late String email;
+  late String imageUser;
 
   Users(
       {this.idUser = '',
       required this.nameUser,
       required this.numberPhone,
       required this.address,
-      required this.email});
+      required this.email,
+      required this.imageUser});
 
   //Viết từ code lên FirebaseStore
   Map<String, dynamic> toJson() => {
@@ -19,7 +21,8 @@ class Users {
         'name': nameUser,
         'numberPhone': numberPhone,
         'address': address,
-        'email': email
+        'email': email,
+        'image': imageUser,
       };
 
   //Lấy từ trên FirebaseStore xuống
@@ -29,5 +32,6 @@ class Users {
         numberPhone: json['numberPhone'],
         address: json['address'].toString(),
         email: json['email'].toString(),
+        imageUser: json['imageUser'].toString()
       );
 }

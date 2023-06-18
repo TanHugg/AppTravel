@@ -1,17 +1,17 @@
 import 'dart:io';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:travel_app/widget/ProfilePage/update_profile_screen.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:travel_app/widget/ProfilePage/contact_page.dart';
 import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
 import 'package:travel_app/widget/ProfilePage/information_page.dart';
 import '../model/users.dart';
+import '../widget/ProfilePage/Custom_Information/MyClipper.dart';
 import '../widget/ProfilePage/profile_menu.dart';
+import '../widget/ProfilePage/update_profile_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.users}) : super(key: key);
@@ -23,17 +23,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? image;
+  late String path_to_images;
+  late File imagesFile;
+  late Image images;
 
-  Future pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
+  @override
+  void initState() {
+    super.initState();
+    path_to_images = widget.users.imageUser;
+    imagesFile = File(path_to_images);
+    images = Image.file(imagesFile);
   }
 
   //Hàm đăng xuất
@@ -52,56 +51,41 @@ class _ProfilePageState extends State<ProfilePage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(children: [
-              (image != null) //Avata
-                  ? ClipOval(
-                      child: Image.file(
-                        image!,
-                        width: 140,
-                        height: 140,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : FlutterLogo(size: 130),
-              Positioned(
-                  //Camera
-                  bottom: 0,
-                  right: 0,
-                  child: InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: ((builder) => bottomSheet()));
-                    },
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.black,
-                      size: 38,
-                      shadows: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          offset: Offset(0, 2),
-                          blurRadius: 5.0,
-                          spreadRadius: 1.0,
-                        ),
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          offset: Offset(0, 4),
-                          blurRadius: 15.0,
-                          spreadRadius: 1.0,
-                        ),
-                      ],
-                    ),
-                  )),
-            ]),
+            SizedBox(
+              width: 150,
+              height: 150,
+              child: SizedBox(
+                height: 170,
+                width: 170,
+                child: ClipOval(
+                  child: Image.file(
+                    imagesFile,
+                    width: 140,
+                    height: 140,
+                    fit: BoxFit.cover,
+                  ),
+                  clipper: MyClipper(),
+                ),
+              ),
+            ),
             //Tên và Email
             const SizedBox(height: 12),
-            Text(widget.users.nameUser,
-                style: GoogleFonts.plusJakartaSans(
-                    fontSize: 40, color: Colors.black87)),
-            Text(widget.users.email,
-                style: GoogleFonts.plusJakartaSans(
-                    fontSize: 20, color: Colors.black87)),
+            AutoSizeText(
+              'Hi! ${widget.users.nameUser}',
+              maxFontSize: 37,
+              maxLines: 1,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 40,
+                  color: Colors.black87),
+            ),
+            AutoSizeText(
+              widget.users.email,
+              maxFontSize: 20,
+              maxLines: 1,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 27,
+                  color: Colors.black87),
+            ),
             const SizedBox(height: 20),
             //Nút Edit Profile
             SizedBox(
@@ -112,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UpdateProfileScreen(
-                                  idUser: widget.users.idUser,
+                                  users: widget.users,
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
@@ -193,65 +177,8 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  @override
-//POPUP LUC NHAN THAY DOI AVA
-  Widget bottomSheet() {
-    void takePhoto(ImageSource source) async {
-      // // ignore: deprecated_member_use
-      // final pickedFile = await _picker.getImage(
-      //   source: source,
-      // );
-      // setState((){
-      //   _imageFile= pickedFile!;
-      // });
-    }
-    return Container(
-      height: 100,
-      width: 150,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Choose Profile photo from",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: <Widget>[
-              TextButton.icon(
-                onPressed: () {
-                  pickImage(ImageSource.camera);
-                },
-                icon: Icon(Icons.camera),
-                label: Text('Camera'),
-              ),
-              TextButton.icon(
-                onPressed: () {
-                  pickImage(ImageSource.gallery);
-                  // takePhoto(ImageSource.gallery);
-                },
-                icon: Icon(Icons.image),
-                label: Text('Gallery'),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
 }
 
-//KHAI BÁO CHO TIỆN DUNG
-const String Profile = "Profile";
-const String ProfileImage = "assets/images/picture_tours/Colosseum.jpg";
 //ten nè
 const String UserNameProfile = "Tan Hung";
 const String EmailProfile = "tanhung@gmail.com";

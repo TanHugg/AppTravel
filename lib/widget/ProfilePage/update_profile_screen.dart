@@ -1,19 +1,25 @@
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_app/pages/profile_page.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 import 'package:travel_app/values/custom_text.dart';
 
-import 'Custom_Information/MyClipper.dart';
+import '../../model/users.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  const UpdateProfileScreen({Key? key, required this.idUser}) : super(key: key);
+  const UpdateProfileScreen({Key? key, required this.users}) : super(key: key);
 
-  final idUser;
+  final Users users;
 
-  Future updateFavoriteDetails(String idUser, String name, int numberPhone,
-      String address) async {
+  Future updateFavoriteDetails(
+      String idUser, String name, int numberPhone, String address) async {
     final docUser = FirebaseFirestore.instance.collection("User").doc(idUser);
     await docUser.update({
       'name': name,
@@ -22,11 +28,43 @@ class UpdateProfileScreen extends StatefulWidget {
     });
   }
 
+  Future updateImageUser(String idUser, String imageUser) async {
+    final docUser = FirebaseFirestore.instance.collection("User").doc(idUser);
+    await docUser.update({
+      'imageUser': imageUser,
+    });
+  }
+
   @override
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  File? image;
+
+  late String path_to_images;
+  late File imagesFile;
+  late Image images;
+
+  @override
+  void initState() {
+    super.initState();
+    path_to_images = widget.users.imageUser;
+    imagesFile = File(path_to_images);
+    images = Image.file(imagesFile);
+  }
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() => this.image = imageTemporary);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
   final fullNameController = TextEditingController();
   final numberPhoneController = TextEditingController();
   // final emailController = TextEditingController();
@@ -64,27 +102,65 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: SizedBox(
-                  height: 170,
-                  width: 170,
-                  child: ClipOval(
-                    child: Image(
-                      image: AssetImage('assets/images/face_images/Face_1.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                    clipper: MyClipper(),
-                  ),
-                ),
-              ),
+              Stack(children: [
+                (image != null) //Avata
+                    ? ClipOval(
+                        child: Image.file(
+                          image!,
+                          width: 140,
+                          height: 140,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : (image == null)
+                        ? FlutterLogo(size: 130)
+                        : (images.toString() == '')
+                            ? FlutterLogo(size: 130)
+                            : ClipOval(
+                                child: Image.file(
+                                  imagesFile,
+                                  width: 140,
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                Positioned(
+                    //Camera
+                    bottom: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: ((builder) => bottomSheet()));
+                      },
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                        size: 38,
+                        shadows: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: Offset(0, 2),
+                            blurRadius: 5.0,
+                            spreadRadius: 1.0,
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: Offset(0, 4),
+                            blurRadius: 15.0,
+                            spreadRadius: 1.0,
+                          ),
+                        ],
+                      ),
+                    )),
+              ]),
               const SizedBox(height: 20),
               Form(
                   child: Column(
                 children: [
                   QrImageView(
-                    data: widget.idUser.toString(),
+                    data: widget.users.idUser.toString(),
                     version: QrVersions.auto,
                     size: 100.0,
                   ),
@@ -126,15 +202,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 50,
                         child: ElevatedButton(
                             onPressed: () {
-                              widget.updateFavoriteDetails(
-                                widget.idUser.toString(),
-                                fullNameController.text,
-                                int.parse(numberPhoneController.text),
-                                addressController.text,
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text("Update thành công}")));
+                              // widget.updateFavoriteDetails(
+                              //   widget.users.idUser.toString(),
+                              //   fullNameController.text,
+                              //   int.parse(numberPhoneController.text),
+                              //   addressController.text,
+                              // );
+                              // final str = image.toString();
+                              // final result = str.replaceAll("'", "").replaceAll("File: ", "");
+                              // widget.updateImageUser(
+                              //     widget.users.idUser, result);
+                              Navigator.pop(context);
+                              CustomSnackbar.show(context, 'Update thành công. Ảnh sẽ được \ncập nhật cho lần đăng nhập sau');
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffd500),
@@ -153,6 +232,51 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100,
+      width: 150,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo from",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: <Widget>[
+              TextButton.icon(
+                onPressed: () {
+                  pickImage(ImageSource.camera);
+                },
+                icon: Icon(Icons.camera),
+                label: Text('Camera'),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    pickImage(ImageSource.gallery);
+                  });
+                  // takePhoto(ImageSource.gallery);
+                },
+                icon: Icon(Icons.image),
+                label: Text('Gallery'),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
