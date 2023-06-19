@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       side: BorderSide.none,
                       shape: StadiumBorder()),
                   child: const CustomText(
-                      text: 'Edit Profile',
+                      text: 'Cài đặt hồ sơ',
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

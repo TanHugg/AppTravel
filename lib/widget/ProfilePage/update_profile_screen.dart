@@ -1,4 +1,5 @@
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -70,6 +71,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   // final emailController = TextEditingController();
   final addressController = TextEditingController();
 
+  var _fullNameError = "Tên không hợp lệ";
+  var _addressError = "Địa chỉ không hợp lệ";
+  var _numError = "Số điện thoại không hợp lệ";
+
+  var _addressInValid = false;
+  var _fullNameInValid = false;
+  var _numberPhoneInValid = false;
+
   @override
   void dispose() {
     fullNameController.dispose();
@@ -81,6 +90,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool _isValid = true;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -166,8 +176,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   ),
                   TextFormField(
                     controller: fullNameController,
-                    decoration: const InputDecoration(
-                        labelText: "Full Name",
+                    decoration: InputDecoration(
+                        labelText: "Họ và tên",
+                        errorText: !_isValid || _fullNameInValid ? _fullNameError : null,
                         prefixIcon: Icon(Icons.person_outline_rounded)),
                   ),
                   // const SizedBox(height: 20),
@@ -180,15 +191,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: numberPhoneController,
-                    decoration: const InputDecoration(
-                        labelText: "Phone Number",
+                    decoration: InputDecoration(
+                        labelText: "Số điện thoại",
+                        errorText:
+                        !_isValid || _numberPhoneInValid ? _numError : null,
                         prefixIcon: Icon(Icons.phone_android_outlined)),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: addressController,
-                    decoration: const InputDecoration(
-                        labelText: "Address",
+                    decoration:  InputDecoration(
+                        labelText: "Địa chỉ",
+                        errorText: !_isValid || _addressInValid ? _addressError : null,
                         prefixIcon: Icon(Icons.fingerprint)),
                   ),
                   const SizedBox(height: 35),
@@ -220,7 +234,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40))),
                             child: const CustomText(
-                                text: 'Edit',
+                                text: 'Cập nhật',
                                 color: Colors.black,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600,

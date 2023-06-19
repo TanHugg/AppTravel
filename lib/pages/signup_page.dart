@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải trên 6 ký tự";
   var _numError = "Số điện thoại không hợp lệ";
   var _fullNameError = "Tên không hợp lệ";
@@ -83,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       children: <Widget>[
-                        Text('Sign Up',
+                        Text('Đăng kí',
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 50, color: Colors.white)),
                         //FullName
@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       borderSide: const BorderSide(
                                           color: Colors.white70),
                                     ),
-                                    labelText: 'FullName',
+                                    labelText: 'Họ và tên',
                                     errorText: _fullNameInValid
                                         ? _fullNameError
                                         : null,
@@ -139,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   borderSide:
                                       const BorderSide(color: Colors.white70),
                                 ),
-                                labelText: 'Number',
+                                labelText: 'Số điện thoại',
                                 errorText:
                                     _numberPhoneInValid ? _numError : null,
                                 labelStyle:
@@ -170,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     borderSide:
                                         const BorderSide(color: Colors.white70),
                                   ),
-                                  labelText: 'Address',
+                                  labelText: 'Địa chỉ',
                                   errorText:
                                       _addressInValid ? _addressErr : null,
                                   labelStyle:
@@ -230,7 +230,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   borderSide:
                                       const BorderSide(color: Colors.white70),
                                 ),
-                                labelText: 'Password',
+                                labelText: 'Mật khẩu',
                                 errorText: _passInValid ? _passError : null,
                                 suffixIcon: IconButton(
                                   icon: Icon(_obscureText
@@ -320,7 +320,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       borderRadius: BorderRadius.all(Radius.circular(22))
                                   )
                               ),
-                              child: Text('Sign up', style: GoogleFonts.plusJakartaSans(fontSize: 25)),
+                              child: Text('Đăng kí', style: GoogleFonts.plusJakartaSans(fontSize: 25)),
                             ),
                           ),
                         ),

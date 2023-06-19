@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải có trên 6 ký tự";
   var _emailInValid = false;
   var _passInValid = false;
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.only(top: 60),
                     child: Column(
                       children: <Widget>[
-                        Text('Login',
+                        Text('Đăng Nhập',
                             style: GoogleFonts.plusJakartaSans(
                                 fontSize: 50, color: Colors.white)),
                         Padding(
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderSide:
                                       const BorderSide(color: Colors.white70),
                                 ),
-                                labelText: 'Password',
+                                labelText: 'Mật khẩu',
                                 errorText: _passInValid ? _passError : null,
                                 labelStyle:
                                     const TextStyle(color: Colors.white70),
@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(22)))),
-                              child: Text('Login',
+                              child: Text('Đăng Nhập',
                                   style: GoogleFonts.plusJakartaSans(
                                       fontSize: 25)),
                             ),
@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Don’t have account? ',
+                                text: 'Chưa có tài khoản ? ',
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               //NÚT TẠO TÀI KHOẢNG
                               TextSpan(
-                                text: 'Create now',
+                                text: 'Tạo ngay !',
                                 style: GoogleFonts.plusJakartaSans(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w400,
