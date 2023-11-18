@@ -90,19 +90,19 @@ class _FavoritePageState extends State<FavoritePage> {
                   fontWeight: FontWeight.w700,
                   color: Color(0xffff4d6d)),
               children: <TextSpan>[
-                customTextSpan('o', 52, Colors.black87),
+                customTextSpan('ê', 52, Colors.black87),
                 customTextSpan('u', 38, Colors.black87),
-                customTextSpan('r', 32, Colors.black87),
-                customTextSpan('L', 68, Color(0xffff4d6d)),
-                customTextSpan('i', 44, Colors.black87),
-                customTextSpan('k', 36, Colors.black87),
-                customTextSpan('e', 32, Colors.black87),
+                customTextSpan('T', 68, Color(0xffff4d6d)),
+                customTextSpan('h', 44, Colors.black87),
+                customTextSpan('í', 36, Colors.black87),
+                customTextSpan('c', 32, Colors.black87),
+                customTextSpan('h', 32, Colors.black87),
               ])),
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(top: 20),
               child: Container(
-                  height: 600,
+                  height: 550, //Đổi ở đây
                   width: size.width,
                   child: StreamBuilder<List<FavoriteDetails>>(
                     stream: readFavoriteDetails(),

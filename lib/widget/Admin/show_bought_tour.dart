@@ -1,74 +1,84 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:travel_app/widget/BoughtTour/custom_bought_tour.dart';
-import 'package:travel_app/widget/BoughtTour/show_bought_tour.dart';
-import '../model/billTotal.dart';
-import '../model/users.dart';
+import 'package:travel_app/model/billTotal.dart';
+import 'package:travel_app/widget/Admin/widget/custom_show_bill.dart';
 
-class BoughtPage extends StatelessWidget {
-  const BoughtPage({Key? key, required this.users}) : super(key: key);
+import '../BoughtTour/custom_bought_tour.dart';
 
-  final Users users; //User hiện tại
+class ShowBillOfUser extends StatelessWidget {
+  const ShowBillOfUser({Key? key}) : super(key: key);
 
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
-      .where('idUser', isEqualTo: users.idUser.toString())
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         // padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 15),
         padding: EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Stack(children: <Widget>[
           Positioned(
-            left: 10,
-            bottom: 430,
-            right: 15,
-            child: ClipRRect(
-              child: SizedBox(
-                width: 350,
-                height: 270,
-                child: Image.asset(
-                  "assets/images/nobackground/CoconutTree.png",
-                  fit: BoxFit.cover,
-                ),
+            //IconBackScreen
+            top: 15,
+            child: Row(children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(left: 12, top: 65),
+                child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(14),
+                      backgroundColor: Colors.black12,
+                    ),
+                    child: FaIcon(
+                      FontAwesomeIcons.arrowLeftLong,
+                      size: 33,
+                      color: Colors.white,
+                    )),
               ),
-            ),
+              Padding(
+                padding: EdgeInsets.only(top: 60, left: 30),
+                child: Text.rich(TextSpan(
+                    text: 'Tour',
+                    style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1,
+                        color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: ' đã mua',
+                          style: GoogleFonts.poppins(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 1,
+                              color: Colors.black87))
+                    ])),
+              ),
+            ]),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 187),
+            padding: EdgeInsets.only(top: 147),
             child: Container(
               width: size.width,
-              height: 515,
+              height: 600,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text.rich(TextSpan(
-                        text: 'Tour',
-                        style: GoogleFonts.poppins(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 1,
-                            color: Colors.black),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' đã mua',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 1,
-                                  color: Colors.black87))
-                        ])),
                     Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Container(
-                        height: 405,
+                        height: 570,
                         width: size.width,
                         child: StreamBuilder<List<billTotal>>(
                           stream: readBill(),
@@ -89,8 +99,7 @@ class BoughtPage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                ShowBoughtTour(bill: billTotal[index],
-                                            ),
+                                                CustomShowBillOfUser(bill: billTotal[index]),
                                           ),
                                         );
                                       },

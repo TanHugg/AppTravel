@@ -95,7 +95,7 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 20),
                                   CustomText(
-                                      text: '1. Giá Tour: ${tour.nameTour}',
+                                      text: '1. Tên Tour: ${tour.nameTour}',
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w300,
@@ -104,7 +104,16 @@ class BillPage extends StatelessWidget {
                                   SizedBox(height: 5),
                                   CustomText(
                                       text:
-                                          '2. Tên máy bay: ${flight.nameFlight}',
+                                          '2. Hãng máy bay: ${flight.nameFlight}',
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w300,
+                                      letterSpacing: 0.2,
+                                      height: 1),
+                                  SizedBox(height: 5),
+                                  CustomText(
+                                      text:
+                                      '3. Hạng: ${flight.rank}',
                                       color: Colors.black,
                                       fontSize: 19,
                                       fontWeight: FontWeight.w300,
@@ -153,7 +162,7 @@ class BillPage extends StatelessWidget {
             top: 65,
             left: 50,
             child: Text(
-              'Bill',
+              'Hóa Đơn',
               style: GoogleFonts.pacifico(
                   fontSize: 65,
                   decoration: TextDecoration.none,

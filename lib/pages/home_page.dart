@@ -299,7 +299,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding: EdgeInsets.only(top: 60, left: 20, right: 20), //Đổi ở đây
           child: Column(
             children: <Widget>[
               Container(
@@ -407,7 +407,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               //Container List Tours
               Container(
-                  height: 430,
+                  height: 300, //Đổi ở đây
                   width: size.width,
                   child: StreamBuilder<List<aTour>>(
                     stream: readListTour(typeTours.checkTypeTours(),

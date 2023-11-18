@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var _emailError = "Tài khoản không hợp lệ";
+  var _emailError = "Tài khoảng không hợp lệ";
   var _passError = "Mật khẩu phải trên 6 ký tự";
   var _numError = "Số điện thoại không hợp lệ";
   var _fullNameError = "Tên không hợp lệ";
@@ -292,14 +292,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
                                 if (_isValid) {
                                   //Đăng ký Username,Password vào Firebase Auth
-                                  FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                      email: emailController.text,
-                                      password: passwordController.text);
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passwordController.text);
 
                                   //Đăng ký user (Firestore)
                                   final user = Users(
                                     nameUser: fullNameController.text,
-                                    numberPhone: int.parse(numberPhoneController.text),
+                                    numberPhone:
+                                        int.parse(numberPhoneController.text),
                                     address: addressController.text,
                                     email: emailController.text,
                                     imageUser: '',
@@ -308,8 +310,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   createUsers(user);
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const LoginPage())
-                                  );
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()));
                                 } else {
                                   setState(() {});
                                 }
@@ -317,10 +320,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFF5B5B),
                                   shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(22))
-                                  )
-                              ),
-                              child: Text('Đăng kí', style: GoogleFonts.plusJakartaSans(fontSize: 25)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(22)))),
+                              child: Text('Đăng kí',
+                                  style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 25)),
                             ),
                           ),
                         ),

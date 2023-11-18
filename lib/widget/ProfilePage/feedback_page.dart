@@ -49,135 +49,131 @@ class _FeedBackPageState extends State<FeedBackPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
-              children: <Widget>[
-                Image.asset('assets/images/cover_images/Picture_7.jpg',
-                    fit: BoxFit.cover, height: size.height, width: size.width),
-                Positioned(
-                    top: 170,
-                    bottom: 150,
-                    child: Container(
-                      height: size.height,
-                      width: size.width,
-                      decoration: const BoxDecoration(
-                          color: Colors.black54,
-                          borderRadius: BorderRadius.all(Radius.circular(40))),
-                      child: Container(
-                            width: size.width,
-                            height: size.width,
-                            margin: const EdgeInsets.only(top: 75),
-                            padding:
-                                EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                            child: TextFormField(
-                              maxLines: 6,
-                              autofocus: true,
-                              controller: contentController,
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none),
-                              decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white70),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white70),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(11),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white70),
-                                ),
-                                label: Text(
-                                  'Viết góp ý tại đây',
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+          children: <Widget>[
+            Image.asset('assets/images/cover_images/Picture_7.jpg',
+                fit: BoxFit.cover, height: size.height, width: size.width),
+            Positioned(
+              top: 170,
+              bottom: 150,
+              child: Container(
+                height: size.height,
+                width: size.width,
+                decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                child: Container(
+                  width: size.width,
+                  height: size.width,
+                  margin: const EdgeInsets.only(top: 75),
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                  child: TextFormField(
+                    maxLines: 6,
+                    autofocus: false,
+                    controller: contentController,
+                    style: GoogleFonts.quicksand(
+                        fontSize: 26,
+                        color: Colors.white,
+                        decoration: TextDecoration.none),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(11),
+                        borderSide: const BorderSide(color: Colors.white70),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(11),
+                        borderSide: const BorderSide(color: Colors.white70),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(11),
+                        borderSide: const BorderSide(color: Colors.white70),
+                      ),
+                      label: Text(
+                        'Viết góp ý tại đây',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                     ),
-                Positioned(
-                    top: 90,
-                    left: 123,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 60),
-                      child: Column(
-                        children: <Widget>[
-                          Text('Góp ý',
-                              style: GoogleFonts.catamaran(
-                                  fontSize: 60,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none)),
-                        ],
-                      ),
-                    )),
-                Positioned(
-                  top: 530,
-                  left: 110,
-                  child: Container(
-                    width: 190,
-                    height: 80,
-                    child: (contentController.text.contains(RegExp(r'[a-zA-Z]')))
-                        ? ElevatedButton(
-                            onPressed: () {
-                              final aFeedBack = feedBack(
-                                  feedBackContent: contentController.text,
-                                  dateTimeFeedBack: dateTimeNow.toString(),
-                                  idUser: widget.idUser);
-                              createFeedBack(aFeedBack);
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xffFF5B5B),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)))),
-                            child: Text('Góp ý',
-                                style: GoogleFonts.plusJakartaSans(fontSize: 30)),
-                          )
-                        : ElevatedButton(
-                            onPressed: null,
-                            child: Text('Góp ý',
-                                style: GoogleFonts.plusJakartaSans(fontSize: 30)),
-                            style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.grey, // Màu chữ trắng
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))))),
                   ),
                 ),
-                Positioned(
-                  top: 15,
-                  child: Row(children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(left: 22, top: 65),
-                      child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(14),
-                            backgroundColor: Colors.black12,
-                          ),
-                          child: FaIcon(
-                            FontAwesomeIcons.arrowLeftLong,
-                            size: 33,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ]),
-                ),
-              ],
+              ),
             ),
+            Positioned(
+                top: 90,
+                left: 123,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Column(
+                    children: <Widget>[
+                      Text('Góp ý',
+                          style: GoogleFonts.catamaran(
+                              fontSize: 60,
+                              color: Colors.white,
+                              decoration: TextDecoration.none)),
+                    ],
+                  ),
+                )),
+            Positioned(
+              top: 530,
+              left: 110,
+              child: Container(
+                width: 190,
+                height: 80,
+                child: (contentController.text.contains(RegExp(r'[a-zA-Z]')))
+                    ? ElevatedButton(
+                        onPressed: () {
+                          final aFeedBack = feedBack(
+                              feedBackContent: contentController.text,
+                              dateTimeFeedBack: dateTimeNow.toString(),
+                              idUser: widget.idUser);
+                          createFeedBack(aFeedBack);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xffFF5B5B),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)))),
+                        child: Text('Góp ý',
+                            style: GoogleFonts.plusJakartaSans(fontSize: 30)),
+                      )
+                    : ElevatedButton(
+                        onPressed: null,
+                        child: Text('Góp ý',
+                            style: GoogleFonts.plusJakartaSans(fontSize: 30)),
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.grey, // Màu chữ trắng
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))))),
+              ),
+            ),
+            Positioned(
+              top: 15,
+              child: Row(children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(left: 22, top: 65),
+                  child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(14),
+                        backgroundColor: Colors.black12,
+                      ),
+                      child: FaIcon(
+                        FontAwesomeIcons.arrowLeftLong,
+                        size: 33,
+                        color: Colors.white,
+                      )),
+                ),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

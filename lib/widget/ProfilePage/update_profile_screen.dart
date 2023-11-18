@@ -1,5 +1,3 @@
-
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,6 +51,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     path_to_images = widget.users.imageUser;
     imagesFile = File(path_to_images);
     images = Image.file(imagesFile);
+    _fullNameInValid = false;
+    _numberPhoneInValid = false;
+    _addressInValid = false;
   }
 
   Future pickImage(ImageSource source) async {
@@ -177,9 +178,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   TextFormField(
                     controller: fullNameController,
                     decoration: InputDecoration(
-                        labelText: "Họ và tên",
-                        errorText: !_isValid || _fullNameInValid ? _fullNameError : null,
-                        prefixIcon: Icon(Icons.person_outline_rounded)),
+                      labelText: "Họ và tên",
+                      errorText:
+                          !_isValid || _fullNameInValid ? _fullNameError : null,
+                      prefixIcon: Icon(Icons.person_outline_rounded),
+                    ),
                   ),
                   // const SizedBox(height: 20),
                   // TextFormField(
@@ -192,18 +195,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   TextFormField(
                     controller: numberPhoneController,
                     decoration: InputDecoration(
-                        labelText: "Số điện thoại",
-                        errorText:
-                        !_isValid || _numberPhoneInValid ? _numError : null,
-                        prefixIcon: Icon(Icons.phone_android_outlined)),
+                      labelText: "Số điện thoại",
+                      errorText:
+                          !_isValid || _numberPhoneInValid ? _numError : null,
+                      prefixIcon: Icon(Icons.phone_android_outlined),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: addressController,
-                    decoration:  InputDecoration(
-                        labelText: "Địa chỉ",
-                        errorText: !_isValid || _addressInValid ? _addressError : null,
-                        prefixIcon: Icon(Icons.fingerprint)),
+                    decoration: InputDecoration(
+                      labelText: "Địa chỉ",
+                      errorText:
+                          !_isValid || _addressInValid ? _addressError : null,
+                      prefixIcon: Icon(Icons.fingerprint),
+                    ),
                   ),
                   const SizedBox(height: 35),
 
@@ -216,18 +222,47 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 50,
                         child: ElevatedButton(
                             onPressed: () {
-                              // widget.updateFavoriteDetails(
-                              //   widget.users.idUser.toString(),
-                              //   fullNameController.text,
-                              //   int.parse(numberPhoneController.text),
-                              //   addressController.text,
-                              // );
-                              // final str = image.toString();
-                              // final result = str.replaceAll("'", "").replaceAll("File: ", "");
-                              // widget.updateImageUser(
-                              //     widget.users.idUser, result);
-                              Navigator.pop(context);
-                              CustomSnackbar.show(context, 'Update thành công. Ảnh sẽ được \ncập nhật cho lần đăng nhập sau');
+                              if (fullNameController.text.isEmpty) {
+                                setState(() => _fullNameInValid = true);
+                              } else {
+                                setState(() => _fullNameInValid = false);
+                              }
+
+                              if (numberPhoneController.text.isEmpty) {
+                                setState(() => _numberPhoneInValid = true);
+                              } else {
+                                setState(() => _numberPhoneInValid = false);
+                              }
+
+                              if (addressController.text.isEmpty) {
+                                setState(() => _addressInValid = true);
+                              } else {
+                                setState(() => _addressInValid = false);
+                              }
+
+                              if (!_fullNameInValid &&
+                                  !_numberPhoneInValid &&
+                                  !_addressInValid) {
+                                widget.updateFavoriteDetails(
+                                  widget.users.idUser.toString(),
+                                  fullNameController.text,
+                                  int.parse(numberPhoneController.text),
+                                  addressController.text,
+                                );
+
+                                if (image != null) {
+                                  final str = image.toString();
+                                  final result = str
+                                      .replaceAll("'", "")
+                                      .replaceAll("File: ", "");
+                                  widget.updateImageUser(
+                                      widget.users.idUser, result);
+                                }
+
+                                Navigator.pop(context);
+                                CustomSnackbar.show(context,
+                                    'Update thành công. Ảnh sẽ được \ncập nhật cho lần đăng nhập sau');
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xffffd500),
@@ -236,7 +271,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             child: const CustomText(
                                 text: 'Cập nhật',
                                 color: Colors.black,
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.5,
                                 height: 1.3))),

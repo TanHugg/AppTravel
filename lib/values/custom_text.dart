@@ -11,7 +11,6 @@ class CustomText extends StatelessWidget {
     this.textDecoration = TextDecoration.none,
     required this.letterSpacing,
     required this.height,
-
   }) : super(key: key);
 
   final String text;
@@ -24,8 +23,7 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-        text,
+    return Text(text,
         style: GoogleFonts.plusJakartaSans(
           fontSize: fontSize,
           color: color,
@@ -33,7 +31,6 @@ class CustomText extends StatelessWidget {
           fontWeight: fontWeight,
           letterSpacing: letterSpacing,
           height: height,
-        )
-    );
+        ));
   }
 }

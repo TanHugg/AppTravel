@@ -48,94 +48,94 @@ class CustomBoughtTour extends StatelessWidget {
           return tour == null
               ? Center(child: Text('No find Tour!'))
               : FutureBuilder(
-                  future: readDetailTour(tour.idTour.toString()),
-                  builder: (context, snapshot) {
-                    final tourDetails = snapshot.data;
-                    return tourDetails == null
-                        ? Center(child: Text('No find Tour!'))
-                        : Stack(
-                            children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: SizedBox(
-                                  width: 100,
-                                  height: 140,
-                                  child: Image.asset(
-                                    "assets/images/picture_tours/${tourDetails.imageTourDetails}.jpg",
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                  left: 120,
-                                  top: 15,
-                                  child: CustomText(
-                                      text: tour.nameTour.toString(),
-                                      color: Colors.black,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1,
-                                      height: 1)),
-                              Positioned(
-                                left: 120,
-                                top: 40,
-                                child: Row(
-                                  children: <Widget>[
-                                    FaIcon(FontAwesomeIcons.locationDot,
-                                        size: 20, color: Color(0xff6c757d)),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: CustomText(
-                                          text:
-                                              tourDetails.placeTour.toString(),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 1.5,
-                                          height: 0,
-                                          color: Color(0xff6c757d)),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                  left: 120,
-                                  top: 68,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.calendarDay,
-                                    size: 21,
-                                  )),
-                              Positioned(
-                                  left: 145,
-                                  top: 71,
-                                  child: CustomText(
-                                      text:
-                                          '${tourDetails.startDay}/${tourDetails.startMonth} '
-                                          '- ${tourDetails.dayEnd}/${tourDetails.startMonth}',
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 1,
-                                      height: 1)),
-                              Positioned(
-                                  left: 206,
-                                  top: 100,
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(23),
-                                        color: Color(0xffef233c)),
-                                    child: CustomText(
-                                        text: formattedPrice.format(int.parse(
-                                            tour.priceTour.toString())),
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1,
-                                        height: 1),
-                                  ))
-                            ],
-                          );
-                  });
+              future: readDetailTour(tour.idTour.toString()),
+              builder: (context, snapshot) {
+                final tourDetails = snapshot.data;
+                return tourDetails == null
+                    ? Center(child: Text('No find Tour!'))
+                    : Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: SizedBox(
+                        width: 100,
+                        height: 140,
+                        child: Image.asset(
+                          "assets/images/picture_tours/${tourDetails.imageTourDetails}.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                        left: 120,
+                        top: 15,
+                        child: CustomText(
+                            text: tour.nameTour.toString(),
+                            color: Colors.black,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1,
+                            height: 1)),
+                    Positioned(
+                      left: 120,
+                      top: 40,
+                      child: Row(
+                        children: <Widget>[
+                          FaIcon(FontAwesomeIcons.locationDot,
+                              size: 20, color: Color(0xff6c757d)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: CustomText(
+                                text:
+                                tourDetails.placeTour.toString(),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 1.5,
+                                height: 0,
+                                color: Color(0xff6c757d)),
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                        left: 120,
+                        top: 68,
+                        child: FaIcon(
+                          FontAwesomeIcons.calendarDay,
+                          size: 21,
+                        )),
+                    Positioned(
+                        left: 145,
+                        top: 71,
+                        child: CustomText(
+                            text:
+                            '${tourDetails.startDay}/${tourDetails.startMonth} '
+                                '- ${tourDetails.dayEnd}/${tourDetails.startMonth}',
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1,
+                            height: 1)),
+                    Positioned(
+                        left: 206,
+                        top: 100,
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(23),
+                              color: Color(0xffef233c)),
+                          child: CustomText(
+                              text: formattedPrice.format(int.parse(
+                                  tour.priceTour.toString())),
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1,
+                              height: 1),
+                        ))
+                  ],
+                );
+              });
         });
   }
 }

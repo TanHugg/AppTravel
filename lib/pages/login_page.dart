@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/pages/admin_page.dart';
 import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
@@ -29,8 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       user = userCredential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
-        CustomSnackbar.show(
-            context, 'Email hoặc Mật khẩu không đúng!');
+        CustomSnackbar.show(context, 'Email hoặc Mật khẩu không đúng!');
         print("No user found for that email");
       }
     }
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  var _emailError = "Tài khoản không hợp lệ";
+  var _emailError = "Tài khoảng không hợp lệ";
   var _passError = "Mật khẩu phải có trên 6 ký tự";
   var _emailInValid = false;
   var _passInValid = false;
@@ -114,21 +114,23 @@ class _LoginPageState extends State<LoginPage> {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                const BorderSide(color: Colors.white70),
+                                    const BorderSide(color: Colors.white70),
                               ),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  const BorderSide(color: Colors.white70)),
+                                      const BorderSide(color: Colors.white70)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                const BorderSide(color: Colors.white70),
+                                    const BorderSide(color: Colors.white70),
                               ),
                               labelText: 'Email',
-                              errorText:
-                              !_isValid || _emailInValid ? _emailError : null,
-                              labelStyle: const TextStyle(color: Colors.white70),
+                              errorText: !_isValid || _emailInValid
+                                  ? _emailError
+                                  : null,
+                              labelStyle:
+                                  const TextStyle(color: Colors.white70),
                             ),
                           ),
                         ),
@@ -176,6 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: !_obscureText,
                           ),
                         ),
+
+                        //Button đăng nhập
                         Padding(
                           padding: const EdgeInsets.all(40),
                           child: SizedBox(
@@ -203,11 +207,18 @@ class _LoginPageState extends State<LoginPage> {
                                       password: passwordController.text,
                                       context: context);
 
-                                  if (user != null) {
+                                  if (user != null && user.email != 'admin@gmail.com') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const MainPage()));
+                                            builder: (context) =>
+                                                const MainPage()));
+                                  }else if(user!.email == 'admin@gmail.com'){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                             AdminPage()));
                                   }
                                 } else {
                                   setState(() {});
@@ -228,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Chưa có tài khoản ? ',
+                                text: 'Chưa có tài khoảng ? ',
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,

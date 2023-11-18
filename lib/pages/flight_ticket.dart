@@ -102,8 +102,8 @@ class FlightTicket extends StatelessWidget {
           ]),
           SizedBox(height: 13),
           Text.rich(TextSpan(
-              text: 'Book',
-              style: GoogleFonts.neucha(
+              text: 'Vé',
+              style: GoogleFonts.openSans(
                   fontSize: 42,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
@@ -111,8 +111,8 @@ class FlightTicket extends StatelessWidget {
                   decoration: TextDecoration.none),
               children: <TextSpan>[
                 TextSpan(
-                    text: ' Tickets',
-                    style: GoogleFonts.neucha(
+                    text: ' Loại Ghế',
+                    style: GoogleFonts.openSans(
                         fontSize: 42,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1,
@@ -127,7 +127,7 @@ class FlightTicket extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   FutureBuilder(
-                    future: readFlight('Austrian Airplanes'),
+                    future: readFlight('Gatwick Airplanes'),
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
                         final flight = snapShot.data;
@@ -384,7 +384,7 @@ class FlightTicket extends StatelessWidget {
                                   side: BorderSide(
                                       width: 2, color: Colors.white24))),
                           child: Image.asset(
-                            'assets/images/plane/${nameImages}.png',
+                            'assets/images/plane/plane_2.png',
                             fit: BoxFit.cover,
                           ),
                         ),

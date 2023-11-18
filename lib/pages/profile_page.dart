@@ -71,20 +71,18 @@ class _ProfilePageState extends State<ProfilePage> {
             //Tên và Email
             const SizedBox(height: 12),
             AutoSizeText(
-              'Hi! ${widget.users.nameUser}',
+              widget.users.nameUser,
               maxFontSize: 37,
               maxLines: 1,
               style: GoogleFonts.plusJakartaSans(
-                  fontSize: 40,
-                  color: Colors.black87),
+                  fontSize: 40, color: Colors.black87),
             ),
             AutoSizeText(
               widget.users.email,
               maxFontSize: 20,
               maxLines: 1,
               style: GoogleFonts.plusJakartaSans(
-                  fontSize: 27,
-                  color: Colors.black87),
+                  fontSize: 27, color: Colors.black87),
             ),
             const SizedBox(height: 20),
             //Nút Edit Profile
@@ -182,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
 //ten nè
 const String UserNameProfile = "Tan Hung";
 const String EmailProfile = "tanhung@gmail.com";
-const String EditProfile = "Edit Profile";
+const String EditProfile = "Cập nhật hồ sơ";
 const DarkColor = Color(0xff000000);
 const PrimaryColor = Color(0xFFFFE400);
 const tAccentColor = Color(0xFF001BFF);
