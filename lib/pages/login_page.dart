@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải có trên 6 ký tự";
   var _emailInValid = false;
   var _passInValid = false;
@@ -239,14 +239,14 @@ class _LoginPageState extends State<LoginPage> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Chưa có tài khoảng ? ',
+                                text: 'Chưa có tài khoản ? ',
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white70,
                                 ),
                               ),
-                              //NÚT TẠO TÀI KHOẢNG
+                              //NÚT TẠO TÀI khoản
                               TextSpan(
                                 text: 'Tạo ngay !',
                                 style: GoogleFonts.plusJakartaSans(

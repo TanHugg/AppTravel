@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải trên 6 ký tự";
   var _numError = "Số điện thoại không hợp lệ";
   var _fullNameError = "Tên không hợp lệ";
@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
   //   emailController.dispose();
   //   passwordController.dispose();
   //   super.dispose();
-  // }
+  // } 
 
   @override
   Widget build(BuildContext context) {
