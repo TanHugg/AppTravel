@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
   //   emailController.dispose();
   //   passwordController.dispose();
   //   super.dispose();
-  // } 
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +56,8 @@ class _SignUpPageState extends State<SignUpPage> {
             height: size.height,
             width: size.width,
             decoration: const BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
+              color: Colors.black54,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
