@@ -8,6 +8,9 @@ import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
 
+import '../widget/Login/my_forget_password_button.dart';
+import '../widget/Login/square_tile.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -40,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải có trên 6 ký tự";
   var _emailInValid = false;
   var _passInValid = false;
@@ -72,7 +75,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
             height: size.height,
             width: size.width,
-            decoration: const BoxDecoration(color: Colors.black54),
+            decoration: const BoxDecoration(
+              color: Colors.black54,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -95,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 60),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Column(
                       children: <Widget>[
                         Text('Đăng Nhập',
@@ -177,34 +182,22 @@ class _LoginPageState extends State<LoginPage> {
                             obscureText: !_obscureText,
                           ),
                         ),
-
-                        // //ForgetPassword
-                        // Padding(
-                        //   padding: EdgeInsets.fromLTRB(240, 15, 0, 0),
-                        //   child: Row(
-                        //     children: [
-                        //       GestureDetector(
-                        //         onTap: (){
-                        //           Navigator.push(
-                        //             context,
-                        //           MaterialPageRoute(builder: (context){
-                        //             return ForgetPassPage();
-                        //           }));
-                        //         },
-                        //         child: Text(
-                        //           'Quên mật khẩu',
-                        //           style: TextStyle(
-                        //               color: Colors.blue,
-                        //               fontWeight: FontWeight.bold,
-                        //             fontSize: 17
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-
-
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: _forgotPassword,
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         //Button đăng nhập
                         Padding(
                           padding: const EdgeInsets.all(30),
@@ -261,22 +254,61 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 60),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Text(
+                                  'Or continue with',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SquareTile(imagePath: 'assets/icons/facebook.png'),
+                            SizedBox(width: 25),
+                            SquareTile(imagePath: 'assets/icons/google.png')
+                          ],
+                        ),
+                        SizedBox(height: 20),
                         RichText(
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Chưa có tài khoảng ? ',
+                                text: 'Chưa có tài khoản ? ',
                                 style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white70,
                                 ),
                               ),
-                              //NÚT TẠO TÀI KHOẢNG
+                              //NÚT TẠO TÀI khoản
                               TextSpan(
-                                text: 'Tạo ngay !',
+                                text: ' Tạo ngay !',
                                 style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white),
                                 recognizer: TapGestureRecognizer()
@@ -302,6 +334,48 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  Future<void> _forgotPassword() async {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Chọn phương thức reset!",
+                style: Theme.of(context).textTheme.displayMedium),
+            const SizedBox(height: 30.0),
+            MyForgetPasswordButton(
+          onTap: (){
+                Navigator.push(
+                  context,
+                MaterialPageRoute(builder: (context){
+                  return ForgetPassPage();
+                }));
+              },
+              title: "Email",
+              subTitle: "Reset via E-Mail Verification.",
+              btnIcon: Icons.mail_outline_rounded,
+            ),
+            const SizedBox(height: 20.0),
+            MyForgetPasswordButton(
+              onTap: () {},
+              title: "Phone No",
+              subTitle: "Reset via Phone Verification.",
+              btnIcon: Icons.mobile_friendly_rounded,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
 
 InputDecoration decoration(String labelText) {
@@ -321,3 +395,4 @@ InputDecoration decoration(String labelText) {
     labelStyle: const TextStyle(color: Colors.white70),
   );
 }
+

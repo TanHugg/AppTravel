@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var _emailError = "Tài khoảng không hợp lệ";
+  var _emailError = "Tài khoản không hợp lệ";
   var _passError = "Mật khẩu phải trên 6 ký tự";
   var _numError = "Số điện thoại không hợp lệ";
   var _fullNameError = "Tên không hợp lệ";
@@ -56,8 +56,8 @@ class _SignUpPageState extends State<SignUpPage> {
             height: size.height,
             width: size.width,
             decoration: const BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
+              color: Colors.black54,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
