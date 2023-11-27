@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/pages/admin_page.dart';
+import 'package:travel_app/pages/forgetPass.dart';
 import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
@@ -71,9 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
             height: size.height,
             width: size.width,
-            decoration: const BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
+            decoration: const BoxDecoration(color: Colors.black54),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -179,9 +178,36 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
 
+                        // //ForgetPassword
+                        // Padding(
+                        //   padding: EdgeInsets.fromLTRB(240, 15, 0, 0),
+                        //   child: Row(
+                        //     children: [
+                        //       GestureDetector(
+                        //         onTap: (){
+                        //           Navigator.push(
+                        //             context,
+                        //           MaterialPageRoute(builder: (context){
+                        //             return ForgetPassPage();
+                        //           }));
+                        //         },
+                        //         child: Text(
+                        //           'Quên mật khẩu',
+                        //           style: TextStyle(
+                        //               color: Colors.blue,
+                        //               fontWeight: FontWeight.bold,
+                        //             fontSize: 17
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+
+
                         //Button đăng nhập
                         Padding(
-                          padding: const EdgeInsets.all(40),
+                          padding: const EdgeInsets.all(30),
                           child: SizedBox(
                             width: size.width * 2 / 3,
                             height: size.height * 1 / 17,
@@ -207,18 +233,18 @@ class _LoginPageState extends State<LoginPage> {
                                       password: passwordController.text,
                                       context: context);
 
-                                  if (user != null && user.email != 'admin@gmail.com') {
+                                  if (user != null &&
+                                      user.email != 'admin@gmail.com') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const MainPage()));
-                                  }else if(user!.email == 'admin@gmail.com'){
+                                  } else if (user!.email == 'admin@gmail.com') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                             AdminPage()));
+                                            builder: (context) => AdminPage()));
                                   }
                                 } else {
                                   setState(() {});

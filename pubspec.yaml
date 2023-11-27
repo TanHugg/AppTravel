@@ -46,9 +46,9 @@ dependencies:
 
 
   #Firebase auth and Firebase core
-  firebase_core: ^2.13.1
-  firebase_auth: ^4.6.2
-  cloud_firestore: ^4.7.0
+  firebase_core: ^2.23.0
+  firebase_auth: ^4.14.1
+  cloud_firestore: ^4.13.2
 
   line_awesome_flutter: ^2.0.0
 
