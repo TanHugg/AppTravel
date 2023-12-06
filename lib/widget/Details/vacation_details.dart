@@ -158,6 +158,9 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .tour.isFavorite),
                                                     createFavoriteDetails(
                                                         favorite),
+                                                    //Làm sao để khi tim vào sự kiện
+                                                    // thì trong analyst nó bắt được
+                                                    // 163
                                                     CustomSnackbar.show(context,
                                                         'Thêm vào danh sách yêu thích thành công'),
                                                   }

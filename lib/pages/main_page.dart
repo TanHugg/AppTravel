@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/pages/bought_page.dart';
 import 'package:travel_app/pages/favorite_page.dart';
 import 'package:travel_app/pages/profile_page.dart';
+import 'package:travel_app/pages/recommend_page.dart';
 
 import '../model/users.dart';
 import 'home_page.dart';
@@ -53,19 +54,23 @@ class _MainPageState extends State<MainPage> {
           onTap: (index) => setState(() => _currentIndex = index),
           items: [
             SalomonBottomBarItem(
-              icon: Icon(FontAwesomeIcons.house, size: 25),
+              icon: Icon(FontAwesomeIcons.house, size: 20),
               title: Text('Home'),
               selectedColor: Colors.purple,),
             SalomonBottomBarItem(
-              icon: Icon(FontAwesomeIcons.solidHeart, size: 25),
+                icon: Icon(FontAwesomeIcons.radio, size: 20),
+                title: Text('Recommend'),
+                selectedColor: Colors.blue),
+            SalomonBottomBarItem(
+              icon: Icon(FontAwesomeIcons.solidHeart, size: 20),
               title: Text('Like'),
               selectedColor: Colors.pink,),
             SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.briefcase, size: 25),
+                icon: Icon(FontAwesomeIcons.briefcase, size: 20),
                 title: Text('Purchased'),
                 selectedColor: Colors.green),
             SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.solidUser, size: 25),
+                icon: Icon(FontAwesomeIcons.solidUser, size: 20),
                 title: Text('Profile'),
                 selectedColor: Colors.black54)
           ],
@@ -82,6 +87,7 @@ class _MainPageState extends State<MainPage> {
                     index: _currentIndex,
                     children: [
                       HomePage(users: users),
+                      RecommendPage(users: users),
                       FavoritePage(users: users),
                       BoughtPage(users: users),
                       ProfilePage(users: users),
