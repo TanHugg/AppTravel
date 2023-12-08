@@ -9,12 +9,11 @@ class aTour {
   int? startYear;
   String? typeTour;
 
-
   aTour(
       {this.idTour = '',
       required this.nameTour,
       required this.priceTour,
-        required this.typeTour,
+      required this.typeTour,
       this.isFavorite = false,
       required this.idUser,
       required this.startDay,
@@ -44,5 +43,5 @@ class aTour {
         startDay: json['startDay'],
         startMonth: json['startMonth'],
         startYear: json['startYear'],
-  );
+      );
 }

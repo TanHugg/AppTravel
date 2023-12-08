@@ -6,6 +6,7 @@ import 'package:travel_app/pages/admin_page.dart';
 import 'package:travel_app/pages/forgetPass.dart';
 import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
+import 'package:travel_app/services/auth_services.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
 
 import '../widget/Login/my_forget_password_button.dart';
@@ -287,9 +288,13 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SquareTile(imagePath: 'assets/icons/facebook.png'),
+                            SquareTile(
+                              onTap: () => AuthService().signInWithGoogle(),
+                                imagePath: 'assets/icons/facebook.png'),
                             SizedBox(width: 25),
-                            SquareTile(imagePath: 'assets/icons/google.png')
+                            SquareTile(
+                                onTap: (){},
+                                imagePath: 'assets/icons/google.png')
                           ],
                         ),
                         SizedBox(height: 20),
