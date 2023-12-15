@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   //Initialize Firebase
-  Future<FirebaseApp> _initializeFirebase() async{
+  Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     return firebaseApp;
   }
@@ -26,12 +26,13 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FutureBuilder(  //Check state current == state firebase
+      home: FutureBuilder(
+        //Check state current == state firebase
         future: _initializeFirebase(),
-        builder: (context,snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
             return IntroducePage();
           }
           return const Center(
@@ -42,4 +43,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

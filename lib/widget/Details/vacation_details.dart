@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +23,7 @@ class VacationDetails extends StatefulWidget {
 class _VacationDetailsState extends State<VacationDetails> {
   static final formattedPrice =
       NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   //Trong đây nó có idUserCurrent
   Future<tourDetails?> readTourDetail(String idTour) async {
@@ -54,6 +57,11 @@ class _VacationDetailsState extends State<VacationDetails> {
       await doc.reference.delete();
     }
   }
+
+  // //Lấy thông tin like ra Analytics
+  // logAnalytics(String id){
+  //   analytics.logEvent(name: )
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +166,22 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                             .tour.isFavorite),
                                                     createFavoriteDetails(
                                                         favorite),
-                                                    //Làm sao để khi tim vào sự kiện
-                                                    // thì trong analyst nó bắt được
-                                                    // 163
+                                                    analytics
+                                                        .setAnalyticsCollectionEnabled(
+                                                            true),
+                                                    analytics.logEvent(
+                                                        name: 'isFavorite',
+                                                        parameters: <String,
+                                                            dynamic>{
+                                                          'idTour': widget
+                                                              .tour.idTour,
+                                                          'nameTour': widget
+                                                              .tour.nameTour,
+                                                          'priceTour': widget
+                                                              .tour.priceTour,
+                                                          'typeTour': widget
+                                                              .tour.typeTour
+                                                        }),
                                                     CustomSnackbar.show(context,
                                                         'Thêm vào danh sách yêu thích thành công'),
                                                   }
