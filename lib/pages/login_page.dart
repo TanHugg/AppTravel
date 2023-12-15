@@ -9,6 +9,7 @@ import 'package:travel_app/pages/signup_page.dart';
 import 'package:travel_app/services/auth_services.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
 
+import '../model/users.dart';
 import '../widget/Login/my_forget_password_button.dart';
 import '../widget/Login/square_tile.dart';
 
@@ -221,6 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                                   _passInValid = false;
                                 }
 
+                                //Kiểm tra -> đăng nhập
                                 if (_isValid) {
                                   User? user = await loginUsingEmailPassword(
                                       email: emailController.text,
@@ -289,11 +291,36 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SquareTile(
-                              onTap: () => AuthService().signInWithGoogle(),
+                                onTap: () {},
                                 imagePath: 'assets/icons/facebook.png'),
                             SizedBox(width: 25),
                             SquareTile(
-                                onTap: (){},
+                                onTap: () {
+                                  AuthService().signInWithGoogle();
+                                  // String email = AuthService().signInWithGoogle().then((user) => user.email).catchError((error) {
+                                  //   print(error);
+                                  // });
+                                  // final user = Users(
+                                  //   nameUser: '',
+                                  //   numberPhone: int.parse(''),
+                                  //   address: '',
+                                  //   email: email,
+                                  //   imageUser: '',
+                                  // );
+                                  // createUsers(user);
+                                  // if(email.toString().length != 0){
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) =>
+                                  //           const MainPage()));
+                                  // }
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            const MainPage()));
+                                },
                                 imagePath: 'assets/icons/google.png')
                           ],
                         ),
@@ -339,6 +366,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   Future<void> _forgotPassword() async {
     showModalBottomSheet(
       context: context,
@@ -357,10 +385,8 @@ class _LoginPageState extends State<LoginPage> {
                 style: Theme.of(context).textTheme.displayMedium),
             const SizedBox(height: 30.0),
             MyForgetPasswordButton(
-          onTap: (){
-                Navigator.push(
-                  context,
-                MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ForgetPassPage();
                 }));
               },
@@ -380,7 +406,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }
 
 InputDecoration decoration(String labelText) {
@@ -400,4 +425,3 @@ InputDecoration decoration(String labelText) {
     labelStyle: const TextStyle(color: Colors.white70),
   );
 }
-

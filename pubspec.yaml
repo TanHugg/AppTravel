@@ -50,6 +50,7 @@ dependencies:
   firebase_auth: ^4.14.1
   cloud_firestore: ^4.13.2
   google_sign_in: ^6.1.6
+  firebase_ml_model_downloader: ^0.2.4+8
 
   line_awesome_flutter: ^2.0.0
 
