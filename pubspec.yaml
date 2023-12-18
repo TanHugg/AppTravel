@@ -47,7 +47,7 @@ dependencies:
   #Firebase auth and Firebase core
   firebase_core: ^2.23.0
   firebase_analytics: ^10.7.2
-  firebase_auth: ^4.14.1
+  firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.2
   google_sign_in: ^6.1.6
   firebase_ml_model_downloader: ^0.2.4+8

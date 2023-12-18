@@ -297,6 +297,26 @@ class _LoginPageState extends State<LoginPage> {
                             SquareTile(
                                 onTap: () {
                                   AuthService().signInWithGoogle();
+                                  FirebaseAuth.instance.authStateChanges().listen((user) async {
+                                    if (user != null) {
+                                      print(user.email); // Print the email
+                                      final userGoogle = Users(
+                                        nameUser: '',
+                                        numberPhone: 0,
+                                        address: '',
+                                        email: user.email.toString(),
+                                        imageUser: '',
+                                      );
+                                      createUsers(userGoogle);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MainPage()));
+                                    } else {
+                                      print('No find User!!!!!!!!!!!!!!!!! ');
+                                    }
+                                  });
                                   // String email = AuthService().signInWithGoogle().then((user) => user.email).catchError((error) {
                                   //   print(error);
                                   // });
@@ -315,11 +335,11 @@ class _LoginPageState extends State<LoginPage> {
                                   //           builder: (context) =>
                                   //           const MainPage()));
                                   // }
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const MainPage()));
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) =>
+                                  //           const MainPage()));
                                 },
                                 imagePath: 'assets/icons/google.png')
                           ],

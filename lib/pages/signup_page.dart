@@ -306,8 +306,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                     email: emailController.text,
                                     imageUser: '',
                                   );
-
                                   createUsers(user);
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
