@@ -1,28 +1,55 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/widget/BoughtTour/custom_bought_tour.dart';
 import 'package:travel_app/widget/BoughtTour/show_bought_tour.dart';
+import '../model/aTour.dart';
 import '../model/billTotal.dart';
 import '../model/users.dart';
+import '../values/custom_snackbar.dart';
 
-class BoughtPage extends StatelessWidget {
+class BoughtPage extends StatefulWidget {
   const BoughtPage({Key? key, required this.users}) : super(key: key);
 
-  final Users users; //User hiện tại
+  final Users users;
+  @override
+  State<BoughtPage> createState() => _BoughtPageState();
+}
 
+class _BoughtPageState extends State<BoughtPage> {
+  List<aTour> _favoriteTours = [];
+
+ //User hiện tại
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
-      .where('idUser', isEqualTo: users.idUser.toString())
+      .where('idUser', isEqualTo: widget.users.idUser.toString())
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
+
+  Future deleteFavoriteDetails(String idUser, String idTour) async {
+    final docFavoriteDetails = FirebaseFirestore.instance
+        .collection("FavoriteDetails")
+        .where('idUser', isEqualTo: idUser)
+        .where('idTour', isEqualTo: idTour);
+    final snapshot = await docFavoriteDetails.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+    // Xóa aTour khỏi danh sách trong State object và rebuild widget tree
+    setState(() {
+      _favoriteTours.removeWhere((tour) => tour.idTour == idTour);
+    });
+    CustomSnackbar.show(context, 'Xóa thành công');
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; // Thông số size của điện thoại
     return Scaffold(
       body: Padding(
+        // padding: EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 15),
         padding: EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +133,7 @@ class BoughtPage extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: buildTour(billTotal[index]),
+                                  child: buildTour(billTotal[index], index, context),
                                 ),
                               );
                             },
@@ -128,7 +155,66 @@ class BoughtPage extends StatelessWidget {
     );
   }
 
-  Widget buildTour(billTotal bill) => Padding(
+  // Widget buildTour(billTotal bill) => Padding(
+  //       padding: EdgeInsets.only(bottom: 20),
+  //       child: Container(
+  //         decoration: BoxDecoration(
+  //             color: Color(0xffedede9),
+  //             borderRadius: BorderRadius.circular(20)),
+  //         child: CustomBoughtTour(bill: bill),
+  //       ),
+  //     );
+
+  Widget buildTour(billTotal bill, int index, BuildContext context) => Dismissible(
+    key: UniqueKey(),
+    background: Container(
+      decoration: BoxDecoration(
+          color: Color(0xffd81159),
+          borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+          padding: EdgeInsets.only(left: 25, top: 70),
+          child: FaIcon(
+            FontAwesomeIcons.trashCan,
+            size: 55,
+            color: Colors.white,
+          )),
+    ),
+    secondaryBackground: Container(color: Colors.red),
+    direction: DismissDirection.startToEnd,
+    confirmDismiss: (direction) async {
+      if (direction == DismissDirection.startToEnd) {
+        return await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Cảnh báo'),
+            content: Text('Bạn có chắc muốn hủy Tour này không?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Hủy'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('Xóa'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          ),
+        );
+      }
+      return Future.value(false); // Không cần xác nhận khi vuốt theo hướng khác
+    },
+    onDismissed: (direction) {
+      if (direction == DismissDirection.startToEnd) {
+        // deleteFavoriteDetails(
+        //     bill.idUser.toString(), bill.idTour.toString());
+        // Xóa tour
+        print('Đã xoáaaaaaaaa !');
+        setState(() {
+          // _favoriteTours.removeAt(index);
+        });
+      }
+    },
+    child: Padding(
         padding: EdgeInsets.only(bottom: 20),
         child: Container(
           decoration: BoxDecoration(
@@ -136,5 +222,6 @@ class BoughtPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20)),
           child: CustomBoughtTour(bill: bill),
         ),
-      );
+      ),
+  );
 }

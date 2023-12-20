@@ -178,7 +178,7 @@ class _FavoritePageState extends State<FavoritePage> {
           if (direction == DismissDirection.startToEnd) {
             deleteFavoriteDetails(
                 tour.idUser.toString(), tour.idTour.toString());
-            // Remove the Dismissible widget from the list of favorites.
+            // Xóa tour
             setState(() {
               _favoriteTours.removeAt(index);
             });
