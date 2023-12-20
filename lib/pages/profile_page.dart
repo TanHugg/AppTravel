@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:travel_app/pages/introduce_page.dart';
 import 'package:travel_app/values/custom_text.dart';
 import 'package:travel_app/widget/ProfilePage/contact_page.dart';
 import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
@@ -188,7 +189,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 textColor: Colors.yellow,
                 endIcon: false,
                 onPress: () {
-                      Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => IntroducePage()),
+                  );
                   _signOut();
                 }),
           ],

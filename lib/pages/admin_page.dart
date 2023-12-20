@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travel_app/pages/introduce_page.dart';
 import 'package:travel_app/widget/Admin/add_tour.dart';
 import 'package:travel_app/widget/Admin/edit_tour.dart';
 import 'package:travel_app/widget/Admin/show_bought_tour.dart';
@@ -220,7 +221,11 @@ class _AdminPageState extends State<AdminPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => IntroducePage()),
+                            );
                             _signOut();
                           });
                         },
