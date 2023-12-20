@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_app/widget/Admin/add_tour.dart';
 import 'package:travel_app/widget/Admin/edit_tour.dart';
 import 'package:travel_app/widget/Admin/show_bought_tour.dart';
@@ -15,6 +16,8 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   //Hàm đăng xuất
   Future<void> _signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("loggedIn", false);
     await FirebaseAuth.instance.signOut();
   }
 
@@ -183,6 +186,8 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                     ),
                     SizedBox(height: 20),
+
+                    //Tour đã đăng ký
                     Container(
                       width: 270,
                       height: 50,
@@ -207,6 +212,8 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                     ),
                     SizedBox(height: 20),
+
+                    //Đăng xuất
                     Container(
                       width: 270,
                       height: 50,

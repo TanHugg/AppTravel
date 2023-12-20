@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travel_app/pages/admin_page.dart';
 import 'package:travel_app/pages/login_page.dart';
 
 import 'main_page.dart';
@@ -47,11 +48,20 @@ class IntroducePage extends StatelessWidget {
                                     await SharedPreferences.getInstance();
                                 bool isLoggedIn =
                                     prefs.getBool('loggedIn') ?? false;
-                                if (isLoggedIn) {
+                                bool isUser =
+                                    prefs.getBool('User') ?? false;
+                                if (isLoggedIn && isUser) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const MainPage()),
+                                  );
+                                } else if (isLoggedIn && !isUser){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const AdminPage()),
                                   );
                                 } else {
                                   Navigator.push(

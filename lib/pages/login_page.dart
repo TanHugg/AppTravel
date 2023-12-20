@@ -37,6 +37,10 @@ class _LoginPageState extends State<LoginPage> {
       user = userCredential.user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("loggedIn", true);
+      if (user?.email != 'admin@gmail.com'){
+        prefs.setBool("User", true);
+      } else
+        prefs.setBool("User", false);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         CustomSnackbar.show(context, 'Email hoặc Mật khẩu không đúng!');
@@ -302,6 +306,8 @@ class _LoginPageState extends State<LoginPage> {
                                   AuthService().signInWithGoogle();
                                   FirebaseAuth.instance.authStateChanges().listen((user) async {
                                     if (user != null) {
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      prefs.setBool("loggedIn", true);
                                       print(user.email); // Print the email
                                       final userGoogle = Users(
                                         nameUser: user.displayName.toString(),

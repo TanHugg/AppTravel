@@ -12,6 +12,7 @@ class ShowBillOfUser extends StatelessWidget {
 
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
+      .where('checkBought',isEqualTo: true)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());

@@ -4,7 +4,7 @@ import 'package:travel_app/pages/introduce_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-late bool isLoggedIn;
+late bool isLoggedIn, isUser;
 void main() async{
   // initializeDateFormatting('vi_VN', null).then((_) {
   //   runApp(MyApp());
@@ -12,7 +12,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isLoggedIn = prefs.getBool('loggedIn') ?? false;
-  // prefs.setBool("loggedIn", false);
+  isUser = prefs.getBool('User') ?? false;
   runApp(const MyApp());
 }
 
