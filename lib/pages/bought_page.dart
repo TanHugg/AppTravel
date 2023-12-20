@@ -217,6 +217,7 @@ class _BoughtPageState extends State<BoughtPage> {
     child: Padding(
         padding: EdgeInsets.only(bottom: 20),
         child: Container(
+          width: 360,
           decoration: BoxDecoration(
               color: Color(0xffedede9),
               borderRadius: BorderRadius.circular(20)),
