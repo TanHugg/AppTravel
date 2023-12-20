@@ -103,7 +103,7 @@ class _RecommendPageState extends State<RecommendPage> {
       body: Padding(
         padding: EdgeInsets.only(top: 60, left: 20, right: 20), //Đổi ở đây
         child: Container(
-            height: 700, //Đổi ở đây
+            height: 800, //Đổi ở đây
             width: size.width,
             child: StreamBuilder<List<aTour>>(
               stream: readListTour(),

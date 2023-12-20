@@ -407,7 +407,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 10),
               //Container List Tours
               Container(
-                  height: 380, //Đổi ở đây
+                  height: 480, //Đổi ở đây
                   width: size.width,
                   child: StreamBuilder<List<aTour>>(
                     stream: readListTour(typeTours.checkTypeTours(),

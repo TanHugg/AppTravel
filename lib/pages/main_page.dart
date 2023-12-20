@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
 
     if (snapshot.docs.isNotEmpty) {
       return Users.fromJson(snapshot.docs.first.data());
-    }else {
+    } else {
       throw Exception('No user found with this email');
     }
   }
@@ -41,39 +41,60 @@ class _MainPageState extends State<MainPage> {
   //Thanh BottomBar
   @override
   Widget build(BuildContext context) {
+    bool showNav = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
-      backgroundColor: Color(0xffedede9),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.all(Radius.circular(30))),
-        child: SalomonBottomBar(
-          unselectedItemColor: Color(0xff8d99ae),
-          currentIndex: _currentIndex,
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 26),
-          onTap: (index) => setState(() => _currentIndex = index),
-          items: [
-            SalomonBottomBarItem(
-              icon: Icon(FontAwesomeIcons.house, size: 20),
-              title: Text('Home'),
-              selectedColor: Colors.purple,),
-            SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.radio, size: 20),
-                title: Text('Recommend'),
-                selectedColor: Colors.blue),
-            SalomonBottomBarItem(
-              icon: Icon(FontAwesomeIcons.solidHeart, size: 20),
-              title: Text('Like'),
-              selectedColor: Colors.pink,),
-            SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.briefcase, size: 20),
-                title: Text('Purchased'),
-                selectedColor: Colors.green),
-            SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.solidUser, size: 20),
-                title: Text('Profile'),
-                selectedColor: Colors.black54)
-          ],
+      // backgroundColor: Color(0xffedede9),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Visibility(
+        visible: !showNav,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.white.withOpacity(1.0),
+                Colors.white.withOpacity(0.9),
+                Colors.white.withOpacity(0.7),
+                Colors.white.withOpacity(0.5),
+                Colors.white.withOpacity(0.3),
+                Colors.white.withOpacity(0.0),
+              ],
+               // Các điểm dừng tương ứng với mỗi dải màu
+            ),
+          ),
+          child: SalomonBottomBar(
+            unselectedItemColor: Color(0xff8d99ae),
+            currentIndex: _currentIndex,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            // margin: EdgeInsets.only(left: 15,right: 15, bottom: 20),
+            onTap: (index) => setState(() => _currentIndex = index),
+            items: [
+              SalomonBottomBarItem(
+                icon: Icon(FontAwesomeIcons.house, size: 20),
+                title: Text('Home'),
+                selectedColor: Colors.purple,
+              ),
+              SalomonBottomBarItem(
+                  icon: Icon(FontAwesomeIcons.radio, size: 20),
+                  title: Text('Recommend'),
+                  selectedColor: Colors.blue),
+              SalomonBottomBarItem(
+                icon: Icon(FontAwesomeIcons.solidHeart, size: 20),
+                title: Text('Like'),
+                selectedColor: Colors.pink,
+              ),
+              SalomonBottomBarItem(
+                  icon: Icon(FontAwesomeIcons.briefcase, size: 20),
+                  title: Text('Purchased'),
+                  selectedColor: Colors.green),
+              SalomonBottomBarItem(
+                  icon: Icon(FontAwesomeIcons.solidUser, size: 20),
+                  title: Text('Profile'),
+                  selectedColor: Colors.black54)
+            ],
+          ),
         ),
       ),
       body: FutureBuilder(

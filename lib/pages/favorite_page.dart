@@ -77,8 +77,6 @@ class _FavoritePageState extends State<FavoritePage> {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Container(
       padding: EdgeInsets.only(top: 20, left: 22, right: 22),
-      width: size.width,
-      height: 735,
       color: Colors.white,
       child: Column(
         children: <Widget>[
@@ -102,7 +100,7 @@ class _FavoritePageState extends State<FavoritePage> {
             child: Padding(
               padding: EdgeInsets.only(top: 20),
               child: Container(
-                  height: 550, //Đổi ở đây
+                  height: 700, //Đổi ở đây
                   width: size.width,
                   child: StreamBuilder<List<FavoriteDetails>>(
                     stream: readFavoriteDetails(),

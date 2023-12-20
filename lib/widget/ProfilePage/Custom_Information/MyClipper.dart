@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class MyClipper implements CustomClipper<Rect>{
-
+class MyClipper implements CustomClipper<Rect> {
   @override
   void addListener(VoidCallback listener) {
     // TODO: implement addListener
@@ -10,7 +9,12 @@ class MyClipper implements CustomClipper<Rect>{
   @override
   Rect getApproximateClipRect(Size size) {
     // TODO: implement getApproximateClipRect
-    throw UnimplementedError();
+    final rectWidth = size.width / 2;
+    final rectHeight = size.height / 2;
+    final rectLeft = (size.width - rectWidth) / 2;
+    final rectTop = (size.height - rectHeight) / 2;
+    return Rect.fromLTRB(
+        rectLeft, rectTop, rectLeft + rectWidth, rectTop + rectHeight);
   }
 
   @override
