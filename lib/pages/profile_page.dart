@@ -188,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 textColor: Colors.yellow,
                 endIcon: false,
                 onPress: () {
-                  Navigator.of(context).pop();
+                      Navigator.of(context).pop();
                   _signOut();
                 }),
           ],
