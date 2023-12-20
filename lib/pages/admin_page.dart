@@ -174,7 +174,7 @@ class _AdminPageState extends State<AdminPage> {
                                   builder: (context) =>
                                       EditTour()));
                         },
-                        child: Text('sửa Tour', style: TextStyle(fontSize: 20)),
+                        child: Text('Sửa Tour', style: TextStyle(fontSize: 20)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff219ebc),
                             shape: const RoundedRectangleBorder(

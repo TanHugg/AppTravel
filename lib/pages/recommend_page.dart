@@ -138,63 +138,19 @@ class _RecommendPageState extends State<RecommendPage> {
 
   static final formattedPrice =
       NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
-  Widget buildATour(aTour tour) => Card(
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Hình ảnh
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  "assets/images/picture_tours/${tour.nameTour.toString()}.jpg",
-                  fit: BoxFit.cover,
-                  width: 120,
-                  height: 100,
-                ),
-              ),
-
-              // Chi tiết tour
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Tên tour
-                  Text(
-                    tour.nameTour.toString(),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-
-                  // Ngày khởi hành
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 16,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 5),
-                    ],
-                  ),
-
-                  // Giá tour
-                  Text(
-                    formattedPrice.format(int.parse('${tour.priceTour}')),
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+   Widget buildATour(aTour tour) => Padding(
+        padding: EdgeInsets.only(bottom: 15),
+        child: CustomATours(
+          nameImage: '${tour.nameTour.toString()}',
+          nameTour: '${tour.nameTour.toString()}',
+          startDay: tour.startDay!,
+          startMonth: tour.startMonth!,
+          startYear: tour.startYear!,
+          widSizeBox: 360,
+          heiSizeBox: 170,
+          widContain: 70,
+          heiContain: 30,
+          money: formattedPrice.format(int.parse('${tour.priceTour}')),
         ),
       );
 }
