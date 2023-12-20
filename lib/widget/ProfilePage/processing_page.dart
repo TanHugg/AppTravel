@@ -4,46 +4,31 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/widget/BoughtTour/custom_bought_tour.dart';
 import 'package:travel_app/widget/BoughtTour/show_bought_tour.dart';
-import '../model/aTour.dart';
-import '../model/billTotal.dart';
-import '../model/users.dart';
-import '../values/custom_snackbar.dart';
 
-class BoughtPage extends StatefulWidget {
-  const BoughtPage({Key? key, required this.users}) : super(key: key);
+import '../../model/aTour.dart';
+import '../../model/billTotal.dart';
+import '../../model/users.dart';
+import '../../values/custom_snackbar.dart';
+
+class ProcessingPage extends StatefulWidget {
+  const ProcessingPage({Key? key, required this.users}) : super(key: key);
 
   final Users users;
   @override
-  State<BoughtPage> createState() => _BoughtPageState();
+  State<ProcessingPage> createState() => _ProcessingPageState();
 }
 
-class _BoughtPageState extends State<BoughtPage> {
+class _ProcessingPageState extends State<ProcessingPage> {
   List<aTour> _favoriteTours = [];
 
- //User hiện tại
+  //User hiện tại
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
       .where('idUser', isEqualTo: widget.users.idUser.toString())
-      .where('checkBought',isEqualTo: false)
+      .where('checkBought',isEqualTo: true)
       .snapshots()
       .map((snapshot) =>
-          snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
-
-  // Future deleteFavoriteDetails(String idUser, String idTour) async {
-  //   final docFavoriteDetails = FirebaseFirestore.instance
-  //       .collection("FavoriteDetails")
-  //       .where('idUser', isEqualTo: idUser)
-  //       .where('idTour', isEqualTo: idTour);
-  //   final snapshot = await docFavoriteDetails.get();
-  //   for (final doc in snapshot.docs) {
-  //     await doc.reference.delete();
-  //   }
-  //   // Xóa aTour khỏi danh sách trong State object và rebuild widget tree
-  //   setState(() {
-  //     _favoriteTours.removeWhere((tour) => tour.idTour == idTour);
-  //   });
-  //   CustomSnackbar.show(context, 'Xóa thành công');
-  // }
+      snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
 
   Future updateBillDetails(String idBill) async {
     final cdoBillDetails = FirebaseFirestore.instance
@@ -74,6 +59,24 @@ class _BoughtPageState extends State<BoughtPage> {
               padding: EdgeInsets.only(top: 10),
               child: Row(
                 children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(left: 22, top: 65),
+                    child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(14),
+                          backgroundColor: Colors.black12,
+                        ),
+                        child: FaIcon(
+                          FontAwesomeIcons.arrowLeftLong,
+                          size: 33,
+                          color: Colors.white,
+                        )),
+                  ),
                   Stack(
                     children: [
                       ClipRRect(
@@ -144,8 +147,8 @@ class _BoughtPageState extends State<BoughtPage> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ShowBoughtTour(
-                                          bill: billTotal[index],
-                                        ),
+                                              bill: billTotal[index],
+                                            ),
                                       ),
                                     );
                                   },
@@ -232,14 +235,14 @@ class _BoughtPageState extends State<BoughtPage> {
       }
     },
     child: Padding(
-        padding: EdgeInsets.only(bottom: 20),
-        child: Container(
-          width: 360,
-          decoration: BoxDecoration(
-              color: Color(0xffedede9),
-              borderRadius: BorderRadius.circular(20)),
-          child: CustomBoughtTour(bill: bill),
-        ),
+      padding: EdgeInsets.only(bottom: 20),
+      child: Container(
+        width: 360,
+        decoration: BoxDecoration(
+            color: Color(0xffedede9),
+            borderRadius: BorderRadius.circular(20)),
+        child: CustomBoughtTour(bill: bill),
       ),
+    ),
   );
 }

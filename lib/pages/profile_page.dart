@@ -9,6 +9,7 @@ import 'package:travel_app/widget/ProfilePage/contact_page.dart';
 import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
 import 'package:travel_app/widget/ProfilePage/information_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travel_app/widget/ProfilePage/processing_page.dart';
 
 import '../model/users.dart';
 import '../widget/ProfilePage/Custom_Information/MyClipper.dart';
@@ -143,6 +144,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ContactPage()));
+                    });
+              },
+            ),
+            const SizedBox(height: 10),
+            //Nút liên hệ
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return ProfileMenuWidget(
+                    title: "Tour đang xử lý",
+                    icon: LineAwesomeIcons.wrench,
+                    onPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProcessingPage(users: widget.users)));
                     });
               },
             ),

@@ -210,7 +210,8 @@ class BillPage extends StatelessWidget {
                                   priceBill: int.parse(
                                       tour.priceTour! + flight.priceFlight!),
                                   idUser: tour.idUser,
-                                  dateTime: dateTimeNow.toString());
+                                  dateTime: dateTimeNow.toString(),
+                                  checkBought: false);
                               createBill(bill);
                               Navigator.push(
                                   context,

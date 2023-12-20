@@ -5,6 +5,7 @@ class billTotal {
   String? idUser;
   int? priceBill;
   String? dateTime;
+  bool? checkBought;
 
   billTotal(
       {this.idBill = '',
@@ -12,7 +13,8 @@ class billTotal {
       required this.idFlight,
       required this.priceBill,
       required this.idUser,
-      required this.dateTime});
+      required this.dateTime,
+      required this.checkBought});
 
   Map<String, dynamic> toJson() => {
         'idBill': idBill,
@@ -21,6 +23,7 @@ class billTotal {
         'idUser': idUser,
         'priceBill': priceBill,
         'dateTime': dateTime,
+        'checkBought': checkBought
       };
 
   //Lấy từ trên FirebaseStore xuống
@@ -30,6 +33,7 @@ class billTotal {
         idFlight: json['idFlight'].toString(),
         idUser: json['idUser'].toString(),
         priceBill: json['priceBill'],
-        dateTime: json['dateTime']
+        dateTime: json['dateTime'],
+        checkBought: json['checkBought']
       );
 }
