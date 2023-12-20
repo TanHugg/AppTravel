@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../model/aTour.dart';
 import '../model/users.dart';
+import '../widget/Details/vacation_details.dart';
 import '../widget/HomePage/custom_tours.dart';
 
 import 'package:intl/intl.dart';
@@ -114,7 +115,16 @@ class _RecommendPageState extends State<RecommendPage> {
                   return ListView.builder(
                     itemCount: aTour!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return buildATour(aTour[index]);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VacationDetails(
+                                      tour: aTour[index])));
+                        },
+                        child: buildATour(aTour[index]),
+                      );
                     },
                   );
                 } else {

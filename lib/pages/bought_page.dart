@@ -68,7 +68,7 @@ class BoughtPage extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Container(
-                        height: 405,
+                        height: 447,
                         width: size.width,
                         child: StreamBuilder<List<billTotal>>(
                           stream: readBill(),
