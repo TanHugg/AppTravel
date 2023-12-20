@@ -8,6 +8,7 @@ import 'package:travel_app/pages/main_page.dart';
 import 'package:travel_app/pages/signup_page.dart';
 import 'package:travel_app/services/auth_services.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/users.dart';
 import '../widget/Login/my_forget_password_button.dart';
@@ -34,6 +35,8 @@ class _LoginPageState extends State<LoginPage> {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("loggedIn", true);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         CustomSnackbar.show(context, 'Email hoặc Mật khẩu không đúng!');

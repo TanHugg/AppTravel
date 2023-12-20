@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_app/pages/login_page.dart';
+
+import 'main_page.dart';
 
 class IntroducePage extends StatelessWidget {
   const IntroducePage({Key? key}) : super(key: key);
@@ -39,12 +42,25 @@ class IntroducePage extends StatelessWidget {
                             width: 150,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
+                              onPressed: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                bool isLoggedIn =
+                                    prefs.getBool('loggedIn') ?? false;
+                                if (isLoggedIn) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const MainPage()),
+                                  );
+                                } else {
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const LoginPage()));
+                                            const LoginPage()),
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFF5B5B),

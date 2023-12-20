@@ -8,6 +8,8 @@ import 'package:travel_app/values/custom_text.dart';
 import 'package:travel_app/widget/ProfilePage/contact_page.dart';
 import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
 import 'package:travel_app/widget/ProfilePage/information_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../model/users.dart';
 import '../widget/ProfilePage/Custom_Information/MyClipper.dart';
 import '../widget/ProfilePage/profile_menu.dart';
@@ -37,6 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //Hàm đăng xuất
   Future<void> _signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("loggedIn", false);
     await FirebaseAuth.instance.signOut();
   }
 
