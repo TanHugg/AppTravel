@@ -2,17 +2,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/pages/introduce_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 late bool isLoggedIn, isUser;
 void main() async {
-  // initializeDateFormatting('vi_VN', null).then((_) {
-  //   runApp(MyApp());
-  // });
+
+  initializeDateFormatting('vi_VN', null).then((_) {
+    runApp(MyApp());
+  });
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isLoggedIn = prefs.getBool('loggedIn') ?? false;
   isUser = prefs.getBool('User') ?? false;
-  runApp(const MyApp());
+
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
