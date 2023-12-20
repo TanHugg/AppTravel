@@ -48,20 +48,19 @@ class IntroducePage extends StatelessWidget {
                                     await SharedPreferences.getInstance();
                                 bool isLoggedIn =
                                     prefs.getBool('loggedIn') ?? false;
-                                bool isUser =
-                                    prefs.getBool('User') ?? false;
+                                bool isUser = prefs.getBool('User') ?? false;
                                 if (isLoggedIn && isUser) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const MainPage()),
                                   );
-                                } else if (isLoggedIn && !isUser){
+                                } else if (isLoggedIn && !isUser) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const AdminPage()),
+                                            const AdminPage()),
                                   );
                                 } else {
                                   Navigator.push(

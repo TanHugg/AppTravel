@@ -61,7 +61,7 @@ class _ProcessingPageState extends State<ProcessingPage> {
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(left: 22, top: 65),
+                    margin: const EdgeInsets.only(left: 22, top: 25),
                     child: OutlinedButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -77,48 +77,35 @@ class _ProcessingPageState extends State<ProcessingPage> {
                           color: Colors.white,
                         )),
                   ),
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        child: SizedBox(
-                          width: 350,
-                          height: 270,
-                          child: Image.asset(
-                            "assets/images/nobackground/CoconutTree.png",
-                            fit: BoxFit.cover,
-                          ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 4, top: 20),
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Tour',
+                        style: GoogleFonts.poppins(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1,
+                          color: Colors.black,
                         ),
-                      ),
-                      Positioned(
-                        top: 200,
-                        child: Text.rich(
+                        children: <TextSpan>[
                           TextSpan(
-                            text: 'Tour',
+                            text: ' đang xử lý',
                             style: GoogleFonts.poppins(
                               fontSize: 32,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w400,
                               letterSpacing: 1,
-                              color: Colors.black,
+                              color: Colors.black87,
                             ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: ' đã mua',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 1,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

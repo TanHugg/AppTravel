@@ -150,8 +150,7 @@ class _AdminPageState extends State<AdminPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddTour()));
+                                  builder: (context) => AddTour()));
                         },
                         child:
                             Text('Thêm Tour', style: TextStyle(fontSize: 20)),
@@ -174,8 +173,7 @@ class _AdminPageState extends State<AdminPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditTour()));
+                                  builder: (context) => EditTour()));
                         },
                         child: Text('Sửa Tour', style: TextStyle(fontSize: 20)),
                         style: ElevatedButton.styleFrom(
@@ -199,8 +197,7 @@ class _AdminPageState extends State<AdminPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowBillOfUser()));
+                                  builder: (context) => ShowBillOfUser()));
                         },
                         child: Text('Tour đã đăng ký',
                             style: TextStyle(fontSize: 20)),

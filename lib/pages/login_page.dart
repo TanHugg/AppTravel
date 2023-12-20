@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       user = userCredential.user;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("loggedIn", true);
-      if (user?.email != 'admin@gmail.com'){
+      if (user?.email != 'admin@gmail.com') {
         prefs.setBool("User", true);
       } else
         prefs.setBool("User", false);
@@ -304,9 +304,12 @@ class _LoginPageState extends State<LoginPage> {
                             SquareTile(
                                 onTap: () {
                                   AuthService().signInWithGoogle();
-                                  FirebaseAuth.instance.authStateChanges().listen((user) async {
+                                  FirebaseAuth.instance
+                                      .authStateChanges()
+                                      .listen((user) async {
                                     if (user != null) {
-                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
                                       prefs.setBool("loggedIn", true);
                                       print(user.email); // Print the email
                                       final userGoogle = Users(

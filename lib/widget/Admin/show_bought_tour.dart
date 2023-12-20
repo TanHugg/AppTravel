@@ -12,7 +12,7 @@ class ShowBillOfUser extends StatelessWidget {
 
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
-      .where('checkBought',isEqualTo: true)
+      .where('checkBought', isEqualTo: true)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
@@ -48,7 +48,7 @@ class ShowBillOfUser extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 60, left: 30),
+                padding: EdgeInsets.only(top: 60, left: 5),
                 child: Text.rich(TextSpan(
                     text: 'Tour',
                     style: GoogleFonts.poppins(
@@ -58,7 +58,7 @@ class ShowBillOfUser extends StatelessWidget {
                         color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                          text: ' đã mua',
+                          text: ' đang xử lý',
                           style: GoogleFonts.poppins(
                               fontSize: 32,
                               fontWeight: FontWeight.w400,
@@ -100,7 +100,8 @@ class ShowBillOfUser extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                CustomShowBillOfUser(bill: billTotal[index]),
+                                                CustomShowBillOfUser(
+                                                    bill: billTotal[index]),
                                           ),
                                         );
                                       },
