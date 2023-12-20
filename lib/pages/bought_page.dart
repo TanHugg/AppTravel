@@ -208,7 +208,7 @@ class _BoughtPageState extends State<BoughtPage> {
         // deleteFavoriteDetails(
         //     bill.idUser.toString(), bill.idTour.toString());
         // Xóa tour
-        print('Đã xoáaaaaaaaa !');
+        print('Đã xoáaaaaaaaa !!');
         setState(() {
           // _favoriteTours.removeAt(index);
         });
