@@ -304,11 +304,11 @@ class _LoginPageState extends State<LoginPage> {
                                     if (user != null) {
                                       print(user.email); // Print the email
                                       final userGoogle = Users(
-                                        nameUser: '',
+                                        nameUser: user.displayName.toString(),
                                         numberPhone: 0,
                                         address: '',
                                         email: user.email.toString(),
-                                        imageUser: '',
+                                        imageUser: user.photoURL.toString(),
                                       );
                                       createUsers(userGoogle);
                                       Navigator.push(
