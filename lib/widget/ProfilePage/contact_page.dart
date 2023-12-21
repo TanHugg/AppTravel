@@ -141,7 +141,7 @@ class _ContactPageState extends State<ContactPage> {
             top: 90,
             left: 100,
             child: Padding(
-              padding: const EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 70),
               child: Column(
                 children: <Widget>[
                   Text('Contact',
