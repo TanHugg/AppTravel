@@ -161,7 +161,7 @@ class FlightTicket extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   FutureBuilder(
-                    future: readFlight('Gatwick Airplanes'),
+                    future: readFlight('Shenzhen Airplanes'),
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
                         final flight = snapShot.data;

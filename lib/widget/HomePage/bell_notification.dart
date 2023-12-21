@@ -50,17 +50,10 @@ class BellNotification extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CustomText(
-                        text: 'Your',
+                        text: 'Thông báo',
                         color: Colors.black,
                         fontSize: 32,
                         fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                        height: 1),
-                    CustomText(
-                        text: 'Notification',
-                        color: Colors.black,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                         height: 1),
                   ],

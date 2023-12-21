@@ -307,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                      height: 60,width: 60,
+                      height: 60,
+                      width: 60,
                       child: ClipOval(
                         child: Image.file(
                           imagesFile,
@@ -318,14 +319,16 @@ class _HomePageState extends State<HomePage> {
                         clipper: MyClipper(),
                       ),
                     ),
-                    Padding( //Container Name,Address
+                    Padding(
+                      //Container Name,Address
                       padding: const EdgeInsets.only(left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            width: 230,height: 50,
+                            width: 230,
+                            height: 50,
                             child: AutoSizeText(
                               'Hi! ${widget.users.nameUser}',
                               maxFontSize: 27,
@@ -344,7 +347,8 @@ class _HomePageState extends State<HomePage> {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Container(
                                   alignment: Alignment.centerLeft,
-                                  width: 200,height: 30,
+                                  width: 200,
+                                  height: 30,
                                   child: AutoSizeText(
                                     widget.users.address,
                                     maxFontSize: 18,
@@ -364,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Spacer(),
-                    StatefulBuilder( //Container BellYellow
+                    StatefulBuilder(//Container BellYellow
                         builder: (BuildContext context, StateSetter setState) {
                       return IconButton(
                         onPressed: () {

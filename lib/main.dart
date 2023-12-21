@@ -6,7 +6,6 @@ import 'package:intl/date_symbol_data_local.dart';
 
 late bool isLoggedIn, isUser;
 void main() async {
-
   initializeDateFormatting('vi_VN', null).then((_) {
     runApp(MyApp());
   });
