@@ -144,7 +144,7 @@ class _ContactPageState extends State<ContactPage> {
               padding: const EdgeInsets.only(top: 70),
               child: Column(
                 children: <Widget>[
-                  Text('Contact',
+                  Text('Liên hệ',
                       style: GoogleFonts.catamaran(
                           fontSize: 60,
                           color: Colors.white,
