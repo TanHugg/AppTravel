@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_app/values/custom_snackbar.dart';
 
 import '../../model/feedBack.dart';
 
@@ -128,6 +129,8 @@ class _FeedBackPageState extends State<FeedBackPage> {
                               dateTimeFeedBack: dateTimeNow.toString(),
                               idUser: widget.idUser);
                           createFeedBack(aFeedBack);
+                          Navigator.pop(context);
+                          CustomSnackbar.show(context, 'Góp ý thành công!');
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xffFF5B5B),
