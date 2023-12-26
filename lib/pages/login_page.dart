@@ -414,13 +414,12 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Chọn phương thức reset!",
-                style: Theme.of(context).textTheme.displayMedium),
+                style: Theme.of(context).textTheme.displaySmall),
             const SizedBox(height: 30.0),
             MyForgetPasswordButton(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ForgetPassPage();
-                }));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ForgetPassPage()));
               },
               title: "Email",
               subTitle: "Reset via E-Mail Verification.",

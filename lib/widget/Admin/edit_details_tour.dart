@@ -41,8 +41,8 @@ class EditDetailsTour extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 24, left: 20),
-                child: Text('sửa chi tiết',
-                    style: GoogleFonts.lato(
+                child: Text('Sửa chi tiết',
+                    style: GoogleFonts.plusJakartaSans(
                         fontSize: 45,
                         decoration: TextDecoration.none,
                         color: Colors.black87)),

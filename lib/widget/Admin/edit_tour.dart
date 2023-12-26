@@ -57,7 +57,7 @@ class _EditTourState extends State<EditTour> {
               Padding(
                 padding: EdgeInsets.only(top: 24, left: 40),
                 child: Text('Sửa Tour',
-                    style: GoogleFonts.lato(
+                    style: GoogleFonts.plusJakartaSans(
                         fontSize: 50,
                         decoration: TextDecoration.none,
                         color: Colors.black87)),

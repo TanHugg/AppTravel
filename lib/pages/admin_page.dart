@@ -46,7 +46,7 @@ class _AdminPageState extends State<AdminPage> {
                     width: 135,
                     height: 160,
                     child: Image.asset(
-                      "assets/images/face_images/Face_4.jpg",
+                      "assets/icons/appicon.png",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -75,7 +75,7 @@ class _AdminPageState extends State<AdminPage> {
                                           fontWeight: FontWeight.w600),
                                       decoration: TextDecoration.none)),
                               SizedBox(height: 7),
-                              Text('100',
+                              Text('11',
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                           fontSize: 42,
@@ -107,7 +107,7 @@ class _AdminPageState extends State<AdminPage> {
                                           fontWeight: FontWeight.w600),
                                       decoration: TextDecoration.none)),
                               SizedBox(height: 7),
-                              Text('100',
+                              Text('5',
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                           fontSize: 42,
