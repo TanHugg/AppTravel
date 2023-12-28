@@ -76,7 +76,7 @@ class IntroducePage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40))),
                               child: const Text('Bắt đầu',
-                                  style: TextStyle(fontSize: 23)),
+                                  style: TextStyle(fontSize: 23, color: Colors.white)),
                             )),
                       )
                     ],

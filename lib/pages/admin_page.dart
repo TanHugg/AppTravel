@@ -154,7 +154,7 @@ class _AdminPageState extends State<AdminPage> {
                                   builder: (context) => AddTour()));
                         },
                         child:
-                            Text('Thêm Tour', style: TextStyle(fontSize: 20)),
+                            Text('Thêm Tour', style: TextStyle(fontSize: 20, color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff219ebc),
                             shape: const RoundedRectangleBorder(
@@ -176,7 +176,7 @@ class _AdminPageState extends State<AdminPage> {
                               MaterialPageRoute(
                                   builder: (context) => EditTour()));
                         },
-                        child: Text('Sửa Tour', style: TextStyle(fontSize: 20)),
+                        child: Text('Sửa Tour', style: TextStyle(fontSize: 20,  color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff219ebc),
                             shape: const RoundedRectangleBorder(
@@ -201,7 +201,7 @@ class _AdminPageState extends State<AdminPage> {
                                   builder: (context) => ShowBillOfUser()));
                         },
                         child: Text('Tour đã đăng ký',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 20,  color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff219ebc),
                             shape: const RoundedRectangleBorder(
@@ -230,7 +230,7 @@ class _AdminPageState extends State<AdminPage> {
                           });
                         },
                         child:
-                            Text('Đăng xuất', style: TextStyle(fontSize: 20)),
+                            Text('Đăng xuất', style: TextStyle(fontSize: 20,  color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xff219ebc),
                             shape: const RoundedRectangleBorder(

@@ -260,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                                           Radius.circular(22)))),
                               child: Text('Đăng Nhập',
                                   style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 25)),
+                                      fontSize: 25, color: Colors.white)),
                             ),
                           ),
                         ),

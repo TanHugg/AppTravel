@@ -324,7 +324,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                           Radius.circular(22)))),
                               child: Text('Đăng kí',
                                   style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 25)),
+                                      fontSize: 25, color: Colors.white)),
                             ),
                           ),
                         ),
