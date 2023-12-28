@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:travel_app/pages/introduce_page.dart';
 import 'package:travel_app/values/custom_text.dart';
+import 'package:travel_app/widget/AssistantPage/assistant_page.dart';
 import 'package:travel_app/widget/ProfilePage/contact_page.dart';
 import 'package:travel_app/widget/ProfilePage/feedback_page.dart';
 import 'package:travel_app/widget/ProfilePage/information_page.dart';
@@ -149,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             const SizedBox(height: 10),
-            //Nút liên hệ
+            //Nút Tour đang xử lý
             StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return ProfileMenuWidget(
@@ -161,6 +162,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   ProcessingPage(users: widget.users)));
+                    });
+              },
+            ),
+            const SizedBox(height: 10),
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return ProfileMenuWidget(
+                    title: "Trợ lý ảo",
+                    icon: LineAwesomeIcons.headset,
+                    onPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AssistantPage(users: widget.users)));
                     });
               },
             ),

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/widget/BoughtTour/custom_bought_tour.dart';
 import 'package:travel_app/widget/BoughtTour/show_bought_tour.dart';
 
-import '../../model/aTour.dart';
 import '../../model/billTotal.dart';
 import '../../model/users.dart';
 import '../../values/custom_snackbar.dart';
@@ -19,7 +18,6 @@ class ProcessingPage extends StatefulWidget {
 }
 
 class _ProcessingPageState extends State<ProcessingPage> {
-  List<aTour> _favoriteTours = [];
 
   //User hiện tại
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
