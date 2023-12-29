@@ -76,7 +76,7 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     return Container(
-      padding: EdgeInsets.only(top: 20, left: 22, right: 22),
+      padding: EdgeInsets.only(top: 55, left: 22, right: 22),
       color: Colors.white,
       child: Column(
         children: <Widget>[
@@ -98,9 +98,9 @@ class _FavoritePageState extends State<FavoritePage> {
               ])),
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 0),
               child: Container(
-                  height: 700, //Đổi ở đây
+                  height: 600, //Đổi ở đây
                   width: size.width,
                   child: StreamBuilder<List<FavoriteDetails>>(
                     stream: readFavoriteDetails(),

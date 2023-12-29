@@ -121,7 +121,7 @@ class _BoughtPageState extends State<BoughtPage> {
               children: <Widget>[
                 SingleChildScrollView(
                   child: Container(
-                    height: 529,
+                    height: 450,
                     width: size.width,
                     child: StreamBuilder<List<billTotal>>(
                       stream: readBill(),

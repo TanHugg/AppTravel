@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
       width: size.width,
       height: size.height,
       color: Colors.white,
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.fromLTRB(30, 20, 30, 50),
       child: SingleChildScrollView(
         child: Column(
           children: [
