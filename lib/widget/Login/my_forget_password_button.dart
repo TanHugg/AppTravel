@@ -30,8 +30,8 @@ class MyForgetPasswordButton extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.headline6),
-                Text(subTitle, style: Theme.of(context).textTheme.bodyText2),
+                Text(title, style: Theme.of(context).textTheme.titleLarge),
+                Text(subTitle, style: Theme.of(context).textTheme.bodyMedium),
               ],
             )
           ],
