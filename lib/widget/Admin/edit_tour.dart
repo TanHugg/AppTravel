@@ -65,7 +65,7 @@ class _EditTourState extends State<EditTour> {
             ]),
             SizedBox(height: 20),
             Container(
-                height: 680,
+                height: 600,
                 width: size.width,
                 child: StreamBuilder<List<aTour>>(
                   stream: widget.readListTour(),

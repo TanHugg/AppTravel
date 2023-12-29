@@ -121,7 +121,7 @@ class BillPage extends StatelessWidget {
                                       height: 1),
                                   SizedBox(height: 25),
                                   CustomText(
-                                      text: 'Money ',
+                                      text: 'Tổng tiền',
                                       color: Colors.black,
                                       fontSize: 30,
                                       fontWeight: FontWeight.w600,
@@ -217,11 +217,11 @@ class BillPage extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MainPage()));
-                              CustomSnackbar.show(context, 'Thanh toán thành công!');
+                              CustomSnackbar.show(context, 'Đặt thành công!');
                             },
                             child: Text(
-                              'Pay',
-                              style: TextStyle(fontSize: 30),
+                              'Thanh toán',
+                              style: TextStyle(fontSize: 18, color: Colors.white),
                             ),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.pink,
@@ -243,7 +243,7 @@ class BillPage extends StatelessWidget {
                               Navigator.pop(context);
                             },
                             child: Text(
-                              'Close',
+                              'Thoát',
                               style:
                                   TextStyle(fontSize: 25, color: Colors.black),
                             ),

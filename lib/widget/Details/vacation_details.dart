@@ -359,11 +359,11 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                 borderRadius:
                                                     BorderRadius.circular(25))),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(12.5),
+                                          padding: const EdgeInsets.all(11),
                                           child: CustomText(
-                                              text: 'Book Now',
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w400,
+                                              text: 'Đặt',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
                                               letterSpacing: 1.5,
                                               height: 0,
                                               color: Colors.white),
