@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +22,13 @@ class _AdminPageState extends State<AdminPage> {
     prefs.setBool("loggedIn", false);
     await FirebaseAuth.instance.signOut();
   }
+  final CollectionReference<Map<String, dynamic>> userList = FirebaseFirestore.instance.collection('User');
 
+  Future<int> _getUserCount() async {
+    AggregateQuerySnapshot query = await userList.count().get();
+    print('The number of products: ${query.count}');
+    return query.count;
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
