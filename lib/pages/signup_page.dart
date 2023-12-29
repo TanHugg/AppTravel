@@ -76,6 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: const Icon(
                         Icons.arrow_back,
                         size: 35,
+                        color: Colors.white
                       ),
                     ),
                   ),

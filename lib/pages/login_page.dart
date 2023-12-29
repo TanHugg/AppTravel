@@ -105,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Icon(
                         Icons.arrow_back,
                         size: 35,
+                        color: Colors.white
                       ),
                     ),
                   ),
