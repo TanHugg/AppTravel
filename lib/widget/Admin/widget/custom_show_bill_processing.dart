@@ -9,17 +9,21 @@ import 'package:travel_app/values/custom_text.dart';
 
 import '../../../model/aTour.dart';
 import '../../../model/users.dart';
+import '../../../values/custom_snackbar.dart';
 
-class CustomShowBillOfUser extends StatefulWidget {
-  const CustomShowBillOfUser({Key? key, required this.bill}) : super(key: key);
+class CustomShowBillProcessingOfUser extends StatefulWidget {
+  const CustomShowBillProcessingOfUser({Key? key, required this.bill})
+      : super(key: key);
 
   final billTotal bill;
 
   @override
-  State<CustomShowBillOfUser> createState() => _CustomShowBillOfUserState();
+  State<CustomShowBillProcessingOfUser> createState() =>
+      _CustomShowBillProcessingOfUserState();
 }
 
-class _CustomShowBillOfUserState extends State<CustomShowBillOfUser> {
+class _CustomShowBillProcessingOfUserState
+    extends State<CustomShowBillProcessingOfUser> {
   Future<aTour?> readTour(String idTour) async {
     final docTour = FirebaseFirestore.instance
         .collection("Tour")
@@ -55,6 +59,21 @@ class _CustomShowBillOfUserState extends State<CustomShowBillOfUser> {
       return tourDetails.fromJson(snapshot.docs.first.data());
     }
     return null;
+  }
+
+  Future deleteTour(String idBill) async {
+    final docDeleteTour = FirebaseFirestore.instance
+        .collection("Bill")
+        .where('idBill', isEqualTo: idBill);
+    final snapshot = await docDeleteTour.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+    // Xóa aTour khỏi danh sách trong State object và rebuild widget tree
+    setState(() {
+      // _favoriteTours.removeWhere((tour) => tour.idTour == idTour);
+    });
+    CustomSnackbar.show(context, 'Xóa thành công');
   }
 
   @override
@@ -107,7 +126,7 @@ class _CustomShowBillOfUserState extends State<CustomShowBillOfUser> {
                                             padding: EdgeInsets.only(
                                                 top: 62, left: 12),
                                             child: Text(
-                                              'Tour đã mua',
+                                              'Tour đang xử lý',
                                               style:
                                                   GoogleFonts.plusJakartaSans(
                                                       fontSize: 38,
@@ -187,6 +206,50 @@ class _CustomShowBillOfUserState extends State<CustomShowBillOfUser> {
                                         ),
                                       ),
                                     ),
+                                    SizedBox(
+                                        width: 150,
+                                        height: 50,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: Text('Cảnh báo'),
+                                                content: Text(
+                                                    'Bạn có chắc muốn xóa tour của người dùng này hay không?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                      child: Text('Xóa'),
+                                                      onPressed: () {
+                                                        deleteTour(widget
+                                                            .bill.idBill
+                                                            .toString());
+                                                        Navigator.of(context)
+                                                            .pop(true);
+                                                      }),
+                                                  TextButton(
+                                                    child: Text('Hủy'),
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(true),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xffFF5B5B),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          40))),
+                                          child: Text('Xóa',
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
+                                                      fontSize: 23,
+                                                      color: Colors.white)),
+                                        )),
                                   ],
                                 ),
                               ),

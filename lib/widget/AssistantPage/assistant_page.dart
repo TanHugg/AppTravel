@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:google_gemini/google_gemini.dart';
+import 'package:travel_app/widget/AssistantPage/models/config/gemini_config.dart';
+import 'package:travel_app/widget/AssistantPage/models/config/gemini_safety_settings.dart';
+import 'package:travel_app/widget/AssistantPage/models/gemini/gemini.dart';
 import '../../model/users.dart';
 import '../../values/custom_text.dart';
 
@@ -18,7 +20,6 @@ class AssistantPage extends StatefulWidget {
 
 class _AssistantPageState extends State<AssistantPage> {
   @override
-  
   Widget build(BuildContext context) {
     return DefaultTabController(
         initialIndex: 0,
@@ -46,18 +47,21 @@ class _AssistantPageState extends State<AssistantPage> {
                 ],
               ),
             ),
-            body: const TabBarView(
-              children: [TextOnly(), TextWithImage()],
+            body: TabBarView(
+              children: [
+                TextOnly(user: widget.users.nameUser),
+                TextWithImage(user: widget.users.nameUser)
+              ],
             )));
   }
 }
 
 // ------------------------------ Text Only ------------------------------
 
+// ignore: must_be_immutable
 class TextOnly extends StatefulWidget {
-  const TextOnly({
-    super.key,
-  });
+  TextOnly({Key? key, required this.user}) : super(key: key);
+  String user;
 
   @override
   State<TextOnly> createState() => _TextOnlyState();
@@ -71,17 +75,38 @@ class _TextOnlyState extends State<TextOnly> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
 
-  // Create Gemini Instance
-  final gemini = GoogleGemini(
-    apiKey: apiKey,
-  );
+  late final gemini;
+
+  final safety1 = SafetySettings(
+      category: SafetyCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: SafetyThreshold.BLOCK_ONLY_HIGH);
+
+  final config = GenerationConfig(
+      temperature: 0.5,
+      maxOutputTokens: 100,
+      topP: 1.0,
+      topK: 40,
+      stopSequences: []);
+
+  @override
+  void initState() {
+    gemini =
+        GoogleGemini(apiKey: apiKey, safetySettings: [safety1], config: config);
+    super.initState();
+    // Lời chào từ Gemini
+    textChat.add({
+      "role": "Gemini",
+      "text":
+          "Xin chào! Tôi ở đây để giúp bạn tìm điểm đến du lịch phù hợp cho bạn.",
+    });
+  }
 
   // Text only input
-  void fromText({required String query}) {
+  void fromText({required String query, required String user}) {
     setState(() {
       loading = true;
       textChat.add({
-        "role": "User",
+        "role": user,
         "text": query,
       });
       _textController.clear();
@@ -97,7 +122,7 @@ class _TextOnlyState extends State<TextOnly> {
         });
       });
       scrollToTheEnd();
-    }).onError((error, stackTrace) {
+    }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
         textChat.add({
@@ -164,7 +189,7 @@ class _TextOnlyState extends State<TextOnly> {
                     ? const CircularProgressIndicator()
                     : const Icon(Icons.send),
                 onPressed: () {
-                  fromText(query: _textController.text);
+                  fromText(query: _textController.text, user: widget.user);
                 },
               ),
             ],
@@ -177,10 +202,10 @@ class _TextOnlyState extends State<TextOnly> {
 
 // ------------------------------ Text with Image ------------------------------
 
+// ignore: must_be_immutable
 class TextWithImage extends StatefulWidget {
-  const TextWithImage({
-    super.key,
-  });
+  TextWithImage({Key? key, required this.user}) : super(key: key);
+  String user;
 
   @override
   State<TextWithImage> createState() => _TextWithImageState();
@@ -197,17 +222,31 @@ class _TextWithImageState extends State<TextWithImage> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
 
-  // Create Gemini Instance
-  final gemini = GoogleGemini(
-    apiKey: apiKey,
-  );
+  late final gemini;
 
-  // Text only input
-  void fromTextAndImage({required String query, required File image}) {
+  final safety1 = SafetySettings(
+      category: SafetyCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: SafetyThreshold.BLOCK_ONLY_HIGH);
+
+  final config = GenerationConfig(
+      temperature: 0.5,
+      maxOutputTokens: 100,
+      topP: 1.0,
+      topK: 40,
+      stopSequences: []);
+
+  @override
+  void initState() {
+    gemini =
+        GoogleGemini(apiKey: apiKey, safetySettings: [safety1], config: config);
+    super.initState();
+  }
+
+  void fromTextAndImage({required String query, required String user, required File image}) {
     setState(() {
       loading = true;
       textAndImageChat.add({
-        "role": "User",
+        "role": user,
         "text": query,
         "image": image,
       });
@@ -223,7 +262,7 @@ class _TextWithImageState extends State<TextWithImage> {
             .add({"role": "Gemini", "text": value.text, "image": ""});
       });
       scrollToTheEnd();
-    }).onError((error, stackTrace) {
+    }).catchError((error, stackTrace) {
       setState(() {
         loading = false;
         textAndImageChat
@@ -311,7 +350,7 @@ class _TextWithImageState extends State<TextWithImage> {
                       return;
                     }
                     fromTextAndImage(
-                        query: _textController.text, image: imageFile!);
+                        query: _textController.text, user: widget.user, image: imageFile!);
                   },
                 ),
               ],

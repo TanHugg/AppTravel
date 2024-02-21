@@ -325,14 +325,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
-  google_gemini:
-    dependency: "direct main"
-    description:
-      name: google_gemini
-      sha256: a99e14ba2d497ec8e2b4c83e483204709a4ce3ec6c0a6021b3c4a9b2cd671150
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -637,6 +629,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   salomon_bottom_bar:
     dependency: "direct main"
     description:
@@ -754,6 +754,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  tflite_flutter:
+    dependency: "direct main"
+    description:
+      name: tflite_flutter
+      sha256: ffb8651fdb116ab0131d6dc47ff73883e0f634ad1ab12bb2852eef1bbeab4a6a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.4"
   typed_data:
     dependency: transitive
     description:

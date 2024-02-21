@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/billTotal.dart';
-import 'package:travel_app/widget/Admin/widget/custom_show_bill.dart';
+import 'package:travel_app/widget/Admin/widget/custom_show_bill_processing.dart';
 
 import '../BoughtTour/custom_bought_tour.dart';
 
-class ShowBillOfUser extends StatelessWidget {
-  const ShowBillOfUser({Key? key}) : super(key: key);
+class ShowBillProcessingOfUser extends StatelessWidget {
+  const ShowBillProcessingOfUser({Key? key}) : super(key: key);
 
   Stream<List<billTotal>> readBill() => FirebaseFirestore.instance
       .collection('Bill')
-      .where('checkBought', isEqualTo: false)
+      .where('checkBought', isEqualTo: true)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => billTotal.fromJson(doc.data())).toList());
@@ -58,7 +58,7 @@ class ShowBillOfUser extends StatelessWidget {
                         color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
-                          text: ' đã đăng ký',
+                          text: ' đang xử lý',
                           style: GoogleFonts.poppins(
                               fontSize: 32,
                               fontWeight: FontWeight.w400,
@@ -100,7 +100,7 @@ class ShowBillOfUser extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                CustomShowBillOfUser(
+                                                CustomShowBillProcessingOfUser(
                                                     bill: billTotal[index]),
                                           ),
                                         );

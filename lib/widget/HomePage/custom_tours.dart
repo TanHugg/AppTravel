@@ -43,7 +43,7 @@ class CustomATours extends StatelessWidget { //Class này dùng để custom tou
         ),
         customDetailATour(10, 10, 150, heiContain, nameTour.toString()),
         customDetailATour(
-            10, 170, 100, heiContain, '${startDay}/${startMonth}/${startYear}'),
+            10, 170, 110, heiContain, '${startDay}/${startMonth}/${startYear}'),
         customDetailATour(120, 220, 125, heiContain, money.toString()),
       ],
     );
@@ -61,7 +61,7 @@ Widget customDetailATour(double topPos, double leftPos, double widContain,
         decoration: BoxDecoration(
             color: Color(0xfff1faee), borderRadius: BorderRadius.circular(21)),
         child: Padding(
-            padding: EdgeInsets.only(top: 5),
+            padding: EdgeInsets.only(top: 2),
             child: Text(
               money.toString(),
               textAlign: TextAlign.center,

@@ -56,7 +56,7 @@ class CustomBoughtTour extends StatelessWidget {
                     : Stack(
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(20),
                       child: SizedBox(
                         width: 100,
                         height: 140,

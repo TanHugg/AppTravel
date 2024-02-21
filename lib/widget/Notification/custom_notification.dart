@@ -40,7 +40,7 @@ class CustomNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
+    // Size size = MediaQuery.of(context).size; //Thông số size của điện thoại
     String dateString = bill.dateTime.toString();
     DateTime datetime = DateTime.parse(dateString);
     String formattedDate =
@@ -61,7 +61,7 @@ class CustomNotification extends StatelessWidget {
                         : Stack(
                             children: <Widget>[
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(35),
                                 child: Container(
                                   width: 80,
                                   height: 80,
@@ -75,7 +75,7 @@ class CustomNotification extends StatelessWidget {
                                   left: 90,
                                   top: 15,
                                   child: Container(
-                                    width: 230,
+                                    width: 240,
                                     height: 85,
                                     child: Column(
                                       crossAxisAlignment:
@@ -84,7 +84,7 @@ class CustomNotification extends StatelessWidget {
                                         RichText(
                                           text: TextSpan(
                                               text:
-                                                  'Bạn đã mua thành công tour: ',
+                                                  'Bạn đã đặt thành công tour: ',
                                               style: GoogleFonts.sen(
                                                   textStyle: const TextStyle(
                                                       fontSize: 18,

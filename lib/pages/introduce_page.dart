@@ -29,12 +29,12 @@ class IntroducePage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 17),
                   child: Column(
                     children: <Widget>[
-                      TextIntroduce("Your Journey in", 35, Colors.white),
-                      TextIntroduce("Your Hands", 35, Colors.white),
+                      TextIntroduce("Chuyến đi của bạn", 35, Colors.white),
+                      TextIntroduce("do bạn chọn", 35, Colors.white),
                       const SizedBox(height: 15),
                       TextIntroduce(
-                          "The best travel app in 2023", 15, Colors.white54),
-                      TextIntroduce("Answer for traveler to find their journey",
+                          "Ứng dụng Tourify", 15, Colors.white54),
+                      TextIntroduce("nơi bạn tìm thấy chuyến đi mong muốn",
                           15, Colors.white54),
                       Padding(
                         padding:

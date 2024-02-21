@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_app/values/custom_text.dart';
@@ -6,10 +8,27 @@ import 'package:travel_app/widget/ProfilePage/auto_images_slider.dart';
 
 import '../../model/users.dart';
 
-class InformationPage extends StatelessWidget {
+class InformationPage extends StatefulWidget {
   const InformationPage({Key? key, required this.user}) : super(key: key);
 
   final Users user;
+
+  @override
+  State<InformationPage> createState() => _InformationPageState();
+}
+
+class _InformationPageState extends State<InformationPage> {
+  late String path_to_images;
+  late File imagesFile;
+  late Image images;
+
+  @override
+  void initState() {
+    super.initState();
+    path_to_images = widget.user.imageUser;
+    imagesFile = File(path_to_images);
+    images = Image.file(imagesFile);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +79,25 @@ class InformationPage extends StatelessWidget {
             top: 110,
             left: 120,
             child: SizedBox(
-              height: 170,width: 170,
+              height: 170,
+              width: 170,
               child: ClipOval(
-                  child: Image(
-                    image:AssetImage(
-                        'assets/images/face_images/Face_1.jpg'),fit: BoxFit.cover,
-                  ),
-                  clipper: MyClipper(),
-                ),
+                child: imagesFile.existsSync()
+                    ? Image.file(
+                        imagesFile,
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.cover,
+                      )
+                    : Image(
+                        image:
+                            AssetImage('assets/images/face_images/Face_1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                clipper: MyClipper(),
+              ),
             ),
-            ),
+          ),
           Positioned(
               top: 295,
               child: Container(
@@ -78,14 +106,14 @@ class InformationPage extends StatelessWidget {
                   height: size.height,
                   child: Column(
                     children: <Widget>[
-                      CustomProFile(size, 'Tên', user.nameUser),
+                      CustomProFile(size, 'Tên', widget.user.nameUser),
                       SizedBox(height: 25),
-                      CustomProFile(size, 'Email', user.email),
+                      CustomProFile(size, 'Email', widget.user.email),
                       SizedBox(height: 25),
                       CustomProFile(size, 'Số điện thoại',
-                          '0${user.numberPhone.toString()}'),
+                          '0${widget.user.numberPhone.toString()}'),
                       SizedBox(height: 25),
-                      CustomProFile(size, 'Địa chỉ', user.address),
+                      CustomProFile(size, 'Địa chỉ', widget.user.address),
                     ],
                   )))
           //Column thông tin người dùng

@@ -116,7 +116,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   ),
                 )),
             Positioned(
-              top: 530,
+              top: 550,
               left: 110,
               child: Container(
                 width: 190,
@@ -138,7 +138,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30)))),
                         child: Text('Góp ý',
-                            style: GoogleFonts.plusJakartaSans(fontSize: 30)),
+                            style: GoogleFonts.plusJakartaSans(fontSize: 30, color: Colors.white)),
                       )
                     : ElevatedButton(
                         onPressed: null,

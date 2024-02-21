@@ -310,12 +310,18 @@ class _HomePageState extends State<HomePage> {
                       height: 60,
                       width: 60,
                       child: ClipOval(
-                        child: Image.file(
-                          imagesFile,
-                          width: 140,
-                          height: 140,
-                          fit: BoxFit.cover,
-                        ),
+                        child: imagesFile.existsSync()
+                            ? Image.file(
+                                imagesFile,
+                                width: 140,
+                                height: 140,
+                                fit: BoxFit.cover,
+                              )
+                            : Image(
+                                image: AssetImage(
+                                    'assets/images/face_images/Face_1.jpg'),
+                                fit: BoxFit.cover,
+                              ),
                         clipper: MyClipper(),
                       ),
                     ),

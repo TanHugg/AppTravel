@@ -7,6 +7,7 @@ import 'package:travel_app/pages/introduce_page.dart';
 import 'package:travel_app/widget/Admin/add_tour.dart';
 import 'package:travel_app/widget/Admin/edit_tour.dart';
 import 'package:travel_app/widget/Admin/show_bought_tour.dart';
+import 'package:travel_app/widget/Admin/show_processing_tour.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -22,13 +23,38 @@ class _AdminPageState extends State<AdminPage> {
     prefs.setBool("loggedIn", false);
     await FirebaseAuth.instance.signOut();
   }
-  final CollectionReference<Map<String, dynamic>> userList = FirebaseFirestore.instance.collection('User');
+
+  final CollectionReference<Map<String, dynamic>> userList =
+      FirebaseFirestore.instance.collection('User');
 
   Future<int> _getUserCount() async {
     AggregateQuerySnapshot query = await userList.count().get();
-    print('The number of products: ${query.count}');
+    print('The number of users: ${query.count}');
     return query.count;
   }
+
+  final CollectionReference<Map<String, dynamic>> billList =
+      FirebaseFirestore.instance.collection('Bill');
+  Future<int> _getBillCount() async {
+    AggregateQuerySnapshot query = await billList.count().get();
+    print('The number of bill: ${query.count}');
+    return query.count;
+  }
+
+  int billCount = 0;
+  int userCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCounts();
+  }
+
+  Future<void> _initializeCounts() async {
+    billCount = await _getBillCount();
+    userCount = await _getUserCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -83,7 +109,8 @@ class _AdminPageState extends State<AdminPage> {
                                             fontWeight: FontWeight.w600),
                                         decoration: TextDecoration.none)),
                                 SizedBox(height: 7),
-                                Text('11',
+                                Text(billCount.toString(),
+                                // Text("9",
                                     style: GoogleFonts.lato(
                                         textStyle: TextStyle(
                                             fontSize: 42,
@@ -115,7 +142,8 @@ class _AdminPageState extends State<AdminPage> {
                                             fontWeight: FontWeight.w600),
                                         decoration: TextDecoration.none)),
                                 SizedBox(height: 7),
-                                Text('5',
+                                Text(userCount.toString(),
+                                // Text("4",
                                     style: GoogleFonts.lato(
                                         textStyle: TextStyle(
                                             fontSize: 42,
@@ -161,8 +189,9 @@ class _AdminPageState extends State<AdminPage> {
                                 MaterialPageRoute(
                                     builder: (context) => AddTour()));
                           },
-                          child:
-                              Text('Thêm Tour', style: TextStyle(fontSize: 20, color: Colors.white)),
+                          child: Text('Thêm Tour',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff219ebc),
                               shape: const RoundedRectangleBorder(
@@ -184,7 +213,9 @@ class _AdminPageState extends State<AdminPage> {
                                 MaterialPageRoute(
                                     builder: (context) => EditTour()));
                           },
-                          child: Text('Sửa Tour', style: TextStyle(fontSize: 20,  color: Colors.white)),
+                          child: Text('Sửa Tour',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff219ebc),
                               shape: const RoundedRectangleBorder(
@@ -209,7 +240,35 @@ class _AdminPageState extends State<AdminPage> {
                                     builder: (context) => ShowBillOfUser()));
                           },
                           child: Text('Tour đã đăng ký',
-                              style: TextStyle(fontSize: 20,  color: Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff219ebc),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(22)))),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+
+                      //Tour đang xử lý
+                      Container(
+                        width: 270,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(70),
+                            color: Colors.blue),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowBillProcessingOfUser()));
+                          },
+                          child: Text('Tour đang xử lý',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff219ebc),
                               shape: const RoundedRectangleBorder(
@@ -236,8 +295,9 @@ class _AdminPageState extends State<AdminPage> {
                               _signOut();
                             });
                           },
-                          child:
-                              Text('Đăng xuất', style: TextStyle(fontSize: 20,  color: Colors.white)),
+                          child: Text('Đăng xuất',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff219ebc),
                               shape: const RoundedRectangleBorder(

@@ -54,6 +54,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     _fullNameInValid = false;
     _numberPhoneInValid = false;
     _addressInValid = false;
+    fullNameController.text = widget.users.nameUser;
+    numberPhoneController.text = widget.users.numberPhone.toString();
+    addressController.text = widget.users.address;
   }
 
   Future pickImage(ImageSource source) async {
@@ -113,59 +116,89 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Stack(children: [
-                (image != null) //Avata
-                    ? ClipOval(
-                        child: Image.file(
-                          image!,
-                          width: 140,
-                          height: 140,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : (image == null)
-                        ? FlutterLogo(size: 130)
-                        : (images.toString() == '')
-                            ? FlutterLogo(size: 130)
-                            : ClipOval(
-                                child: Image.file(
-                                  imagesFile,
-                                  width: 140,
-                                  height: 140,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                Positioned(
-                    //Camera
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
+              GestureDetector(
+               onTap: () {
                         showModalBottomSheet(
                             context: context,
                             builder: ((builder) => bottomSheet()));
                       },
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.black,
-                        size: 38,
-                        shadows: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            offset: Offset(0, 2),
-                            blurRadius: 5.0,
-                            spreadRadius: 1.0,
-                          ),
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            offset: Offset(0, 4),
-                            blurRadius: 15.0,
-                            spreadRadius: 1.0,
-                          ),
-                        ],
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    border: Border.all(color: Colors.black.withOpacity(0.1)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: image != null
+                        ? ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        image!,
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
                       ),
-                    )),
-              ]),
+                    )
+                        : const Icon(LineAwesomeIcons.camera),
+                  ),
+                ),
+              ),
+              
+              // Stack(children: [
+              //   (image != null) //Avata
+              //       ? ClipOval(
+              //           child: Image.file(
+              //             image!,
+              //             width: 140,
+              //             height: 140,
+              //             fit: BoxFit.cover,
+              //           ),
+              //         )
+              //       : (image == null)
+              //           ? FlutterLogo(size: 130)
+              //           : (images.toString() == '')
+              //               ? FlutterLogo(size: 130)
+              //               : ClipOval(
+              //                   child: Image.file(
+              //                     imagesFile,
+              //                     width: 140,
+              //                     height: 140,
+              //                     fit: BoxFit.cover,
+              //                   ),
+              //                 ),
+              //   Positioned(
+              //       //Camera
+              //       bottom: 0,
+              //       right: 0,
+              //       child: InkWell(
+                      // onTap: () {
+                      //   showModalBottomSheet(
+                      //       context: context,
+                      //       builder: ((builder) => bottomSheet()));
+                      // },
+              //         child: Icon(
+              //           Icons.camera_alt,
+              //           color: Colors.black,
+              //           size: 38,
+              //           shadows: [
+              //             BoxShadow(
+              //               color: Colors.black.withOpacity(0.2),
+              //               offset: Offset(0, 2),
+              //               blurRadius: 5.0,
+              //               spreadRadius: 1.0,
+              //             ),
+              //             BoxShadow(
+              //               color: Colors.black.withOpacity(0.2),
+              //               offset: Offset(0, 4),
+              //               blurRadius: 15.0,
+              //               spreadRadius: 1.0,
+              //             ),
+              //           ],
+              //         ),
+              //       )),
+              // ]),
               const SizedBox(height: 20),
               Form(
                   child: Column(
@@ -288,7 +321,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget bottomSheet() {
     return Container(
       height: 100,
-      width: 150,
+      width: double.infinity,
       margin: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
@@ -296,7 +329,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       child: Column(
         children: <Widget>[
           Text(
-            "Choose Profile photo from",
+            "Chọn hình ảnh từ",
             style: TextStyle(
               fontSize: 20,
             ),

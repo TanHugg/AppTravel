@@ -52,11 +52,12 @@ dependencies:
   cloud_firestore: ^4.13.2
   google_sign_in: ^6.1.6
   firebase_ml_model_downloader: ^0.2.4+8
+  tflite_flutter: ^0.10.4
 
   line_awesome_flutter: ^2.0.0
 
   image_picker: ^1.0.4
-  google_gemini: ^0.1.2
+  # google_gemini: ^0.1.2
   shared_preferences: ^2.1.1
 
 #  get_core: ^3.13.0
