@@ -330,29 +330,29 @@ class _LoginPageState extends State<LoginPage> {
                                       print('No find User!!!!!!!!!!!!!!!!! ');
                                     }
                                   });
-                                  // String email = AuthService().signInWithGoogle().then((user) => user.email).catchError((error) {
-                                  //   print(error);
-                                  // });
-                                  // final user = Users(
-                                  //   nameUser: '',
-                                  //   numberPhone: int.parse(''),
-                                  //   address: '',
-                                  //   email: email,
-                                  //   imageUser: '',
-                                  // );
-                                  // createUsers(user);
-                                  // if(email.toString().length != 0){
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) =>
-                                  //           const MainPage()));
-                                  // }
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //           builder: (context) =>
-                                  //           const MainPage()));
+                                  String email = AuthService().signInWithGoogle().then((user) => user.email).catchError((error) {
+                                    print(error);
+                                  });
+                                  final user = Users(
+                                    nameUser: '',
+                                    numberPhone: int.parse(''),
+                                    address: '',
+                                    email: email,
+                                    imageUser: '',
+                                  );
+                                  createUsers(user);
+                                  if(email.toString().length != 0){
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            const MainPage()));
+                                  }
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            const MainPage()));
                                 },
                                 imagePath: 'assets/icons/google.png')
                           ],
