@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
@@ -140,6 +141,25 @@ class _VacationDetailsState extends State<VacationDetails> {
                                       color: Colors.black,
                                     ),
                                     Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
+                                      child: GestureDetector(
+                                        child: Icon(
+                                          Icons.messenger_rounded,
+                                          size: 37,
+                                          color: Colors.blueAccent.shade200,
+                                        ),
+                                        onTap: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FlightTicket(
+                                                          tour: widget.tour,
+                                                          tourDetail: tourDetails,
+                                                          //Chuyển thêm cái id nữa
+                                                        ))),
+                                      ),
+                                    ),
                                     Padding(
                                       //Favorite
                                       padding: EdgeInsets.only(right: 20),
