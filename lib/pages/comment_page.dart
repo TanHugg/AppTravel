@@ -153,32 +153,41 @@ class _CommentPageState extends State<CommentPage> {
                                 itemCount: aComment!.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Card(
+                                    color: Colors.white,
                                     child: ListTile(
-                                      isThreeLine: true,
-                                      contentPadding: const EdgeInsets.all(
-                                          16.0), // Add padding
-                                      leading: CircleAvatar(
-                                          // Use network image if available, otherwise a placeholder
-
-                                          child: Text(
-                                        aComment[index]
-                                            .nameUser!
-                                            .substring(0, 1)
-                                            .toUpperCase(), // Make first letter uppercase
-                                        style: TextStyle(
-                                            fontWeight:
-                                                FontWeight.bold, // Make bold
-                                            fontSize: 16.0, // Adjust font size
-                                            color: Colors
-                                                .grey), // Optional: Different color
-                                      )),
+                                      contentPadding:
+                                          const EdgeInsets.all(16.0),
+                                      leading: Row(
+                                        mainAxisSize: MainAxisSize
+                                            .min, // Limit leading width
+                                        children: [
+                                          CircleAvatar(
+                                            child: Text(
+                                              aComment[index]
+                                                  .nameUser!
+                                                  .substring(0, 1)
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16.0,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       title: Text(
                                         aComment[index].nameUser!,
                                         style: const TextStyle(
-                                            fontWeight: FontWeight
-                                                .bold), // Bold username
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      subtitle: Text(aComment[index].comment!),
+                                      subtitle: Text(
+                                        aComment[index].comment!,
+                                        maxLines:
+                                            10, // Limit subtitle lines (optional)
+                                        overflow: TextOverflow
+                                            .ellipsis, // Add ellipsis for long text
+                                      ),
                                     ),
                                   );
                                 },
@@ -236,12 +245,5 @@ class _CommentPageState extends State<CommentPage> {
             ))
       ],
     );
-    //     } else if (snapShot.hasError) {
-    //       return Center(child: Text('Error: ${snapShot.error}'));
-    //     } else {
-    //       return Center(child: CircularProgressIndicator());
-    //     }
-    //   },
-    // );
   }
 }
