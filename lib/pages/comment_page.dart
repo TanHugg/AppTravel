@@ -91,8 +91,8 @@ class _CommentPageState extends State<CommentPage> {
         Positioned(
             //Container name,location,details,...
             width: size.width,
-            height: 700,
-            top: size.height * 4 / 12,
+            height: 600,
+            top: size.height * 4 / 10,
             child: Container(
               //Full WhiteScreen
               padding:
