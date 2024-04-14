@@ -10,14 +10,14 @@ class aComment {
 
   Map<String, dynamic> toJson() => {
         'idTour': idTour,
-        'nameTour': nameUser,
+        'nameUser': nameUser,
         'comment': comment,
       };
 
   //Lấy từ trên FirebaseStore xuống
   static aComment fromJson(Map<String, dynamic> json) => aComment(
         idTour: json['idTour'].toString(),
-        nameUser: json['nameTour'].toString(),
+        nameUser: json['nameUser'].toString(),
         comment: json['comment'].toString(),
       );
 }

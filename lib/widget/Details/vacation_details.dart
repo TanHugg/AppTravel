@@ -155,7 +155,7 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         CommentPage(
-                                            tour: widget.tour)))
+                                            tour: widget.tour, tourDetails: tourDetails,)))
                                       ),
                                     ),
                                     Padding(
