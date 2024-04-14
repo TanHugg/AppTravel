@@ -150,17 +150,17 @@ class _CommentPageState extends State<CommentPage> {
                       FloatingActionButton.small(
                         onPressed: () {
                           showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) => SafeArea(
-                            child: Container(
-                              height: 100, // Adjust height as needed
-                              padding: MediaQuery.of(context).viewInsets,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 20,
+                                        right: 20,
+                                        left: 20,
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
+                                    child: Row(
                                       children: [
                                         Expanded(
                                           child: TextField(
@@ -187,13 +187,7 @@ class _CommentPageState extends State<CommentPage> {
                                         ),
                                       ],
                                     ),
-                                    // Add your widgets here
-                                  ],
-                                ),
-                              ),
-                            ),
-                            ),
-                          );
+                                  ));
                         },
                         child: Icon(
                           Icons.add,
