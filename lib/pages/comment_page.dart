@@ -3,17 +3,21 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:travel_app/model/aComment.dart';
 import 'package:travel_app/model/aTour.dart';
+import 'package:travel_app/model/users.dart';
 import 'package:travel_app/values/custom_text.dart';
-import '../../model/tourDetails.dart';
 
 class CommentPage extends StatefulWidget {
-  const CommentPage({Key? key, required this.tour, required this.tourDetails})
+  const CommentPage(
+      {Key? key,
+      required this.tour,
+      required this.tourDetails,
+      required this.users})
       : super(key: key);
   final aTour tour;
   final tourDetails;
+  final Users users;
   @override
   State<CommentPage> createState() => _CommentPageState();
 }
@@ -24,19 +28,6 @@ class _CommentPageState extends State<CommentPage> {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   final ScrollController _controller = ScrollController();
-
-  //Trong đây nó có idUserCurrent
-  Future<tourDetails?> readTourDetail(String idTour) async {
-    final docTourDetails = FirebaseFirestore.instance
-        .collection("Comment")
-        .where('idTour', isEqualTo: idTour);
-    final snapshot = await docTourDetails.get();
-
-    if (snapshot.docs.isNotEmpty) {
-      return tourDetails.fromJson(snapshot.docs.first.data());
-    }
-    return null;
-  }
 
   Stream<List<aComment>> readListComment(String? idTour) => FirebaseFirestore
       .instance
@@ -159,8 +150,49 @@ class _CommentPageState extends State<CommentPage> {
                       FloatingActionButton.small(
                         onPressed: () {
                           showModalBottomSheet(
+                            isScrollControlled: true,
                             context: context,
-                            builder: (context) => MyModalBottomSheet(),
+                            builder: (context) => SafeArea(
+                            child: Container(
+                              height: 100, // Adjust height as needed
+                              padding: MediaQuery.of(context).viewInsets,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            controller: _textController,
+                                            decoration: InputDecoration(
+                                              hintText: "Type a message",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  borderSide: BorderSide.none),
+                                              fillColor: Colors.transparent,
+                                            ),
+                                            maxLines: null,
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: loading
+                                              ? const CircularProgressIndicator()
+                                              : const Icon(Icons.send),
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
+                                    // Add your widgets here
+                                  ],
+                                ),
+                              ),
+                            ),
+                            ),
                           );
                         },
                         child: Icon(
@@ -308,17 +340,43 @@ class MyModalBottomSheet extends StatefulWidget {
   _MyModalBottomSheetState createState() => _MyModalBottomSheetState();
 }
 
+final TextEditingController _textController = TextEditingController();
+bool loading = false;
+
 class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300.0, // Adjust height as needed
+      height: 100, // Adjust height as needed
       padding: const EdgeInsets.all(16.0),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Modal Bottom Sheet Content'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _textController,
+                    decoration: InputDecoration(
+                      hintText: "Type a message",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none),
+                      fillColor: Colors.transparent,
+                    ),
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                  ),
+                ),
+                IconButton(
+                  icon: loading
+                      ? const CircularProgressIndicator()
+                      : const Icon(Icons.send),
+                  onPressed: () {},
+                ),
+              ],
+            ),
             // Add your widgets here
           ],
         ),

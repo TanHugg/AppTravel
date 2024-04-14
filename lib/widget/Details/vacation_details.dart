@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/model/favoriteDetails.dart';
+import 'package:travel_app/model/users.dart';
 import 'package:travel_app/pages/comment_page.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
@@ -15,8 +16,9 @@ import '../../model/tourDetails.dart';
 import 'package:intl/intl.dart';
 
 class VacationDetails extends StatefulWidget {
-  const VacationDetails({Key? key, required this.tour}) : super(key: key);
+  const VacationDetails({Key? key, required this.tour, required this.user,}) : super(key: key);
   final aTour tour;
+  final Users user;
   @override
   State<VacationDetails> createState() => _VacationDetailsState();
 }
@@ -155,7 +157,7 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         CommentPage(
-                                            tour: widget.tour, tourDetails: tourDetails,)))
+                                            tour: widget.tour, tourDetails: tourDetails, users: widget.user,)))
                                       ),
                                     ),
                                     Padding(

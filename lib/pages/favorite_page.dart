@@ -126,7 +126,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              VacationDetails(tour: tour),
+                                              VacationDetails(tour: tour, user: widget.users,),
                                         ),
                                       );
                                     },
