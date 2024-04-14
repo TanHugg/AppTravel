@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:travel_app/model/aComment.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/values/custom_text.dart';
@@ -90,12 +91,12 @@ class _CommentPageState extends State<CommentPage> {
         Positioned(
             //Container name,location,details,...
             width: size.width,
-            height: 500,
-            top: size.height * 4 / 10,
+            height: 700,
+            top: size.height * 4 / 12,
             child: Container(
               //Full WhiteScreen
               padding:
-                  EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 50),
+                  EdgeInsets.only(left: 20, top: 30, right: 20, bottom: 20),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
@@ -116,6 +117,58 @@ class _CommentPageState extends State<CommentPage> {
                         height: 1.3,
                         color: Colors.black,
                       ),
+                      Spacer(),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 16),
+                      //   child: Stack(
+                      //     children: [
+                      //       Padding(
+                      //         padding: const EdgeInsets.fromLTRB(7, 4, 0, 0),
+                      //         child: GestureDetector(
+                      //           child: Icon(
+                      //             Icons.add,
+                      //             size: 22,
+                      //             color: Colors.blueAccent.shade200,
+                      //           ),
+                      //           // onTap: () => Navigator.push(
+                      //           //   context,
+                      //           //   MaterialPageRoute(
+                      //           //     builder: (context) => CommentPage(
+                      //           //       tour: widget.tour,
+                      //           //       tourDetails: tourDetails,
+                      //           //     ),
+                      //           //   ),
+                      //           // ),
+                      //         ),
+                      //       ),
+                      //       Positioned(
+                      //         // Position the message icon on top-right of the plus one icon
+                      //         left: 0,
+                      //         right: 0.0,
+                      //         bottom: 0.0,
+                      //         top: 0,
+                      //         child: Icon(
+                      //           Icons.messenger_outline_rounded,
+                      //           size: 37.0, // Adjust size as needed
+                      //           color: Colors.blueAccent.shade200, // Adjust color as needed
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      FloatingActionButton.small(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => MyModalBottomSheet(),
+                          );
+                        },
+                        child: Icon(
+                          Icons.add,
+                          size: 22,
+                          color: Colors.blueAccent.shade200,
+                        ),
+                      )
                     ]),
                   ),
                   SizedBox(height: 6),
@@ -138,7 +191,7 @@ class _CommentPageState extends State<CommentPage> {
                     ],
                   ),
                   Container(
-                      height: 350, //Đổi ở đây
+                      height: 550, //Đổi ở đây
                       width: size.width,
                       child: StreamBuilder<List<aComment>>(
                           stream: readListComment(widget.tour.idTour),
@@ -244,6 +297,32 @@ class _CommentPageState extends State<CommentPage> {
               ),
             ))
       ],
+    );
+  }
+}
+
+class MyModalBottomSheet extends StatefulWidget {
+  const MyModalBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  _MyModalBottomSheetState createState() => _MyModalBottomSheetState();
+}
+
+class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300.0, // Adjust height as needed
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Modal Bottom Sheet Content'),
+            // Add your widgets here
+          ],
+        ),
+      ),
     );
   }
 }
