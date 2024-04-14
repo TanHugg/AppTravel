@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/model/favoriteDetails.dart';
-import 'package:travel_app/pages/comment_page.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
 import 'package:travel_app/values/custom_text.dart';
@@ -14,14 +13,14 @@ import 'package:like_button/like_button.dart';
 import '../../model/tourDetails.dart';
 import 'package:intl/intl.dart';
 
-class VacationDetails extends StatefulWidget {
-  const VacationDetails({Key? key, required this.tour}) : super(key: key);
+class CommentPage extends StatefulWidget {
+  const CommentPage({Key? key, required this.tour}) : super(key: key);
   final aTour tour;
   @override
-  State<VacationDetails> createState() => _VacationDetailsState();
+  State<CommentPage> createState() => _CommentPageState();
 }
 
-class _VacationDetailsState extends State<VacationDetails> {
+class _CommentPageState extends State<CommentPage> {
   static final formattedPrice =
       NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -154,8 +153,11 @@ class _VacationDetailsState extends State<VacationDetails> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        CommentPage(
-                                            tour: widget.tour)))
+                                                        FlightTicket(
+                                                          tour: widget.tour,
+                                                          tourDetail: tourDetails,
+                                                          //Chuyển thêm cái id nữa
+                                                        ))),
                                       ),
                                     ),
                                     Padding(
