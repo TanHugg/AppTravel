@@ -150,7 +150,7 @@ class _RecommendPageState extends State<RecommendPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => VacationDetails(
-                                      tour: aTour[index])));
+                                      tour: aTour[index], user: widget.users,)));
                         },
                         child: buildATour(aTour[index]),
                       );

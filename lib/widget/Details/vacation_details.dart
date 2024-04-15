@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/model/aTour.dart';
 import 'package:travel_app/model/favoriteDetails.dart';
+import 'package:travel_app/model/users.dart';
+import 'package:travel_app/pages/comment_page.dart';
 import 'package:travel_app/pages/flight_ticket.dart';
 import 'package:travel_app/values/custom_snackbar.dart';
 import 'package:travel_app/values/custom_text.dart';
@@ -13,8 +16,13 @@ import '../../model/tourDetails.dart';
 import 'package:intl/intl.dart';
 
 class VacationDetails extends StatefulWidget {
-  const VacationDetails({Key? key, required this.tour}) : super(key: key);
+  const VacationDetails({
+    Key? key,
+    required this.tour,
+    required this.user,
+  }) : super(key: key);
   final aTour tour;
+  final Users user;
   @override
   State<VacationDetails> createState() => _VacationDetailsState();
 }
@@ -35,6 +43,27 @@ class _VacationDetailsState extends State<VacationDetails> {
       return tourDetails.fromJson(snapshot.docs.first.data());
     }
     return null;
+  }
+
+  Future<int> getCommentCount() async {
+    final docComment = await FirebaseFirestore.instance
+        .collection("Comment")
+        .where('idTour', isEqualTo: widget.tour.idTour)
+        .get();
+    int commentCount = docComment.docs.length;
+    return commentCount;
+  }
+
+  int commentCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCounts();
+  }
+
+  Future<void> _initializeCounts() async {
+    commentCount = await getCommentCount();
   }
 
   Future createFavoriteDetails(FavoriteDetails favoriteDetails) async {
@@ -140,6 +169,31 @@ class _VacationDetailsState extends State<VacationDetails> {
                                       color: Colors.black,
                                     ),
                                     Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 5, 20, 0),
+                                      child: GestureDetector(
+                                          child: Badge(
+                                            backgroundColor: Colors.red,
+                                            label:
+                                                Text(commentCount.toString()),
+                                            child: Icon(
+                                              Icons.messenger_rounded,
+                                              size: 37,
+                                              color: Colors.blueAccent.shade200,
+                                            ),
+                                          ),
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommentPage(
+                                                        tour: widget.tour,
+                                                        tourDetails:
+                                                            tourDetails,
+                                                        users: widget.user,
+                                                      )))),
+                                    ),
                                     Padding(
                                       //Favorite
                                       padding: EdgeInsets.only(right: 20),
