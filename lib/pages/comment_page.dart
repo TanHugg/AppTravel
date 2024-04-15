@@ -184,7 +184,7 @@ class _CommentPageState extends State<CommentPage> {
                                               final comment = aComment(
                                                 idTour: widget.tour.idTour
                                                     .toString(),
-                                                    idComment: "",
+                                                idComment: "",
                                                 nameUser: widget.users.nameUser
                                                     .toString(),
                                                 comment: _textController.text,
@@ -259,8 +259,21 @@ class _CommentPageState extends State<CommentPage> {
                                                     color: Colors.white,
                                                   )),
                                             ),
-                                            secondaryBackground:
-                                                Container(color: Colors.red),
+                                            secondaryBackground: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.redAccent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 280, top: 20),
+                                                  child: FaIcon(
+                                                    FontAwesomeIcons.trashCan,
+                                                    size: 75,
+                                                    color: Colors.white,
+                                                  )),
+                                            ),
                                             child: Card(
                                               color: Colors.white,
                                               child: ListTile(
@@ -304,7 +317,8 @@ class _CommentPageState extends State<CommentPage> {
                                             onDismissed: (direction) {
                                               if (direction ==
                                                   DismissDirection.startToEnd) {
-                                                deleteComment(aComment[index].idComment!);
+                                                deleteComment(
+                                                    aComment[index].idComment!);
                                               }
                                               CustomSnackbar.show(
                                                   context, "Comment deleted!");
