@@ -48,6 +48,7 @@ class _CommentPageState extends State<CommentPage> {
     setState(() {
       _textController.clear();
     });
+  }
 
   void scrollToTheEnd() {
     _controller.jumpTo(_controller.position.maxScrollExtent);
@@ -111,7 +112,7 @@ class _CommentPageState extends State<CommentPage> {
                   children: <Widget>[
                     Container(
                       width: size.width,
-                      height: size.height/20,
+                      height: size.height / 20,
                       child: Row(children: <Widget>[
                         CustomText(
                           //Name tour
@@ -145,9 +146,12 @@ class _CommentPageState extends State<CommentPage> {
                                                 hintText: "Type a message",
                                                 border: OutlineInputBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(11),
-                                                    borderSide: const BorderSide(
-                                                        color: Colors.white)),
+                                                        BorderRadius.circular(
+                                                            11),
+                                                    borderSide:
+                                                        const BorderSide(
+                                                            color:
+                                                                Colors.white)),
                                                 // enabledBorder: OutlineInputBorder(
                                                 //   borderRadius:
                                                 //       BorderRadius.circular(11),
@@ -220,45 +224,100 @@ class _CommentPageState extends State<CommentPage> {
                                 final aComment = snapshot.data;
                                 return ListView.builder(
                                   itemCount: aComment!.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return Card(
-                                      color: Colors.white,
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.all(16.0),
-                                        leading: Row(
-                                          mainAxisSize: MainAxisSize
-                                              .min, // Limit leading width
-                                          children: [
-                                            CircleAvatar(
-                                              child: Text(
-                                                aComment[index]
-                                                    .nameUser!
-                                                    .substring(0, 1)
-                                                    .toUpperCase(),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16.0,
-                                                  color: Colors.grey,
-                                                ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return aComment[index].nameUser ==
+                                            widget.users.nameUser
+                                        ? Dismissible(
+                                            key: UniqueKey(),
+                                            child: Card(
+                                            color: Colors.white,
+                                            child: ListTile(
+                                              contentPadding:
+                                                  const EdgeInsets.all(16.0),
+                                              leading: Row(
+                                                mainAxisSize: MainAxisSize
+                                                    .min, // Limit leading width
+                                                children: [
+                                                  CircleAvatar(
+                                                    child: Text(
+                                                      aComment[index]
+                                                          .nameUser!
+                                                          .substring(0, 1)
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16.0,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              title: Text(
+                                                aComment[index].nameUser!,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              subtitle: Text(
+                                                aComment[index].comment!,
+                                                maxLines:
+                                                    10, // Limit subtitle lines (optional)
+                                                overflow: TextOverflow
+                                                    .ellipsis, // Add ellipsis for long text
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                        title: Text(
-                                          aComment[index].nameUser!,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          aComment[index].comment!,
-                                          maxLines:
-                                              10, // Limit subtitle lines (optional)
-                                          overflow: TextOverflow
-                                              .ellipsis, // Add ellipsis for long text
-                                        ),
-                                      ),
-                                    );
+                                          ),
+                                            onDismissed: (direction) {
+                                              // Implement logic to delete the comment here
+                                              // You might need to call a function from your widget
+                                              // or access a provider to delete the comment.
+                                              CustomSnackbar.show(
+                                                  context, "Comment deleted!");
+                                            },
+                                          )
+                                        : Card(
+                                            color: Colors.white,
+                                            child: ListTile(
+                                              contentPadding:
+                                                  const EdgeInsets.all(16.0),
+                                              leading: Row(
+                                                mainAxisSize: MainAxisSize
+                                                    .min, // Limit leading width
+                                                children: [
+                                                  CircleAvatar(
+                                                    child: Text(
+                                                      aComment[index]
+                                                          .nameUser!
+                                                          .substring(0, 1)
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16.0,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              title: Text(
+                                                aComment[index].nameUser!,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              subtitle: Text(
+                                                aComment[index].comment!,
+                                                maxLines:
+                                                    10, // Limit subtitle lines (optional)
+                                                overflow: TextOverflow
+                                                    .ellipsis, // Add ellipsis for long text
+                                              ),
+                                            ),
+                                          );
                                   },
                                 );
                               } else {
