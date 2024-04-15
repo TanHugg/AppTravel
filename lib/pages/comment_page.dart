@@ -184,6 +184,7 @@ class _CommentPageState extends State<CommentPage> {
                                               final comment = aComment(
                                                 idTour: widget.tour.idTour
                                                     .toString(),
+                                                    idComment: "",
                                                 nameUser: widget.users.nameUser
                                                     .toString(),
                                                 comment: _textController.text,
@@ -303,13 +304,7 @@ class _CommentPageState extends State<CommentPage> {
                                             onDismissed: (direction) {
                                               if (direction ==
                                                   DismissDirection.startToEnd) {
-                                                deleteComment(aComment[index]!);
-                                                // bill.checkBought = true;
-                                                // Xóa tour
-                                                print('Đã xoáaaaaaaaa !!');
-                                                setState(() {
-                                                  // _favoriteTours.removeAt(index);
-                                                });
+                                                deleteComment(aComment[index].idComment!);
                                               }
                                               CustomSnackbar.show(
                                                   context, "Comment deleted!");
