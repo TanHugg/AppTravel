@@ -40,14 +40,27 @@ class _CommentPageState extends State<CommentPage> {
       .map((snapshot) =>
           snapshot.docs.map((doc) => aComment.fromJson(doc.data())).toList());
 
-  Future createComment(aComment comment) async {
+  Future<void> createComment(aComment comment) async {
     final docComment = FirebaseFirestore.instance.collection("Comment").doc();
+    comment.idComment = docComment.id;
 
     final json = comment.toJson();
     await docComment.set(json);
     setState(() {
       _textController.clear();
     });
+  }
+
+  Future<void> deleteComment(String idComment) async {
+    try {
+      final docComment =
+          FirebaseFirestore.instance.collection("Comment").doc(idComment);
+
+      await docComment.delete();
+      print("Comment deleted successfully!");
+    } catch (error) {
+      print("Error deleting comment: $error");
+    }
   }
 
   void scrollToTheEnd() {
@@ -230,50 +243,74 @@ class _CommentPageState extends State<CommentPage> {
                                             widget.users.nameUser
                                         ? Dismissible(
                                             key: UniqueKey(),
+                                            background: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.redAccent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 25, top: 20),
+                                                  child: FaIcon(
+                                                    FontAwesomeIcons.trashCan,
+                                                    size: 75,
+                                                    color: Colors.white,
+                                                  )),
+                                            ),
+                                            secondaryBackground:
+                                                Container(color: Colors.red),
                                             child: Card(
-                                            color: Colors.white,
-                                            child: ListTile(
-                                              contentPadding:
-                                                  const EdgeInsets.all(16.0),
-                                              leading: Row(
-                                                mainAxisSize: MainAxisSize
-                                                    .min, // Limit leading width
-                                                children: [
-                                                  CircleAvatar(
-                                                    child: Text(
-                                                      aComment[index]
-                                                          .nameUser!
-                                                          .substring(0, 1)
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 16.0,
-                                                        color: Colors.grey,
+                                              color: Colors.white,
+                                              child: ListTile(
+                                                contentPadding:
+                                                    const EdgeInsets.all(16.0),
+                                                leading: Row(
+                                                  mainAxisSize: MainAxisSize
+                                                      .min, // Limit leading width
+                                                  children: [
+                                                    CircleAvatar(
+                                                      child: Text(
+                                                        aComment[index]
+                                                            .nameUser!
+                                                            .substring(0, 1)
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16.0,
+                                                          color: Colors.grey,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              title: Text(
-                                                aComment[index].nameUser!,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              subtitle: Text(
-                                                aComment[index].comment!,
-                                                maxLines:
-                                                    10, // Limit subtitle lines (optional)
-                                                overflow: TextOverflow
-                                                    .ellipsis, // Add ellipsis for long text
+                                                  ],
+                                                ),
+                                                title: Text(
+                                                  aComment[index].nameUser!,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                subtitle: Text(
+                                                  aComment[index].comment!,
+                                                  maxLines:
+                                                      10, // Limit subtitle lines (optional)
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // Add ellipsis for long text
+                                                ),
                                               ),
                                             ),
-                                          ),
                                             onDismissed: (direction) {
-                                              // Implement logic to delete the comment here
-                                              // You might need to call a function from your widget
-                                              // or access a provider to delete the comment.
+                                              if (direction ==
+                                                  DismissDirection.startToEnd) {
+                                                deleteComment(aComment[index]!);
+                                                // bill.checkBought = true;
+                                                // Xóa tour
+                                                print('Đã xoáaaaaaaaa !!');
+                                                setState(() {
+                                                  // _favoriteTours.removeAt(index);
+                                                });
+                                              }
                                               CustomSnackbar.show(
                                                   context, "Comment deleted!");
                                             },
