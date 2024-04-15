@@ -169,9 +169,15 @@ class _CommentPageState extends State<CommentPage> {
                                               hintText: "Type a message",
                                               border: OutlineInputBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  borderSide: BorderSide.none),
+                                                      BorderRadius.circular(11),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.white)),
+                                              // enabledBorder: OutlineInputBorder(
+                                              //   borderRadius:
+                                              //       BorderRadius.circular(11),
+                                              //   borderSide: const BorderSide(
+                                              //       color: Colors.white),
+                                              // ),
                                               fillColor: Colors.transparent,
                                             ),
                                             maxLines: null,
@@ -179,6 +185,7 @@ class _CommentPageState extends State<CommentPage> {
                                                 TextInputType.multiline,
                                           ),
                                         ),
+                                        Spacer(),
                                         IconButton(
                                           icon: loading
                                               ? const CircularProgressIndicator()
@@ -272,50 +279,42 @@ class _CommentPageState extends State<CommentPage> {
                                 },
                               );
                             } else {
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Column(
-                                        children: [
-                                          CustomText(
-                                            text:
-                                                'No comments found for this tour yet.',
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: 0.13,
-                                            height: 1.5,
-                                            color: Colors.grey,
-                                          ),
-                                          const SizedBox(
-                                              height:
-                                                  20.0), // Add some space between text and button
-                                          ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.pink,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25))),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(11),
-                                                child: CustomText(
-                                                    text: 'Reload',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                    letterSpacing: 1.5,
-                                                    height: 0,
-                                                    color: Colors.white),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                // mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        'No comments found for this tour yet.',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 0.13,
+                                    height: 1.5,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(
+                                      height:
+                                          20.0), // Add some space between text and button
+                                  ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.pink,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      25))),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.all(11),
+                                        child: CustomText(
+                                            text: 'Reload',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 1.5,
+                                            height: 0,
+                                            color: Colors.white),
+                                      )),
+                                ],
                               );
                             }
                           })),
