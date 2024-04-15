@@ -16,7 +16,11 @@ import '../../model/tourDetails.dart';
 import 'package:intl/intl.dart';
 
 class VacationDetails extends StatefulWidget {
-  const VacationDetails({Key? key, required this.tour, required this.user,}) : super(key: key);
+  const VacationDetails({
+    Key? key,
+    required this.tour,
+    required this.user,
+  }) : super(key: key);
   final aTour tour;
   final Users user;
   @override
@@ -39,6 +43,27 @@ class _VacationDetailsState extends State<VacationDetails> {
       return tourDetails.fromJson(snapshot.docs.first.data());
     }
     return null;
+  }
+
+  Future<int> getCommentCount() async {
+    final docComment = await FirebaseFirestore.instance
+        .collection("Comment")
+        .where('idTour', isEqualTo: widget.tour.idTour)
+        .get();
+    int commentCount = docComment.docs.length;
+    return commentCount;
+  }
+
+  int commentCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCounts();
+  }
+
+  Future<void> _initializeCounts() async {
+    commentCount = await getCommentCount();
   }
 
   Future createFavoriteDetails(FavoriteDetails favoriteDetails) async {
@@ -145,20 +170,29 @@ class _VacationDetailsState extends State<VacationDetails> {
                                     ),
                                     Spacer(),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 5, 20, 0),
                                       child: GestureDetector(
-                                        child: Icon(
-                                          Icons.messenger_rounded,
-                                          size: 37,
-                                          color: Colors.blueAccent.shade200,
-                                        ),
-                                        onTap: () => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CommentPage(
-                                            tour: widget.tour, tourDetails: tourDetails, users: widget.user,)))
-                                      ),
+                                          child: Badge(
+                                            backgroundColor: Colors.red,
+                                            label:
+                                                Text(commentCount.toString()),
+                                            child: Icon(
+                                              Icons.messenger_rounded,
+                                              size: 37,
+                                              color: Colors.blueAccent.shade200,
+                                            ),
+                                          ),
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommentPage(
+                                                        tour: widget.tour,
+                                                        tourDetails:
+                                                            tourDetails,
+                                                        users: widget.user,
+                                                      )))),
                                     ),
                                     Padding(
                                       //Favorite
