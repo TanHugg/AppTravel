@@ -108,45 +108,6 @@ class _CommentPageState extends State<CommentPage> {
                         height: 1.3,
                         color: Colors.black,
                       ),
-                      Spacer(),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(right: 16),
-                      //   child: Stack(
-                      //     children: [
-                      //       Padding(
-                      //         padding: const EdgeInsets.fromLTRB(7, 4, 0, 0),
-                      //         child: GestureDetector(
-                      //           child: Icon(
-                      //             Icons.add,
-                      //             size: 22,
-                      //             color: Colors.blueAccent.shade200,
-                      //           ),
-                      //           // onTap: () => Navigator.push(
-                      //           //   context,
-                      //           //   MaterialPageRoute(
-                      //           //     builder: (context) => CommentPage(
-                      //           //       tour: widget.tour,
-                      //           //       tourDetails: tourDetails,
-                      //           //     ),
-                      //           //   ),
-                      //           // ),
-                      //         ),
-                      //       ),
-                      //       Positioned(
-                      //         // Position the message icon on top-right of the plus one icon
-                      //         left: 0,
-                      //         right: 0.0,
-                      //         bottom: 0.0,
-                      //         top: 0,
-                      //         child: Icon(
-                      //           Icons.messenger_outline_rounded,
-                      //           size: 37.0, // Adjust size as needed
-                      //           color: Colors.blueAccent.shade200, // Adjust color as needed
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       FloatingActionButton.small(
                         onPressed: () {
                           showModalBottomSheet(
@@ -327,54 +288,3 @@ class _CommentPageState extends State<CommentPage> {
   }
 }
 
-class MyModalBottomSheet extends StatefulWidget {
-  const MyModalBottomSheet({Key? key}) : super(key: key);
-
-  @override
-  _MyModalBottomSheetState createState() => _MyModalBottomSheetState();
-}
-
-final TextEditingController _textController = TextEditingController();
-bool loading = false;
-
-class _MyModalBottomSheetState extends State<MyModalBottomSheet> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100, // Adjust height as needed
-      padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      hintText: "Type a message",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none),
-                      fillColor: Colors.transparent,
-                    ),
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                  ),
-                ),
-                IconButton(
-                  icon: loading
-                      ? const CircularProgressIndicator()
-                      : const Icon(Icons.send),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            // Add your widgets here
-          ],
-        ),
-      ),
-    );
-  }
-}
