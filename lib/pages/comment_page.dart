@@ -40,6 +40,15 @@ class _CommentPageState extends State<CommentPage> {
       .map((snapshot) =>
           snapshot.docs.map((doc) => aComment.fromJson(doc.data())).toList());
 
+  Future createComment(aComment comment) async {
+    final docComment = FirebaseFirestore.instance.collection("Comment").doc();
+
+    final json = comment.toJson();
+    await docComment.set(json);
+    setState(() {
+      _textController.clear();
+    });
+
   void scrollToTheEnd() {
     _controller.jumpTo(_controller.position.maxScrollExtent);
   }
@@ -153,12 +162,17 @@ class _CommentPageState extends State<CommentPage> {
                                             ),
                                           ),
                                           IconButton(
-                                            icon: loading
-                                                ? const CircularProgressIndicator()
-                                                : const Icon(Icons.send),
+                                            icon: Icon(Icons.send),
                                             onPressed: () {
-                                              CustomSnackbar.show(
-                                                  context, "Comment thành công");
+                                              final comment = aComment(
+                                                idTour: widget.tour.idTour
+                                                    .toString(),
+                                                nameUser: widget.users.nameUser
+                                                    .toString(),
+                                                comment: _textController.text,
+                                              );
+                                              createComment(comment);
+                                              Navigator.pop(context);
                                             },
                                           ),
                                         ],
