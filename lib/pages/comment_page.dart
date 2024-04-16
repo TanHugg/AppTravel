@@ -225,7 +225,7 @@ class _CommentPageState extends State<CommentPage> {
                       ],
                     ),
                     Container(
-                        height: 550, //Đổi ở đây
+                        height: 390, //Đổi ở đây
                         width: size.width,
                         child: StreamBuilder<List<aComment>>(
                             stream: readListComment(widget.tour.idTour),
